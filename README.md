@@ -1,4 +1,4 @@
-                                                            R E D   C O R P S E   C O R P O R A T I O N
+                                             R E D   C O R P S E   C O R P O R A T I O N
 
 o- integrantes del grupo: Lucas Giordano - Aron Barreiro.
 

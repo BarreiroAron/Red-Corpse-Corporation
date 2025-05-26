@@ -16,6 +16,7 @@
 ## Enlace a la Wiki del Proyecto: [Red Corpse Wiki](https://github.com/BarreiroAron/Red-Corpse-Corporation/wiki)
 
 ## Instrucciones Básicas para importar el proyecto: 
+
 o - Paso 1: Clonar el repositorio Github del juego, este es el link para hacerlo: [Red Corpse](https://github.com/BarreiroAron/Red-Corpse-Corporation.git)
 o - Paso 3: abrir un IDE (InteliJ por ejemplo)
 o - Paso 4: Una vez hecho esto, se va a tener que ir a "File" (se encuentra arriba a la izquierda),

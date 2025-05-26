@@ -7,7 +7,7 @@
                                   frente a ti, encuentras una persona la cual solo se le ve el rostro, un locutor te va a hablar sobre un juego de cartas.
                                       Ahora, estas destinado a jugar y ver que te depara el futuro en esta mesa de casino.
 
-## IDE: La IDE que vamos a estar usando para estre proyecto va a ser IntelliJ.
+## IDE: La IDE que vamos a estar usando para este proyecto va a ser IntelliJ.
 
 ## Tecnologías Principales: 
 - LibGDX va a ser la libreria que usemos para programar con java nuestro videojuego.
@@ -17,23 +17,33 @@
 
 ## Instrucciones Básicas para importar el proyecto: 
 
-o - Paso 1: Clonar el repositorio Github del juego, este es el link para hacerlo: [Red Corpse](https://github.com/BarreiroAron/Red-Corpse-Corporation.git)
+  o - Paso 1: Clonar el repositorio Github del juego, este es el link para hacerlo: [Red Corpse](https://github.com/BarreiroAron/Red-Corpse-Corporation.git)
 
-o - Paso 3: abrir un IDE (InteliJ por ejemplo)
+  o - Paso 2: Abrí IntelliJ IDEA.
 
-o - Paso 4: Una vez hecho esto, se va a tener que ir a "File" (se encuentra arriba a la izquierda)
+  o - Paso 3: En la pantalla inicial de IntelliJ, seleccioná la opción "Open".
 
-o - Paso 5: La opcion llamada "Import..."
+  o - Paso 4: Buscá y seleccioná la carpeta del proyecto recién clonado (Red-Corpse-Corporation) y hacé clic en "OK" para abrirla.
 
-o - Paso 6: La carpeta llamada "Gradle"
+  o - Paso 5: IntelliJ detectará automáticamente que es un proyecto Gradle. Si te lo pregunta, seleccioná la opción "Import Gradle Project" o "Trust Project".
 
-o - Paso 7: y le das a "Exising Gradle Project". Luego de eso, te deberia hacer esperar un rato para la imoprtacion y ya podrias ejecutarlo tranquilamente
+  o - Paso 6: Esperá a que se complete la sincronización de Gradle. Esto puede tardar unos minutos.
 
-o - Paso 8: busca el módulo/subproyecto de escritorio. Nota: Con Liftoff, en general se llama lwjgl3 en lugar de desktop. 
+  o - Paso 7: En el panel de la izquierda (Project), expandí el módulo que corresponde a la plataforma de escritorio. En LibGDX, va a llamarse: lwjgl3.
 
-o - Paso 9: Dentro de ese módulo, busca la clase lanzadora (ej. Lwjgl3Launcher.java) y ejecutala (Run As > Java Application o similar).
+  o - Paso 8: Dentro del módulo lwjgl3, localizá el archivo Lwjgl3Launcher.java o similar. Hacé clic derecho sobre él y seleccioná Run 'Lwjgl3Launcher.main()'.
 
-o - Paso 10: Si se abre una pantalla con una imagen de LibGDX entonces esta perfecto, sino, Es posible que necesites configurar el "Working Directory" en la configuración de ejecución para que apunte a la carpeta assets/ del proyecto core/ si las imágenes no cargan. 
+  o - Paso 9: Si se abre una ventana con el logo de LibGDX o la pantalla de inicio del juego, el proyecto esta importado correctamente.
+
+  o - Paso 10 (opcional):
+  
+Si al ejecutar el juego no aparecen imágenes, verificá la configuración de ejecución:
+      
+Andá a Run > Edit Configurations.
+
+En el campo Working directory, asegurate de que apunte a la carpeta core/assets/ o android/assets/, dependiendo de la estructura del proyecto.
+
+Guardá y volvé a ejecutar.
 
   o - Ya se deberia tener el juego para ejecutarlo en tu IDE
 

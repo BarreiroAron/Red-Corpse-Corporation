@@ -18,13 +18,21 @@
 ## Instrucciones Básicas para importar el proyecto: 
 
 o - Paso 1: Clonar el repositorio Github del juego, este es el link para hacerlo: [Red Corpse](https://github.com/BarreiroAron/Red-Corpse-Corporation.git)
+
 o - Paso 3: abrir un IDE (InteliJ por ejemplo)
-o - Paso 4: Una vez hecho esto, se va a tener que ir a "File" (se encuentra arriba a la izquierda),
+
+o - Paso 4: Una vez hecho esto, se va a tener que ir a "File" (se encuentra arriba a la izquierda)
+
 o - Paso 5: La opcion llamada "Import..."
+
 o - Paso 6: La carpeta llamada "Gradle"
+
 o - Paso 7: y le das a "Exising Gradle Project". Luego de eso, te deberia hacer esperar un rato para la imoprtacion y ya podrias ejecutarlo tranquilamente
+
 o - Paso 8: busca el módulo/subproyecto de escritorio. Nota: Con Liftoff, en general se llama lwjgl3 en lugar de desktop. 
+
 o - Paso 9: Dentro de ese módulo, busca la clase lanzadora (ej. Lwjgl3Launcher.java) y ejecutala (Run As > Java Application o similar).
+
 o - Paso 10: Si se abre una pantalla con una imagen de LibGDX entonces esta perfecto, sino, Es posible que necesites configurar el "Working Directory" en la configuración de ejecución para que apunte a la carpeta assets/ del proyecto core/ si las imágenes no cargan. 
 
   o - Ya se deberia tener el juego para ejecutarlo en tu IDE

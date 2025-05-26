@@ -1,6 +1,10 @@
+# Changelog
 
-1) Creamos el README.md
+## [0.1.0] - YYYY-MM-DD
 
-2) Creamos el proyecto libGDX y lo compilamos para ver que ande en el eclipse o InteliJ
+### Added
 
-3) instalamos git y lo conectamos con el proyecto para poder subir el proyecto a github
+- Creación inicial del proyecto con LibGDX Liftoff y configuración del repositorio.
+- - Creación de CHANGELOG.md.
+- Creación de README.md.
+- Configuración inicial de la Wiki del proyecto con la propuesta.

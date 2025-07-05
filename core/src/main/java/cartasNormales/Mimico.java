@@ -1,6 +1,10 @@
 package cartasNormales;
 
-public class Mimico {
+import cartas.Carta;
+import cartas.Habilidad;
+
+public class Mimico extends Carta {
+	
 	//Mimico de referencia al Dark Souls
 	
 	/*Al ser jugada esta carta, en tu siguiente turno tenes que 
@@ -10,4 +14,8 @@ public class Mimico {
 	 * y tus puntos son aumentados en 70
 	 */
 
+	public Mimico(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
+			String texturaCarta, String texturaCartaEspalda) {
+		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
+	}
 }

@@ -8,10 +8,10 @@ public class Carta {
 		private int puntosDisminuidos;
 		private boolean robarCarta;
 		private Habilidad habilidad;
-		private Texture texturaCarta;
-		private Texture texturaCartaEspalda;
+		private String texturaCarta;
+		private String texturaCartaEspalda;
 		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad, Texture texturaCarta, Texture texturaCartaEspalda) {
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad, String texturaCarta, String texturaCartaEspalda) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
 			this.robarCarta = robarCarta;
@@ -59,19 +59,19 @@ public class Carta {
 			this.habilidad = habilidad;
 		}
 
-		public Texture getTexturaCarta() {
+		public String getTexturaCarta() {
 			return texturaCarta;
 		}
 
-		public void setTexturaCarta(Texture texturaCarta) {
+		public void setTexturaCarta(String texturaCarta) {
 			this.texturaCarta = texturaCarta;
 		}
 
-		public Texture getTexturaCartaEspalda() {
+		public String getTexturaCartaEspalda() {
 			return texturaCartaEspalda;
 		}
 
-		public void setTexturaCartaEspalda(Texture texturaCartaEspalda) {
+		public void setTexturaCartaEspalda(String texturaCartaEspalda) {
 			this.texturaCartaEspalda = texturaCartaEspalda;
 		}
 		

@@ -7,23 +7,52 @@ import Utiles.Recursos;
 import Utiles.Render;
 import Utiles.Util;
 import cartas.Imagen;
+import juegos.JuegoPantalla;
 
 public class PantallaCarga implements Screen {
 
 	Imagen fondo;
 	//esto es para escribir menos, hacer referencia al render.batch
 	SpriteBatch i;
+	float f =0;
+	float contadorTiempo =0, tiempoEsperado=1.5f;
+	boolean procesoFadeTerminado=false;
 	@Override
 	public void show() { 
 		fondo = new Imagen(Recursos.FONDO);
 		i= Render.batch;
+		fondo.setTransparencia(f );
 	}
 
 	@Override
 	public void render(float delta) {
+		Render.limpiarPantalla();
 		i.begin();//inicio
 			fondo.dibujar(i,0,0,Util.getAnchoPantalla(),Util.getAltoPantalla());
 		i.end();//fin
+		
+		procesarFade();
+	}
+
+	private void procesarFade() {
+		//toda la animacion aparicion y desaparicion
+		if(!procesoFadeTerminado) {
+			f+= 0.01f;
+			if(f>1) {
+				f=1;
+				procesoFadeTerminado=true;
+			}
+		}else {
+			contadorTiempo += 0.01f;
+			if(contadorTiempo>tiempoEsperado) {
+				f-=0.01f;
+				if(f<0) {
+					f=0;
+					Render.inicio.setScreen(new JuegoPantalla());
+				}
+			}
+		}
+		fondo.setTransparencia(f);
 	}
 
 	@Override

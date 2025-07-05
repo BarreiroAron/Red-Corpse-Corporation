@@ -22,6 +22,12 @@ public class Imagen {
 		}
 		
 		public void dibujar(SpriteBatch batch, float x, float y, float width, float height) {
-		    batch.draw(t, x, y, width, height);
+		    s.setPosition(x, y);
+		    s.setSize(width, height);
+		    s.draw(batch);
+		}
+
+		public void setTransparencia(float f) {
+			s.setAlpha(f);
 		}
 }

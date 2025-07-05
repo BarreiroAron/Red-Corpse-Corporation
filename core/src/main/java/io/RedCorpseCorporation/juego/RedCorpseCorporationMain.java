@@ -29,6 +29,7 @@ public class RedCorpseCorporationMain extends Game {
     
     @Override
     public void create() {
+    	Render.inicio=this;
     	//declara imagen del batch
         Render.batch = new SpriteBatch();
         //pone la pantalla de carga

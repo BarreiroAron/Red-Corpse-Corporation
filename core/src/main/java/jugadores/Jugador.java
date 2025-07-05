@@ -4,7 +4,7 @@ public class Jugador {
 	
 	private String nombre;
 	private int cartasEnLaMano;
-	private int cartasEnElMazo;
+	private int cartasEnElMazo;//cuidado el mazo es le mismo en jugador y enemigo, no es buena idea ponerlo en jugador
 	
 	public Jugador(String nombre, int cartasEnLaMano, int cartasEnElMazo) {
 		this.nombre = nombre;

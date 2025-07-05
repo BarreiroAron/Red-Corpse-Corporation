@@ -20,7 +20,7 @@ public class Lwjgl3Launcher {
         configuration.setTitle("RedCorpseCorporation");
 
         configuration.useVsync(true);
-
+        configuration.setResizable(false);
         configuration.setForegroundFPS(60);
 
         configuration.setWindowedMode(1920, 1080);

@@ -12,6 +12,9 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import Pantallas.PantallaCarga;
+import Utiles.Render;
+
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class RedCorpseCorporationMain extends Game {
     private SpriteBatch batch;
@@ -26,9 +29,10 @@ public class RedCorpseCorporationMain extends Game {
     
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        MesaPrincipal = new Texture("MesaPrincipal.png");
-        CartelPuntaje = new Texture("CartelUno1920-1080.png");
+    	//declara imagen del batch
+        Render.batch = new SpriteBatch();
+        //pone la pantalla de carga
+        this.setScreen(new PantallaCarga());
         
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
@@ -40,14 +44,9 @@ public class RedCorpseCorporationMain extends Game {
     @Override
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-
         camera.update();
-        batch.setProjectionMatrix(camera.combined);
-
-        batch.begin();
-        batch.draw(MesaPrincipal, VIRTUAL_WIDTH/2 - MesaPrincipal.getWidth()/2, 0);
-        batch.draw(CartelPuntaje, VIRTUAL_WIDTH - CartelPuntaje.getWidth(), VIRTUAL_HEIGHT - CartelPuntaje.getHeight());
-        batch.end();
+        super.render(); //con esto se ejecuta la pantalla
+       // batch.setProjectionMatrix(camera.combined);
     }
     
     @Override
@@ -57,8 +56,6 @@ public class RedCorpseCorporationMain extends Game {
 
     @Override
     public void dispose() {
-        batch.dispose();
-        MesaPrincipal.dispose();
-        CartelPuntaje.dispose();
+ 
     }
 }

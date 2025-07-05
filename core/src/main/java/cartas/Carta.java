@@ -1,15 +1,17 @@
 	package cartas;
-	
-	public class Carta {
+
+import com.badlogic.gdx.graphics.Texture;
+
+public class Carta {
 		
 		private int puntosAumentadosRival;
 		private int puntosDisminuidos;
 		private boolean robarCarta;
 		private Habilidad habilidad;
-		private String texturaCarta;
-		private String texturaCartaEspalda;
+		private Texture texturaCarta;
+		private Texture texturaCartaEspalda;
 		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad, String texturaCarta, String texturaCartaEspalda) {
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad, Texture texturaCarta, Texture texturaCartaEspalda) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
 			this.robarCarta = robarCarta;
@@ -57,19 +59,19 @@
 			this.habilidad = habilidad;
 		}
 
-		public String getTexturaCarta() {
+		public Texture getTexturaCarta() {
 			return texturaCarta;
 		}
 
-		public void setTexturaCarta(String texturaCarta) {
+		public void setTexturaCarta(Texture texturaCarta) {
 			this.texturaCarta = texturaCarta;
 		}
 
-		public String getTexturaCartaEspalda() {
+		public Texture getTexturaCartaEspalda() {
 			return texturaCartaEspalda;
 		}
 
-		public void setTexturaCartaEspalda(String texturaCartaEspalda) {
+		public void setTexturaCartaEspalda(Texture texturaCartaEspalda) {
 			this.texturaCartaEspalda = texturaCartaEspalda;
 		}
 		

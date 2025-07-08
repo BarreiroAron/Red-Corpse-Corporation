@@ -2,29 +2,34 @@
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class Carta {
+import Utiles.Recursos;
+
+public abstract class Carta {
 		
 		private int puntosAumentadosRival;
 		private int puntosDisminuidos;
-		private boolean robarCarta;
 		private Habilidad habilidad;
-		private String texturaCarta;
-		private String texturaCartaEspalda;
-		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad, String texturaCarta, String texturaCartaEspalda) {
+		private Imagen imagenCarta;
+		private Imagen imagenEspalda= new Imagen(Recursos.CARTA_ESPALDA);
+		private boolean porcentual;
+		private int x;
+		private int y;
+
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
-			this.robarCarta = robarCarta;
 			this.habilidad = habilidad;
-			this.texturaCarta = texturaCarta;
-			this.texturaCartaEspalda = texturaCartaEspalda;
+			this.imagenCarta = texturaCarta;
+			this.porcentual = porcentual;
+			this.x = x;
+			this.y = y;
 		}
 
 		@Override
 		public String toString() {
 			return "Carta [habilidad=" + habilidad + ", puntosAumentadosRival=" + puntosAumentadosRival
-					+ ", puntosDisminuidos=" + puntosDisminuidos + ", robarCarta=" + robarCarta + ", texturaCarta="
-					+ texturaCarta + ", texturaCartaEspalda=" + texturaCartaEspalda + "]";
+					+ ", puntosDisminuidos=" + puntosDisminuidos + ", texturaCarta="
+					+ imagenCarta + ", texturaCartaEspalda=" + imagenEspalda + "]";
 		}
 
 		public int getPuntosAumentadosRival() {
@@ -43,14 +48,6 @@ public class Carta {
 			this.puntosDisminuidos = puntosDisminuidos;
 		}
 
-		public boolean getRobarCarta() {
-			return robarCarta;
-		}
-
-		public void setRobarCarta(boolean robarCarta) {
-			this.robarCarta = robarCarta;
-		}
-
 		public Habilidad getHabilidad() {
 			return habilidad;
 		}
@@ -59,20 +56,40 @@ public class Carta {
 			this.habilidad = habilidad;
 		}
 
-		public String getTexturaCarta() {
-			return texturaCarta;
+		public Imagen getTexturaCarta() {
+			return imagenCarta;
 		}
 
-		public void setTexturaCarta(String texturaCarta) {
-			this.texturaCarta = texturaCarta;
+		public void setTexturaCarta(Imagen texturaCarta) {
+			this.imagenCarta = texturaCarta;
 		}
 
-		public String getTexturaCartaEspalda() {
-			return texturaCartaEspalda;
+		public Imagen getTexturaCartaEspalda() {
+			return imagenEspalda;
 		}
 
-		public void setTexturaCartaEspalda(String texturaCartaEspalda) {
-			this.texturaCartaEspalda = texturaCartaEspalda;
+		public boolean isPorcentual() {
+			return porcentual;
+		}
+
+		public void setPorcentual(boolean porcentual) {
+			this.porcentual = porcentual;
+		}
+		
+		public int getX() {
+			return x;
+		}
+
+		public void setX(int x) {
+			this.x = x;
+		}
+
+		public int getY() {
+			return y;
+		}
+
+		public void setY(int y) {
+			this.y = y;
 		}
 		
 		

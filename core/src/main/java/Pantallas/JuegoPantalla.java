@@ -1,19 +1,41 @@
-package juegos;
+package Pantallas;
 
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import cartas.Carta;
+import Utiles.Recursos;
+import Utiles.Render;
+import cartas.Imagen;
+import cartasNormales.ThanksForPlaying;
 
 public class JuegoPantalla implements Screen{
 
+	Imagen Mesa;
+	Imagen Cartel;
+	Imagen Enemigo;
+	Carta tfp;
+	
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
 		
+		Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
+		Cartel = new Imagen(Recursos.CARTEL);
+		Enemigo = new Imagen(Recursos.RIVAL1);
+		tfp = new ThanksForPlaying();
 	}
 
 	@Override
 	public void render(float delta) {
-		// TODO Auto-generated method stub
+		Render.limpiarPantalla();
 		System.out.println("Estas en juego");
+		Render.batch.begin();
+		Mesa.dibujar();
+		Cartel.dibujar();
+		tfp.getTexturaCarta().dibujar();
+		Render.batch.end();
+		
 	}
 
 	@Override

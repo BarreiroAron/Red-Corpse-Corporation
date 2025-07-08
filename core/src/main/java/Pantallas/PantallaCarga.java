@@ -7,11 +7,11 @@ import Utiles.Recursos;
 import Utiles.Render;
 import Utiles.Util;
 import cartas.Imagen;
-import juegos.JuegoPantalla;
 
 public class PantallaCarga implements Screen {
 
 	Imagen fondo;
+	final float sumaDeTransparencia = 0.1f;
 	//esto es para escribir menos, hacer referencia al render.batch
 	SpriteBatch i;
 	float f =0;
@@ -37,13 +37,13 @@ public class PantallaCarga implements Screen {
 	private void procesarFade() {
 		//toda la animacion aparicion y desaparicion
 		if(!procesoFadeTerminado) {
-			f+= 0.01f;
+			f+= sumaDeTransparencia;
 			if(f>1) {
 				f=1;
 				procesoFadeTerminado=true;
 			}
 		}else {
-			contadorTiempo += 0.01f;
+			contadorTiempo += sumaDeTransparencia;
 			if(contadorTiempo>tiempoEsperado) {
 				f-=0.01f;
 				if(f<0) {

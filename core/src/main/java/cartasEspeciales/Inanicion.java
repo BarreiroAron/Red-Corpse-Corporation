@@ -1,7 +1,9 @@
 package cartasEspeciales;
 
+import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
+import cartas.Imagen;
 
 public class Inanicion extends Carta {
 	//Carta de Inscrypthion inanicion
@@ -12,9 +14,7 @@ public class Inanicion extends Carta {
 	 *  el segundo x2, el tercero x3 y así susecivamente).
 	 * Referencia a Inscryption (Carta de Inanición) */
 
-	public Inanicion(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
-			String texturaCarta, String texturaCartaEspalda) {
-		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
+	public Inanicion() {
+		super(0, 1, Habilidad.SIN_CARTAS_EN_LA_MANO, new Imagen(Recursos.INANICION_CARTA), false, 0, 0);
 	}
-
 }

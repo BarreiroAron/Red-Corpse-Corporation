@@ -1,7 +1,9 @@
 package cartasNormales;
 
+import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
+import cartas.Imagen;
 
 public class Redento extends Carta {
 
@@ -12,8 +14,7 @@ public class Redento extends Carta {
 	 *   diga algo como “Robar del mazo”). Tu contador pierde 8 puntos.
 	 */
 
-	public Redento(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
-			String texturaCarta, String texturaCartaEspalda) {
-		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
+	public Redento() {
+		super(0, 8, Habilidad.BLOQUEAR_ROBO, new Imagen(Recursos.REDENTO), false, 0, 0);
 	}
 }

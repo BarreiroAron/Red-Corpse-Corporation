@@ -1,7 +1,9 @@
 package cartasMalas;
 
+import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
+import cartas.Imagen;
 
 public class PecadoDeLaCodicia extends Carta {
 	
@@ -11,9 +13,9 @@ public class PecadoDeLaCodicia extends Carta {
 	 * si esta carta es jugada: Tu rival aumenta 1 en su contador y tu contador se reduce en 5.
 	 */
 
-	public PecadoDeLaCodicia(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
-			String texturaCarta, String texturaCartaEspalda) {
-		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
+	//Esta carta aumenta tus puntos
+	
+	public PecadoDeLaCodicia() {
+		super(0, 30, Habilidad.ROBAR_CARTA, new Imagen(Recursos.PECADO_CODICIA), true, 0, 0);
 	}
-
 }

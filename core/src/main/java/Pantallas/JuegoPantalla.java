@@ -7,6 +7,10 @@ import cartas.Carta;
 import Utiles.Recursos;
 import Utiles.Render;
 import cartas.Imagen;
+import cartasEspeciales.IMHERE;
+import cartasMalas.PecadoDeLaCodicia;
+import cartasNormales.KingDice;
+import cartasNormales.Redento;
 import cartasNormales.ThanksForPlaying;
 
 public class JuegoPantalla implements Screen{
@@ -14,7 +18,12 @@ public class JuegoPantalla implements Screen{
 	Imagen Mesa;
 	Imagen Cartel;
 	Imagen Enemigo;
+	
 	Carta tfp;
+	Carta imScared;
+	Carta pecadoCodicia;
+	Carta redento;
+	Carta kingDice;
 	
 	@Override
 	public void show() {
@@ -23,9 +32,14 @@ public class JuegoPantalla implements Screen{
 		Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
 		Cartel = new Imagen(Recursos.CARTEL);
 		Enemigo = new Imagen(Recursos.RIVAL1);
+		
 		tfp = new ThanksForPlaying();
+		imScared = new IMHERE();
+		pecadoCodicia = new PecadoDeLaCodicia();
+		redento = new Redento();
+		kingDice = new KingDice();
 	}
-
+	
 	@Override
 	public void render(float delta) {
 		Render.limpiarPantalla();
@@ -36,10 +50,17 @@ public class JuegoPantalla implements Screen{
 		
 		Mesa.dibujar();
 		Cartel.dibujar();
+		
 		tfp.getTexturaCarta().dibujar();
 		
-		Render.batch.end();
 		
+		//imScared.getTexturaCarta().dibujar();
+		//tfp.getTexturaCarta().dibujar();
+		//pecadoCodicia.getTexturaCarta().dibujar();
+		//redento.getTexturaCarta().dibujar();
+		//kingDice.getTexturaCarta().dibujar();
+		
+		Render.batch.end();
 	}
 
 	@Override

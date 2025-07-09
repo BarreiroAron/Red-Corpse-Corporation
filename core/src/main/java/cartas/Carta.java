@@ -14,7 +14,7 @@ public abstract class Carta {
 		private boolean porcentual;
 		private int x;
 		private int y;
-
+		
 		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
@@ -24,7 +24,7 @@ public abstract class Carta {
 			this.x = x;
 			this.y = y;
 		}
-
+		
 		@Override
 		public String toString() {
 			return "Carta [habilidad=" + habilidad + ", puntosAumentadosRival=" + puntosAumentadosRival
@@ -59,7 +59,7 @@ public abstract class Carta {
 		public Imagen getTexturaCarta() {
 			return imagenCarta;
 		}
-
+		
 		public void setTexturaCarta(Imagen texturaCarta) {
 			this.imagenCarta = texturaCarta;
 		}

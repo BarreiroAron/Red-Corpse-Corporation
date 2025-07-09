@@ -1,7 +1,9 @@
 package cartasNormales;
 
+import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
+import cartas.Imagen;
 
 public class KingDice extends Carta {
 
@@ -12,8 +14,7 @@ public class KingDice extends Carta {
 	 * Tu contador pierde 7 puntos y tu rival gana 4 puntos.
 	 */
 
-	public KingDice(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
-			String texturaCarta, String texturaCartaEspalda) {
-		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
+	public KingDice() {
+		super(4, 7, Habilidad.ROBAR_CARTA, new Imagen(Recursos.KING_DICE), true, 0, 0);
 	}
 }

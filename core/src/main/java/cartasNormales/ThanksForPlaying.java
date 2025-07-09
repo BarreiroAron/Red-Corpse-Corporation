@@ -15,7 +15,7 @@ public class ThanksForPlaying extends Carta {
 	public ThanksForPlaying() {
 		super(0, 15, null, new Imagen(Recursos.THX_FOR_PLAYING_CARTA), false , 0,0);
 	}
-
+	
 	@Override
 	public void setPuntosDisminuidos(int puntosDisminuidos) {
 		this.puntosDisminuidos = puntosDisminuidos;

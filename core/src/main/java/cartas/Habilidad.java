@@ -4,7 +4,7 @@ import juegos.Juego;
 import jugadores.Jugador;
 
 public enum Habilidad {
-	
+
     MODIFICAR_PUNTOS { //modifica puntos en general
         @Override
         public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
@@ -12,20 +12,14 @@ public enum Habilidad {
             rival.modificarPuntos(carta.getPuntosAumentadosRival());
         }
     },
-    ROBAR_CARTA { //roba carta en general
-        @Override
-        public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
-            jugador.robarCarta(carta.getRobarCarta());
-        }
-    },
-    BLOQUEAR_ROBO { //Para efectos generales (seguramente "Not today" va a usarla si o si)
+    BLOQUEAR_ROBO { //Para efectos generales (seguramente "Not today" va a usarla si o si) y redento
         @Override
         public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
             jugador.bloquearRobo();
         }
     },
     
-    BLOQUEAR_EFECTO { //Sirve para eefecto de Not today
+    BLOQUEAR_EFECTO { //Sirve para efecto de Not today
         public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
             
         }
@@ -78,6 +72,12 @@ public enum Habilidad {
         public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
             
         }
+    },
+    
+    ROBAR_CARTA() { //Esta carta esta hecha para el pecado de la codicia
+    	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
+    		
+    	}
     }
     ;
 	

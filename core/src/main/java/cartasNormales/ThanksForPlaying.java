@@ -11,9 +11,8 @@ public class ThanksForPlaying extends Carta {
 	
 	private int puntosDisminuidos;
 
-
 	public ThanksForPlaying() {
-		super(0, 15, null, new Imagen(Recursos.THX_FOR_PLAYING_CARTA), false , 0,0);
+		super(0, 15, Habilidad.ROBAR_CARTA , new Imagen(Recursos.THX_FOR_PLAYING_CARTA), false , 0,0);
 	}
 
 	@Override

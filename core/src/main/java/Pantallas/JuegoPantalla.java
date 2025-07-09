@@ -29,11 +29,15 @@ public class JuegoPantalla implements Screen{
 	@Override
 	public void render(float delta) {
 		Render.limpiarPantalla();
+		
 		System.out.println("Estas en juego");
+		
 		Render.batch.begin();
+		
 		Mesa.dibujar();
 		Cartel.dibujar();
 		tfp.getTexturaCarta().dibujar();
+		
 		Render.batch.end();
 		
 	}
@@ -67,5 +71,6 @@ public class JuegoPantalla implements Screen{
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }

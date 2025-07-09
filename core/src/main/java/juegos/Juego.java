@@ -1,24 +1,18 @@
 package juegos;
 
+import java.util.ArrayList;
+
+import Entidades.Entidad;
+import cartas.Carta;
+
 public class Juego {
 	
 	private int direccionRonda;
 	private int cantidadCartasMazo;
-	private String texturaMesa;
-	private String texturaCartasRival;
-	private String texturaCartasJugador;
-	private String texturaCartel;
-	private String texturaPuntos;
-	
-	public Juego(int direccionRonda, int cantidadCartasMazo, String texturaMesa, String texturaCartasRival, String texturaCartasJugador, String texturaCartel, String texturaPuntos) {
-		this.direccionRonda = direccionRonda;
-		this.cantidadCartasMazo = cantidadCartasMazo;
-		this.texturaMesa = texturaMesa;
-		this.texturaCartasJugador = texturaCartasJugador;
-		this.texturaCartasRival = texturaCartasRival;
-		this.texturaCartel = texturaCartel;
-		this.texturaPuntos = texturaPuntos;
-	}
+	private ArrayList<Carta> Mazo;
+	private ArrayList<Entidad> Jugadores;
+	private int tiempo =2;
+	private int rondas;
 
 	public int getDireccionRonda() {
 		return direccionRonda;

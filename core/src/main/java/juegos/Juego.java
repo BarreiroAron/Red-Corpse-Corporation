@@ -4,15 +4,64 @@ import java.util.ArrayList;
 
 import Entidades.Entidad;
 import cartas.Carta;
+import cartasEspeciales.IMHERE;
+import cartasEspeciales.Inanicion;
+import cartasMalas.PecadoDeLaCodicia;
+import cartasMalas.Sonambulo;
+import cartasNormales.Chester;
+import cartasNormales.Colera;
+import cartasNormales.KingDice;
+import cartasNormales.Mimico;
+import cartasNormales.OjoQueTodoLoVe;
+import cartasNormales.Redento;
+import cartasNormales.Saltamontes;
+import cartasNormales.Snake;
+import cartasNormales.ThanksForPlaying;
 
 public class Juego {
 	
-	private int direccionRonda;
+	private int direccionRonda=0;
 	private int cantidadCartasMazo;
-	private ArrayList<Carta> Mazo;
-	private ArrayList<Entidad> Jugadores;
+	private ArrayList<Carta> mazo;
+	private int indiceMazo=0;
+	private ArrayList<Entidad> jugadores;
+	private int indiceJugadores=0;
 	private int tiempo =2;
 	private int rondas;
+	
+	public Juego(int rondas, ArrayList<Entidad> Jugadores){
+		this.rondas=rondas;
+		this.jugadores= Jugadores;
+		iniciarMazo();
+		repartirCartas();
+	}
+	
+	private void repartirCartas() {
+		
+	}
+
+	private void iniciarMazo() {
+		
+		mazo.add(new KingDice());
+		mazo.add(new Redento());
+		mazo.add(new ThanksForPlaying());
+
+		// Cartas malas
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+
+		// Cartas especiales
+		mazo.add(new IMHERE());
+		mazo.add(new Inanicion());
+		cantidadCartasMazo= mazo.size();
+	}
+	
+	
+	
+
+	public void partida() {
+		
+	}
 
 	public int getDireccionRonda() {
 		return direccionRonda;

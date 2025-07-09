@@ -20,10 +20,6 @@ public class JuegoPantalla implements Screen{
 	Imagen Enemigo;
 	
 	Carta tfp;
-	Carta imScared;
-	Carta pecadoCodicia;
-	Carta redento;
-	Carta kingDice;
 	
 	@Override
 	public void show() {
@@ -34,10 +30,6 @@ public class JuegoPantalla implements Screen{
 		Enemigo = new Imagen(Recursos.RIVAL1);
 		
 		tfp = new ThanksForPlaying();
-		imScared = new IMHERE();
-		pecadoCodicia = new PecadoDeLaCodicia();
-		redento = new Redento();
-		kingDice = new KingDice();
 	}
 	
 	@Override
@@ -53,14 +45,9 @@ public class JuegoPantalla implements Screen{
 		
 		tfp.getTexturaCarta().dibujar();
 		
-		
-		//imScared.getTexturaCarta().dibujar();
-		//tfp.getTexturaCarta().dibujar();
-		//pecadoCodicia.getTexturaCarta().dibujar();
-		//redento.getTexturaCarta().dibujar();
-		//kingDice.getTexturaCarta().dibujar();
-		
 		Render.batch.end();
+		
+		
 	}
 
 	@Override

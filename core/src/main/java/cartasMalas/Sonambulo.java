@@ -1,7 +1,9 @@
 package cartasMalas;
 
+import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
+import cartas.Imagen;
 
 public class Sonambulo extends Carta {
 
@@ -12,9 +14,8 @@ robada te obliga en los siguientes tres
 turnos a: jugar una carta aleatoria (que el juego decida). De no tener cartas para tirar, 
 por cada turno que no se tire ninguna carta, su contador aumenta en 30 */
 	
-	public Sonambulo(int puntosAumentadosRival, int puntosDisminuidos, boolean robarCarta, Habilidad habilidad,
-			String texturaCarta, String texturaCartaEspalda) {
-		super(puntosAumentadosRival, puntosDisminuidos, robarCarta, habilidad, texturaCarta, texturaCartaEspalda);
-	}
+	public Sonambulo() {
+		super(0, 0, Habilidad.ROBAR_CARTA, new Imagen(Recursos.PECADO_CODICIA), false, 0, 0);
+	};
 
 }

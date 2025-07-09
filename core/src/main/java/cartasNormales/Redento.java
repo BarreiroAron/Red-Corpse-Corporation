@@ -18,4 +18,3 @@ public class Redento extends Carta {
 		super(0, 8, Habilidad.BLOQUEAR_ROBO, new Imagen(Recursos.REDENTO), false, 0, 0);
 	}
 }
-z

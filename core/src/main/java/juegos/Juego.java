@@ -1,6 +1,7 @@
 package juegos;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Entidades.Entidad;
 import cartas.Carta;
@@ -21,6 +22,7 @@ import cartasNormales.ThanksForPlaying;
 public class Juego {
 	
 	private int direccionRonda=0;
+	private int turno;
 	private int cantidadCartasMazo;
 	private ArrayList<Carta> mazo;
 	private int indiceMazo=0;
@@ -35,12 +37,10 @@ public class Juego {
 		iniciarMazo();
 		repartirCartas();
 	}
-	
-	private void repartirCartas() {
-		
-	}
 
 	private void iniciarMazo() {
+		System.out.println("Se creo mazo");
+		mazo = new ArrayList<>();
 		
 		mazo.add(new KingDice());
 		mazo.add(new Redento());
@@ -53,13 +53,36 @@ public class Juego {
 		// Cartas especiales
 		mazo.add(new IMHERE());
 		mazo.add(new Inanicion());
-		cantidadCartasMazo= mazo.size();
+		
+		cantidadCartasMazo = mazo.size();
+		
+	    Collections.shuffle(mazo);
+	}
+	
+	private void repartirCartas() {
+		System.out.println("Se reparten cartas");
+		for (Entidad jugador : jugadores) {
+	        for (int i = 0; i < 3; i++) {
+	            if (!mazo.isEmpty()) {
+	                Carta carta = mazo.remove(0);
+	                jugador.agregarCarta(carta); 
+	            }
+	        }
+	    }
+		
 	}
 	
 	
 	
+	public Entidad getJugadores(int indice) {
+		return jugadores.get(indice);
+	}
 
 	public void partida() {
+		
+	}
+	
+	public void actualizar(){
 		
 	}
 

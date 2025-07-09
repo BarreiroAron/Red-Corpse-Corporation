@@ -1,15 +1,19 @@
 package Pantallas;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import Entidades.Entidad;
 import Utiles.Recursos;
 import Utiles.Render;
 import Utiles.Util;
 import cartas.Imagen;
+import juegos.Juego;
 
 public class PantallaCarga implements Screen {
-
+	
 	Imagen fondo;
 	final float sumaDeTransparencia = 0.1f;
 	//esto es para escribir menos, hacer referencia al render.batch
@@ -17,11 +21,22 @@ public class PantallaCarga implements Screen {
 	float f =0;
 	float contadorTiempo =0, tiempoEsperado=1.5f;
 	boolean procesoFadeTerminado=false;
+	
+	ArrayList<Entidad> jugadores = new ArrayList<>();
+	Entidad entidad1 = new Entidad("Entidad 1");
+	Entidad entidad2 = new Entidad("Entidad 2");
+
+	 
+	Juego juego = new Juego(5, jugadores);
+	
 	@Override
 	public void show() { 
 		fondo = new Imagen(Recursos.FONDO);
 		i= Render.batch;
-		fondo.setTransparencia(f );
+		fondo.setTransparencia(f);
+		
+		jugadores.add(entidad1);
+		jugadores.add(entidad2);
 	}
 
 	@Override
@@ -47,8 +62,12 @@ public class PantallaCarga implements Screen {
 			if(contadorTiempo>tiempoEsperado) {
 				f-=0.01f;
 				if(f<0) {
+					
 					f=0;
-					Render.inicio.setScreen(new JuegoPantalla());
+					
+					Render.inicio.setScreen(new JuegoPantalla(juego));
+					juego= new Juego(5,jugadores);
+					
 				}
 			}
 		}

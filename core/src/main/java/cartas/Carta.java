@@ -15,6 +15,8 @@ public abstract class Carta {
 		private int x;
 		private int y;
 		
+		
+		
 		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
@@ -90,6 +92,10 @@ public abstract class Carta {
 
 		public void setY(int y) {
 			this.y = y;
+		}
+
+		public Imagen getImagenCarta() {
+			return imagenCarta;
 		}
 		
 		

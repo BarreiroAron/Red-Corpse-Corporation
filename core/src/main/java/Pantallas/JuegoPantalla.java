@@ -1,8 +1,12 @@
 package Pantallas;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import Entidades.Entidad;
 import cartas.Carta;
 import Utiles.Recursos;
 import Utiles.Render;
@@ -12,6 +16,8 @@ import cartasMalas.PecadoDeLaCodicia;
 import cartasNormales.KingDice;
 import cartasNormales.Redento;
 import cartasNormales.ThanksForPlaying;
+import juegos.Juego;
+
 
 public class JuegoPantalla implements Screen{
 
@@ -20,6 +26,17 @@ public class JuegoPantalla implements Screen{
 	Imagen Enemigo;
 	
 	Carta tfp;
+	
+	Juego juego;
+	
+	//variables para detectar el mouse
+	float mouseX = Gdx.input.getX();
+	float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+	
+	public JuegoPantalla(Juego juego) {
+		this.juego=juego;
+	}
 	
 	@Override
 	public void show() {
@@ -43,12 +60,41 @@ public class JuegoPantalla implements Screen{
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		tfp.getTexturaCarta().dibujar();
+		dibujarMano(Render.batch,juego.getJugadores(0));
 		
 		Render.batch.end();
 		
-		
+		juego.actualizar();
 	}
+	
+	private void dibujarMano(SpriteBatch batch, Entidad jugador) {
+	    ArrayList<Carta> mano = jugador.getMano();
+	    int espacioEntreCartas = mano.size() > 0 ? (Gdx.graphics.getWidth() / 3) / mano.size() : 0;
+	    int indice = 0;
+
+	    float mouseX = Gdx.input.getX();
+        float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+	    
+	    for (Carta carta : mano) {
+	    	 float x = (Gdx.graphics.getWidth() / 3) + espacioEntreCartas * indice;
+	         float y = 150.f;
+	         float width = 150.f;
+	         float height = 250.f;
+	         
+	        if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
+	        	
+	                width *= 1.2f;   // Aumentar tamaño
+	                height *= 1.2f;
+	                
+	                x -= (width - 150.f) / 2;  // Re-centrar al agrandar
+	                y -= (height - 250.f) / 2;
+	            }
+	        
+	        carta.getImagenCarta().dibujar(batch, x, y, width, height);
+	        indice++;
+	    }
+	}
+
 
 	@Override
 	public void resize(int width, int height) {

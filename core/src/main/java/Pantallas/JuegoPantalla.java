@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import Entidades.Entidad;
@@ -61,13 +62,17 @@ public class JuegoPantalla implements Screen{
 		Cartel.dibujar();
 		
 		dibujarMano(Render.batch,juego.getJugadores(0));
+		BitmapFont font = new BitmapFont();
 		
 		Render.batch.end();
 		
 		juego.actualizar();
 	}
 	
-	private void dibujarMano(SpriteBatch batch, Entidad jugador) {
+	private Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
+		Carta cartaDesc = null;
+		
+		
 	    ArrayList<Carta> mano = jugador.getMano();
 	    int espacioEntreCartas = mano.size() > 0 ? (Gdx.graphics.getWidth() / 3) / mano.size() : 0;
 	    int indice = 0;
@@ -85,7 +90,10 @@ public class JuegoPantalla implements Screen{
 	        	
 	                width *= 1.2f;   // Aumentar tamaño
 	                height *= 1.2f;
-	                
+	   	            cartaDesc = carta;
+	   	          BitmapFont bitmapFont = new BitmapFont();
+				bitmapFont.draw(Render.batch, carta.getDescripcion(), 100, 100);
+				
 	                x -= (width - 150.f) / 2;  // Re-centrar al agrandar
 	                y -= (height - 250.f) / 2;
 	            }
@@ -93,6 +101,7 @@ public class JuegoPantalla implements Screen{
 	        carta.getImagenCarta().dibujar(batch, x, y, width, height);
 	        indice++;
 	    }
+		return cartaDesc;
 	}
 
 

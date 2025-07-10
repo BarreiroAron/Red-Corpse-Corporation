@@ -14,10 +14,11 @@ public abstract class Carta {
 		private boolean porcentual;
 		private int x;
 		private int y;
+		private String descripcion;
 		
 		
 		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y) {
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y, String descripcion) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
 			this.habilidad = habilidad;
@@ -25,6 +26,7 @@ public abstract class Carta {
 			this.porcentual = porcentual;
 			this.x = x;
 			this.y = y;
+			this.descripcion = descripcion;
 		}
 		
 		@Override
@@ -98,5 +100,7 @@ public abstract class Carta {
 			return imagenCarta;
 		}
 		
-		
+		public String getDescripcion() {
+			return descripcion;
+		}
 	}

@@ -12,7 +12,7 @@ public class ThanksForPlaying extends Carta {
 	private int puntosDisminuidos;
 
 	public ThanksForPlaying() {
-		super(0, 15, Habilidad.ROBAR_CARTA , new Imagen(Recursos.THX_FOR_PLAYING_CARTA), false , 0,0);
+		super(0, 50, Habilidad.ROBAR_CARTA , new Imagen(Recursos.THX_FOR_PLAYING_CARTA), false , 0,0, "Reduce tus puntos en un 50%");
 	}
 	
 	@Override

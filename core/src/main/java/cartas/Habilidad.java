@@ -78,6 +78,29 @@ public enum Habilidad {
     	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
     		
     	}
+    },
+    
+    ESTRENIMIENTO() { //Carta para estrenimiento
+    	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
+    	}
+    },
+    
+    HAMBRE() { //Carta que se va a usar para la carta de HAMBRE CONTENIDA
+    	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
+    		
+    	}
+    }, 
+    
+    MIMICO() { //Carta que se va a usar para mimico
+    	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
+    		
+    	}
+    },
+    
+    VER_PUNTOS_RIVAL() {
+    	public void ejecutar(Carta carta, Jugador jugador, Jugador rival) {
+    		
+    	}
     }
     ;
 	

@@ -2,6 +2,7 @@ package Utiles;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont; //CUIADO
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import io.RedCorpseCorporation.juego.RedCorpseCorporationMain;
@@ -11,6 +12,7 @@ public class Render {
 	
 	public static SpriteBatch batch;
 	public static RedCorpseCorporationMain inicio;
+	public static BitmapFont font = new BitmapFont();
 	
 	public static void limpiarPantalla() {
 		//Limpia la pantalla a blanco

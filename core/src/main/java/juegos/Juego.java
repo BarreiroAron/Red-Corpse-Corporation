@@ -9,10 +9,15 @@ import cartasEspeciales.IMHERE;
 import cartasEspeciales.Inanicion;
 import cartasMalas.PecadoDeLaCodicia;
 import cartasMalas.Sonambulo;
+import cartasNormales.CambioDeRonda;
 import cartasNormales.Chester;
 import cartasNormales.Colera;
+import cartasNormales.Company;
+import cartasNormales.Estrenimiento;
+import cartasNormales.HambreContenida;
 import cartasNormales.KingDice;
 import cartasNormales.Mimico;
+import cartasNormales.NotToday;
 import cartasNormales.OjoQueTodoLoVe;
 import cartasNormales.Redento;
 import cartasNormales.Saltamontes;
@@ -42,9 +47,22 @@ public class Juego {
 		System.out.println("Se creo mazo");
 		mazo = new ArrayList<>();
 		
+		// Cartas normales
+		mazo.add(new CambioDeRonda());
+		mazo.add(new Chester());
+		mazo.add(new Colera());
+		mazo.add(new Company());
+		mazo.add(new Estrenimiento());
+		mazo.add(new HambreContenida());
 		mazo.add(new KingDice());
+		mazo.add(new Mimico());
+		mazo.add(new NotToday());
+		mazo.add(new OjoQueTodoLoVe());
 		mazo.add(new Redento());
+		mazo.add(new Saltamontes());
+		mazo.add(new Snake());
 		mazo.add(new ThanksForPlaying());
+		
 
 		// Cartas malas
 		mazo.add(new PecadoDeLaCodicia());

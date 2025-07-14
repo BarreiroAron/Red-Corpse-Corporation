@@ -6,6 +6,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import Entidades.Entidad;
+import Entidades.Jugador;
+import Entidades.Rival;
 import Utiles.Recursos;
 import Utiles.Render;
 import Utiles.Util;
@@ -23,8 +25,8 @@ public class PantallaCarga implements Screen {
 	boolean procesoFadeTerminado=false;
 	
 	ArrayList<Entidad> jugadores = new ArrayList<>();
-	Entidad entidad1 = new Entidad("Entidad 1");
-	Entidad entidad2 = new Entidad("Entidad 2");
+	Entidad entidad1 = new Jugador("Entidad 1");
+	Entidad entidad2 = new Rival("Entidad 2");
 
 	 
 	Juego juego = new Juego(5, jugadores);

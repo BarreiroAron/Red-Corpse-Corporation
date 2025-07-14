@@ -7,10 +7,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cartas.Carta;
 
-public class Entidad {
+public abstract class Entidad {
 	
-	private String nombre;
-	private ArrayList<Carta> mano = new ArrayList<>();
+	protected String nombre;
+	protected ArrayList<Carta> mano = new ArrayList<>();
+	
+	public void tirarCarta(Carta cartaSeleccionada,Entidad rival) {
+		cartaSeleccionada.usar(this, rival);
+	}
 	
 	public Entidad(String nombre) {
 		this.nombre = nombre;
@@ -27,5 +31,7 @@ public class Entidad {
 	public void agregarCarta(Carta nuevaCarta) {
 		mano.add(nuevaCarta);
 	}
-	
+	public void removerCarta(Carta carta){
+		mano.remove(carta);
+	};
 }

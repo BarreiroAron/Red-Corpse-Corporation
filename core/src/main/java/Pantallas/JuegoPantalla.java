@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.TimeUtils;
 
 import Entidades.Entidad;
 import cartas.Carta;
@@ -27,6 +28,9 @@ public class JuegoPantalla implements Screen{
 	Imagen Enemigo;
 	
 	Carta tfp;
+	
+	private long cooldownMs = 500; 
+	private long ultimoClickTime = 0;
 	
 	Juego juego;
 	
@@ -61,7 +65,7 @@ public class JuegoPantalla implements Screen{
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		dibujarMano(Render.batch,juego.getJugadores(0));
+		dibujarMano(Render.batch,juego.getJugadores(0), juego.getJugadores(1));
 		BitmapFont font = new BitmapFont();
 		
 		Render.batch.end();
@@ -69,8 +73,9 @@ public class JuegoPantalla implements Screen{
 		juego.actualizar();
 	}
 	
-	private Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
+	private Carta dibujarMano(SpriteBatch batch, Entidad jugador, Entidad rival) {
 		Carta cartaDesc = null;
+		
 		
 		
 	    ArrayList<Carta> mano = jugador.getMano();
@@ -80,6 +85,8 @@ public class JuegoPantalla implements Screen{
 	    float mouseX = Gdx.input.getX();
         float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 	    
+        Carta cartaAEliminar = null;
+        
 	    for (Carta carta : mano) {
 	    	 float x = (Gdx.graphics.getWidth() / 3) + espacioEntreCartas * indice;
 	         float y = 150.f;
@@ -91,19 +98,35 @@ public class JuegoPantalla implements Screen{
 	                width *= 1.2f;   // Aumentar tamaño
 	                height *= 1.2f;
 	   	            cartaDesc = carta;
+	   	 
 	   	          BitmapFont bitmapFont = new BitmapFont();
 				bitmapFont.draw(Render.batch, carta.getDescripcion(), 100, 100);
 				
 	                x -= (width - 150.f) / 2;  // Re-centrar al agrandar
 	                y -= (height - 250.f) / 2;
+	                
+	                if (Gdx.input.isTouched()) {
+	                	long tiempoActual = TimeUtils.millis();
+	                	
+	                    if (tiempoActual - ultimoClickTime >= cooldownMs) {
+	                        jugador.tirarCarta(carta, rival);
+	                        cartaAEliminar = carta;
+	                        System.out.println("Se selecciono la carta " + carta.getDescripcion());
+	                        ultimoClickTime = tiempoActual; // ✅ Actualizar cooldown
+	                    }
+	                }
 	            }
 	        
 	        carta.getImagenCarta().dibujar(batch, x, y, width, height);
 	        indice++;
 	    }
+	    
+	    if (cartaAEliminar != null) {
+	        jugador.removerCarta(cartaAEliminar);
+	    }
+	    
 		return cartaDesc;
 	}
-
 
 	@Override
 	public void resize(int width, int height) {

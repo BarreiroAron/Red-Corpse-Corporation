@@ -29,9 +29,12 @@ public class Juego {
 	private int direccionRonda=0;
 	private int turno;
 	private int cantidadCartasMazo;
+	
 	private ArrayList<Carta> mazo;
-	private int indiceMazo=0;
+	private ArrayList<Carta> mesa;
 	private ArrayList<Entidad> jugadores;
+	
+	private int indiceMazo=0;
 	private int indiceJugadores=0;
 	private int tiempo =2;
 	private int rondas;

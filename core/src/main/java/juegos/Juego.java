@@ -31,16 +31,16 @@ public class Juego {
 	private int cantidadCartasMazo;
 	
 	private ArrayList<Carta> mazo;
-	private ArrayList<Carta> mesa;
+	private ArrayList<Carta> mesa = new ArrayList<>();;
 	private ArrayList<Entidad> jugadores;
 	
+	private int indiceMesa=0;
 	private int indiceMazo=0;
 	private int indiceJugadores=0;
 	private int tiempo =2;
-	private int rondas;
+	private int rondas=0;
 	
-	public Juego(int rondas, ArrayList<Entidad> Jugadores){
-		this.rondas=rondas;
+	public Juego( ArrayList<Entidad> Jugadores){
 		this.jugadores= Jugadores;
 		iniciarMazo();
 		repartirCartas();
@@ -93,14 +93,29 @@ public class Juego {
 		
 	}
 	
+	public void agregarCartaMesa(Carta  carta) {
+		mesa.add(carta);
+		aumentarIndiceMesa();
+	}
 	
+	public void sumarRonda() {
+		this.rondas++;
+	}
 	
 	public Entidad getJugadores(int indice) {
 		return jugadores.get(indice);
 	}
-
-	public void partida() {
-		
+	
+	public ArrayList<Carta> getMesa() {
+		return mesa;
+	}
+	
+	public int getIndiceMesa() {
+		return indiceMesa;
+	}
+	
+	public void aumentarIndiceMesa() {
+		indiceMesa++;
 	}
 	
 	public void actualizar(){
@@ -122,4 +137,5 @@ public class Juego {
 	public void setCantidadCartasMazo(int cantidadCartasMazo) {
 		this.cantidadCartasMazo = cantidadCartasMazo;
 	}
+
 }

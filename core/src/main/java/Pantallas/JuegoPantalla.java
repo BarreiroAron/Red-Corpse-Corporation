@@ -58,8 +58,6 @@ public class JuegoPantalla implements Screen{
 	public void render(float delta) {
 		Render.limpiarPantalla();
 		
-		System.out.println("Estas en juego");
-		
 		Render.batch.begin();
 		
 		Mesa.dibujar();
@@ -68,51 +66,73 @@ public class JuegoPantalla implements Screen{
 		dibujarMano(Render.batch,juego.getJugadores(0), juego.getJugadores(1));
 		BitmapFont font = new BitmapFont();
 		
+		dibujarMesaCartas(Render.batch);
+		
 		Render.batch.end();
 		
 		juego.actualizar();
 	}
 	
+	private void dibujarMesaCartas(SpriteBatch batch) {
+		float x = Gdx.graphics.getWidth()/2;
+        float y = Gdx.graphics.getHeight()/2;
+        float width = 150.f;
+        float height = 250.f;
+        
+		if(juego.getIndiceMesa()>=1) {
+			juego.getMesa().getLast().getTexturaCarta().dibujar(batch, x, y, width, height);
+		}
+	}
+
 	private Carta dibujarMano(SpriteBatch batch, Entidad jugador, Entidad rival) {
 		Carta cartaDesc = null;
 		
-		
-		
 	    ArrayList<Carta> mano = jugador.getMano();
-	    int espacioEntreCartas = mano.size() > 0 ? (Gdx.graphics.getWidth() / 3) / mano.size() : 0;
-	    int indice = 0;
+	    
+	    int cantidadCartas = mano.size();
+	    float anchoCarta = 150.f;
+	    float alturaCarta = 250.f;
+	    float espacioEntreCartas = 40.f;
+	   
+	    float anchoTotal = cantidadCartas * anchoCarta + (cantidadCartas - 1) * espacioEntreCartas;
+
+	    // Calcular la posición inicial para que quede centrado
+	    float inicioX = (Gdx.graphics.getWidth() - anchoTotal) / 2.f;
+	    float y = 150.f;
 
 	    float mouseX = Gdx.input.getX();
-        float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-	    
-        Carta cartaAEliminar = null;
+	    float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+
+	    Carta cartaAEliminar = null;
+	    int indice = 0;
         
 	    for (Carta carta : mano) {
-	    	 float x = (Gdx.graphics.getWidth() / 3) + espacioEntreCartas * indice;
-	         float y = 150.f;
-	         float width = 150.f;
-	         float height = 250.f;
+	    	float x = inicioX + indice * (anchoCarta + espacioEntreCartas);
+	        float width = anchoCarta;
+	        float height = alturaCarta;
 	         
 	        if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
 	        	
 	                width *= 1.2f;   // Aumentar tamaño
 	                height *= 1.2f;
+	                
 	   	            cartaDesc = carta;
 	   	 
 	   	          BitmapFont bitmapFont = new BitmapFont();
 				bitmapFont.draw(Render.batch, carta.getDescripcion(), 100, 100);
 				
-	                x -= (width - 150.f) / 2;  // Re-centrar al agrandar
-	                y -= (height - 250.f) / 2;
+					x -= (width - anchoCarta) / 2;
+					y -= (height - alturaCarta) / 2;
 	                
 	                if (Gdx.input.isTouched()) {
 	                	long tiempoActual = TimeUtils.millis();
 	                	
 	                    if (tiempoActual - ultimoClickTime >= cooldownMs) {
 	                        jugador.tirarCarta(carta, rival);
+	                        juego.agregarCartaMesa(carta);
 	                        cartaAEliminar = carta;
-	                        System.out.println("Se selecciono la carta " + carta.getDescripcion());
-	                        ultimoClickTime = tiempoActual; // ✅ Actualizar cooldown
+	                        juego.sumarRonda();
+	                        ultimoClickTime = tiempoActual; // actualiza cooldown
 	                    }
 	                }
 	            }

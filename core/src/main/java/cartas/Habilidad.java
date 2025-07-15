@@ -29,6 +29,7 @@ public enum Habilidad {
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival) {
 			//juego.setDireccionRonda(1); por ahora no se
+        	System.out.println("se ejecuta habilidad direccion diferente");
         }
     },
     

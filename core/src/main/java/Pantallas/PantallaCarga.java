@@ -29,7 +29,7 @@ public class PantallaCarga implements Screen {
 	Entidad entidad2 = new Rival("Entidad 2");
 
 	 
-	Juego juego = new Juego(5, jugadores);
+	Juego juego = new Juego(jugadores);
 	
 	@Override
 	public void show() { 
@@ -68,7 +68,7 @@ public class PantallaCarga implements Screen {
 					f=0;
 					
 					Render.inicio.setScreen(new JuegoPantalla(juego));
-					juego= new Juego(5,jugadores);
+					juego= new Juego(jugadores);
 					
 				}
 			}

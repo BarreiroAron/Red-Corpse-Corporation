@@ -1,5 +1,7 @@
 	package cartas;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.Texture;
 
 import Entidades.Entidad;
@@ -16,6 +18,7 @@ public abstract class Carta {
 		private int x;
 		private int y;
 		private String descripcion;
+		private EnemigoDeterminado enemigoDeterminado= EnemigoDeterminado.IZQUIERDA; ///provisoprio para ver si funciona
 		
 		
 		
@@ -107,6 +110,10 @@ public abstract class Carta {
 		
 		public String getDescripcion() {
 			return descripcion;
+		}
+
+		public Entidad getEnemigoDeterminado(ArrayList<Entidad> jugadores, Entidad entidadJugada) {
+			return enemigoDeterminado.devolverEnemigo(jugadores,entidadJugada);
 		}
 		
 	}

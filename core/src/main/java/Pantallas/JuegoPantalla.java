@@ -63,8 +63,7 @@ public class JuegoPantalla implements Screen{
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		dibujarMano(Render.batch,juego.getJugadores(0), juego.getJugadores(1));
-		BitmapFont font = new BitmapFont();
+		dibujarMano(Render.batch,juego.getJugadorActual());
 		
 		dibujarMesaCartas(Render.batch);
 		
@@ -74,17 +73,17 @@ public class JuegoPantalla implements Screen{
 	}
 	
 	private void dibujarMesaCartas(SpriteBatch batch) {
-		float x = Gdx.graphics.getWidth()/2;
-        float y = Gdx.graphics.getHeight()/2;
-        float width = 150.f;
-        float height = 250.f;
+		float width = 150.f;
+	    float height = 250.f;
+		float x =  (Gdx.graphics.getWidth()/2.f)-width/2;
+        float y = Gdx.graphics.getHeight()/2.f;
         
 		if(juego.getIndiceMesa()>=1) {
 			juego.getMesa().getLast().getTexturaCarta().dibujar(batch, x, y, width, height);
 		}
 	}
 
-	private Carta dibujarMano(SpriteBatch batch, Entidad jugador, Entidad rival) {
+	private Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
 		Carta cartaDesc = null;
 		
 	    ArrayList<Carta> mano = jugador.getMano();
@@ -128,7 +127,7 @@ public class JuegoPantalla implements Screen{
 	                	long tiempoActual = TimeUtils.millis();
 	                	
 	                    if (tiempoActual - ultimoClickTime >= cooldownMs) {
-	                        jugador.tirarCarta(carta, rival);
+	                        jugador.tirarCarta(carta,juego);
 	                        juego.agregarCartaMesa(carta);
 	                        cartaAEliminar = carta;
 	                        juego.sumarRonda();

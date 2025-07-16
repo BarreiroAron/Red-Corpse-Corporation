@@ -36,7 +36,7 @@ public class Juego {
 	
 	private int indiceMesa=0;
 	private int indiceMazo=0;
-	private int indiceJugadores=0;
+	private int indiceJugadoreActual=0;
 	private int tiempo =2;
 	private int rondas=0;
 	
@@ -93,6 +93,11 @@ public class Juego {
 		
 	}
 	
+	public Entidad getJugadorActual() {
+		System.out.println("el indice del jugador actual es  " + indiceJugadoreActual);
+		return jugadores.get(indiceJugadoreActual);
+	}
+	
 	public void agregarCartaMesa(Carta  carta) {
 		mesa.add(carta);
 		aumentarIndiceMesa();
@@ -100,10 +105,29 @@ public class Juego {
 	
 	public void sumarRonda() {
 		this.rondas++;
+		System.out.println("Se sumo una ronda");
+		siguienteJugador();
 	}
 	
-	public Entidad getJugadores(int indice) {
+	private void siguienteJugador() {
+	    if (indiceJugadoreActual < jugadores.size() - 1) {
+	        indiceJugadoreActual++;
+	    } else {
+	        indiceJugadoreActual = 0;
+	    }
+	}
+
+	
+	private int getIndiceJugador() {
+		return indiceJugadoreActual;
+	}
+
+	public Entidad getJugador(int indice) {
 		return jugadores.get(indice);
+	}
+	
+	public ArrayList<Entidad> getJugadores() {
+		return jugadores;
 	}
 	
 	public ArrayList<Carta> getMesa() {
@@ -137,5 +161,6 @@ public class Juego {
 	public void setCantidadCartasMazo(int cantidadCartasMazo) {
 		this.cantidadCartasMazo = cantidadCartasMazo;
 	}
+
 
 }

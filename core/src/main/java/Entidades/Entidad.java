@@ -6,14 +6,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cartas.Carta;
+import juegos.Juego;
 
 public abstract class Entidad {
 	
 	protected String nombre;
 	protected ArrayList<Carta> mano = new ArrayList<>();
 	
-	public void tirarCarta(Carta cartaSeleccionada,Entidad rival) {
-		cartaSeleccionada.usar(this, rival);
+	
+	public void tirarCarta(Carta cartaSeleccionada, Juego juego) {
+		//poner funcion para elegir enemigo si es que no lo determina la carta 
+		cartaSeleccionada.usar(this, cartaSeleccionada.getEnemigoDeterminado(juego.getJugadores(),this));
 	}
 	
 	public Entidad(String nombre) {
@@ -33,5 +36,10 @@ public abstract class Entidad {
 	}
 	public void removerCarta(Carta carta){
 		mano.remove(carta);
+	}
+
+	public String getNombre() {
+		// TODO Auto-generated method stub
+		return nombre;
 	};
 }

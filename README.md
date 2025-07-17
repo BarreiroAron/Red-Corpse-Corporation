@@ -11,6 +11,6 @@ o- Descripcion del videojuego: Un juego online en primera persona. Estas encerra
 o- Tecnologías Principales: - LibGDX va a ser la libreria que usemos para programar con java nuestro videojuego.
                             - Nuestro videojuego va a estar hecho para ser jugado en computadoras de escritorio/notebooks en la web mediante internet.
 
-o- Enlace a la Wiki del Proyecto: Aun no listada.
+o- Enlace a la Wiki del Proyecto: [Wiki](https://github.com/BarreiroAron/Red-Corpse-Corporation/wiki).
 
 o- Instrucciones Básicas de Compilación y Ejecución: Aun no listado debido a la falta del proyecto.

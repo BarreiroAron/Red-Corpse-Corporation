@@ -25,8 +25,8 @@ public class PantallaCarga implements Screen {
 	boolean procesoFadeTerminado=false;
 	
 	ArrayList<Entidad> jugadores = new ArrayList<>();
-	Entidad entidad1 = new Jugador("Entidad 1");
-	Entidad entidad2 = new Rival("Entidad 2");
+	Entidad entidad1 = new Jugador("Entidad 1", 100);
+	Entidad entidad2 = new Rival("Entidad 2", 100);
 
 	 
 	Juego juego = new Juego(jugadores);

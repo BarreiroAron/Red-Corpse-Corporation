@@ -7,10 +7,10 @@ import cartas.Carta;
 public class Jugador extends Entidad {
 	
 	private String nombre;
+	private int puntos;
 	
-	public Jugador(String nombre) {
-		super(nombre);
-		// TODO Auto-generated constructor stub
+	public Jugador(String nombre, int puntos) {
+		super(nombre, puntos);
 	}
 	
 	public ArrayList<Carta> getMano() {
@@ -23,10 +23,6 @@ public class Jugador extends Entidad {
 	
 	public void agregarCarta(Carta nuevaCarta) {
 		this.mano.add(nuevaCarta);
-	}
-	
-	public void modificarPuntos(int puntos) {
-		System.out.println("Se modificaron " + puntos + " Puntos");
 	}
 	
 	public void robarCarta(boolean robar) {

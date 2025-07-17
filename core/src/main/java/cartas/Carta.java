@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import Entidades.Entidad;
 import Utiles.Recursos;
+import juegos.Juego;
 
 public abstract class Carta {
 		
@@ -40,8 +41,8 @@ public abstract class Carta {
 					+ imagenCarta + ", texturaCartaEspalda=" + imagenEspalda + "]";
 		}
 		
-		public void usar(Entidad jugador ,Entidad rival) {
-			habilidad.ejecutar(this, jugador, rival);
+		public void usar(Entidad jugador ,Entidad rival, Juego juego) {
+			habilidad.ejecutar(this, jugador, rival, juego);
 		}
 
 		public int getPuntosAumentadosRival() {

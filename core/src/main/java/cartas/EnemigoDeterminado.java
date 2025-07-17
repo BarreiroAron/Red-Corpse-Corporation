@@ -16,8 +16,10 @@ public enum EnemigoDeterminado {
 		},DERECHA() {
 		@Override
 		public Entidad devolverEnemigo(ArrayList<Entidad> jugadores,Entidad entidadJugada) {
-			// TODO Auto-generated method stub
-			return null;
+			int siguienteIndice = (jugadores.indexOf(entidadJugada) - 1) % jugadores.size();
+			siguienteIndice = (siguienteIndice + jugadores.size()) % jugadores.size();
+			System.out.println("Se va a atacar el jugador"+jugadores.get(siguienteIndice).	getNombre() );
+			return jugadores.get(siguienteIndice);
 			}
 		},SELECCIONAR_ENEMIGO(){
 			

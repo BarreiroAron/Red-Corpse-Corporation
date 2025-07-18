@@ -47,12 +47,6 @@ public class JuegoPantalla implements Screen{
 	public void show() {
 		// TODO Auto-generated method stub
 		
-		 camera = new OrthographicCamera();
-	        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
-	        viewport.apply();
-
-	        camera.position.set(VIRTUAL_WIDTH / 2f, VIRTUAL_HEIGHT / 2f, 0);
-		
 		Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
 		Cartel = new Imagen(Recursos.CARTEL);
 		Enemigo = new Imagen(Recursos.RIVAL1);

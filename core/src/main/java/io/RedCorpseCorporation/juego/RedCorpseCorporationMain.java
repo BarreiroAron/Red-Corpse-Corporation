@@ -46,6 +46,7 @@ public class RedCorpseCorporationMain extends Game {
     public void render() {
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         camera.update();
+      //  Render.batch.setProjectionMatrix(camera.combined); //Con esto se dimensiona bien si no se usa un monitor de pc
         super.render(); //con esto se ejecuta la pantalla
        // batch.setProjectionMatrix(camera.combined);
     }
@@ -58,5 +59,9 @@ public class RedCorpseCorporationMain extends Game {
     @Override
     public void dispose() {
  
+    }
+    
+    public OrthographicCamera getCamera() {
+        return camera;
     }
 }

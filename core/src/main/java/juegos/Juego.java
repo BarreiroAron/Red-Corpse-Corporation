@@ -26,7 +26,7 @@ import cartasNormales.ThanksForPlaying;
 
 public class Juego {
 	
-	private int direccionRonda=0;
+	private int direccionRonda = 1;
 	private int turno;
 	private int cantidadCartasMazo;
 	
@@ -36,7 +36,7 @@ public class Juego {
 	
 	private int indiceMesa=0;
 	private int indiceMazo=0;
-	private int indiceJugadoreActual=0;
+	private int indiceJugadorActual=0;
 	private int tiempo =2;
 	private int rondas=0;
 	
@@ -94,8 +94,8 @@ public class Juego {
 	}
 	
 	public Entidad getJugadorActual() {
-		System.out.println("el indice del jugador actual es  " + indiceJugadoreActual);
-		return jugadores.get(indiceJugadoreActual);
+		System.out.println("el indice del jugador actual es  " + indiceJugadorActual);
+		return jugadores.get(indiceJugadorActual);
 	}
 	
 	public void agregarCartaMesa(Carta  carta) {
@@ -109,17 +109,21 @@ public class Juego {
 		siguienteJugador();
 	}
 	
-	private void siguienteJugador() {
-	    if (indiceJugadoreActual < jugadores.size() - 1) {
-	        indiceJugadoreActual++;
+	public void siguienteJugador() {
+	    if (indiceJugadorActual < jugadores.size() - 1) {
+	        indiceJugadorActual++;
 	    } else {
-	        indiceJugadoreActual = 0;
+	        indiceJugadorActual = 0;
 	    }
 	}
 
 	
 	private int getIndiceJugador() {
-		return indiceJugadoreActual;
+		return indiceJugadorActual;
+	}
+	
+	private void setIndiceJugador(int cambioDeIndice) {
+		this.indiceJugadorActual = cambioDeIndice;
 	}
 
 	public Entidad getJugador(int indice) {

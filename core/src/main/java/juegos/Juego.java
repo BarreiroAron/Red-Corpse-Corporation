@@ -34,6 +34,8 @@ public class Juego {
 	private ArrayList<Carta> mesa = new ArrayList<>();;
 	private ArrayList<Entidad> jugadores;
 	
+	/*private boolean debeReiniciar = false; ESTO ES DEL COMPANY*/
+	
 	private int indiceMesa=0;
 	private int indiceMazo=0;
 	private int indiceJugadorActual=0;
@@ -97,6 +99,31 @@ public class Juego {
 		Carta carta = mazo.remove(0);
 		jugador.agregarCarta(carta);
 	}
+	
+/* TODO ESTO ES DEL COMPANY
+	public void marcarReinicio() {
+	    debeReiniciar = true;
+	}
+
+	public void actualizarReiniciarPartida() {
+	    if (debeReiniciar) {
+	        reiniciarPartida();
+	        debeReiniciar = false;
+	    }
+	}
+
+	
+	public void reiniciarPartida() {
+		for(Entidad jugador : jugadores) {
+			jugador.getMano().clear();
+		}
+		mesa.clear();
+		iniciarMazo();
+		repartirCartas();
+		
+		System.out.println("Partida reiniciada por Company");
+	} TODO ESTO ES DEL COMPANY
+	*/
 	
 	public Entidad getJugadorActual() {
 		return jugadores.get(indiceJugadorActual);

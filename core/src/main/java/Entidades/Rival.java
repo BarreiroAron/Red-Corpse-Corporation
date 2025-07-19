@@ -6,4 +6,8 @@ public class Rival extends Entidad {
 		super(nombre, puntos);
 	}
 	
+	public void agregarPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+	
 }

@@ -23,6 +23,8 @@ import juegos.Juego;
 
 public class JuegoPantalla implements Screen{
 
+	BitmapFont bitmapFont;
+	
 	Imagen Mesa;
 	Imagen Cartel;
 	Imagen Enemigo;
@@ -45,7 +47,7 @@ public class JuegoPantalla implements Screen{
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
+		bitmapFont = new BitmapFont();
 		
 		Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
 		Cartel = new Imagen(Recursos.CARTEL);
@@ -58,12 +60,14 @@ public class JuegoPantalla implements Screen{
 	public void render(float delta) {
 		Render.limpiarPantalla();
 		
+	/*	juego.actualizar(); ESTO ES DEL COMPANY*/
+		
 		Render.batch.begin();
 		
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		
+		 dibujarPuntos(juego.getJugadorActual());
 		
 		dibujarInterfazJugador(Render.batch,juego.getJugadorActual());
 		
@@ -131,7 +135,7 @@ public class JuegoPantalla implements Screen{
 		}
 	}
 
-	private Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
+	public Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
 		Carta cartaDesc = null;
 		
 	    ArrayList<Carta> mano = jugador.getMano();
@@ -143,7 +147,7 @@ public class JuegoPantalla implements Screen{
 	   
 	    float anchoTotal = cantidadCartas * anchoCarta + (cantidadCartas - 1) * espacioEntreCartas;
 
-	    // Calcular la posición inicial para que quede centrado
+	    
 	    float inicioX = (Gdx.graphics.getWidth() - anchoTotal) / 2.f;
 	    float y = 150.f;
 
@@ -193,6 +197,7 @@ public class JuegoPantalla implements Screen{
 	    
 		return cartaDesc;
 	}
+	
 	private void actualizarMouse() {
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();

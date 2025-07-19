@@ -25,6 +25,10 @@ public class Jugador extends Entidad {
 		this.mano.add(nuevaCarta);
 	}
 	
+	public void agregarPuntos(int puntos) {
+		this.puntos = puntos;
+	}
+	
 	public void robarCarta(boolean robar) {
 		
 	}

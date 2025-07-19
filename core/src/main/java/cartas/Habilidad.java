@@ -1,11 +1,17 @@
 package cartas;
 
+import java.util.ArrayList;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import Entidades.Entidad;
 import Entidades.Jugador;
+import Pantallas.JuegoPantalla;
+import Utiles.Render;
 import juegos.Juego;
 
 public enum Habilidad {
-
+	
     MODIFICAR_PUNTOS { //modifica puntos en general
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, Juego juego) {
@@ -46,10 +52,12 @@ public enum Habilidad {
         }
     },
     
+    
+    
     REINICIAR_PARTIDA() { //Sirve para efectos de Company
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, Juego juego) {
-            
-        }	
+        	/*juego.reiniciarPartida(); COSAS DEL COMPANY*/
+        }
     },
     
     SALTEAR_TURNO() { //sirve para efectos de Saltamontes
@@ -106,7 +114,6 @@ public enum Habilidad {
     	}
     }
     ;
-	
 	
 	
     public abstract void ejecutar(Carta carta, Entidad jugador, Entidad rival, Juego juego);

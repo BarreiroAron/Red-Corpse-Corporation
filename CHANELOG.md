@@ -32,3 +32,7 @@
 16) -- Julio 16 2025 -- Ahora se muestra la mano por index de jugador, el rival que se va a atacar la carta (si es que lo hace) se determina por variable de la carta , se puso izquiera por defaul para testear. Creamos el enum de EnemigoDeterminado para devolverlo y asi sea mas dinamico.
 
 17) -- Julio 17 2025 -- Actualizamos las cartas: CAMBIO DE RONDA y SALTAMONTES para que ahora esten funcionando con sus efectos correspondientes a la hora de jugar. Tambien añadimos los puntos de los jugadores los cuales segun cada carta y su efecto correspondiente, van a estar siendo modificados.
+
+18) -- Julio 18 2025 -- Se cambio la forma de agregar los puntos de forma mas general y de cambiar orden de la ronda, se muestran los puntos y se pueden agregar catas a la mano de manera indefinida
+
+19) -- Julio 19 2025 -- Trabajamos en la funcion REINICIAR_CARTA de Company para su futuro funcionamiento en el juego. Actualmente se encuentra en proceso de ser terminada.

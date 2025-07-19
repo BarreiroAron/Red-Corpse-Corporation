@@ -63,15 +63,63 @@ public class JuegoPantalla implements Screen{
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		dibujarMano(Render.batch,juego.getJugadorActual());
+		
+		
+		dibujarInterfazJugador(Render.batch,juego.getJugadorActual());
+		
+		dibujarMazo(Render.batch,juego.getJugadorActual());
 		
 		dibujarMesaCartas(Render.batch);
 		
 		Render.batch.end();
 		
+		
 		juego.actualizar();
+		actualizarMouse();
 	}
-	
+
+	//despues ver de generalizar metodos de aumento y click para dibujar mazo y dibujar mano
+	private void dibujarMazo(SpriteBatch batch,Entidad jugador) {
+		Imagen espaldaCarta= new Imagen (Recursos.CARTA_ESPALDA);
+		float y = 150.f;
+		float x = 1500.f;
+		float anchoCarta = 150.f;
+	    float alturaCarta = 250.f;
+        float width = anchoCarta;
+        float height = alturaCarta;
+		
+		if (this.mouseX >= x && this.mouseX <= x + width && this.mouseY >= y && this.mouseY <= y + height) {
+        	
+            width *= 1.2f;   // Aumentar tamaño
+            height *= 1.2f;
+            
+            x -= (width - anchoCarta) / 2;
+			y -= (height - alturaCarta) / 2;
+            
+            if (Gdx.input.isTouched()) {
+    			long tiempoActual = TimeUtils.millis();
+                if (tiempoActual - ultimoClickTime >= cooldownMs) {
+                	juego.robarCartaMazo(jugador);
+                    ultimoClickTime = tiempoActual; // actualiza cooldown
+                }
+            }
+		}
+		espaldaCarta.dibujar(batch, x, y, width, height);
+		
+	}
+
+	private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual) {
+		dibujarMano(Render.batch,juego.getJugadorActual());
+		dibujarPuntos(jugadorActual);
+	}
+
+	private void dibujarPuntos(Entidad jugador) {
+		BitmapFont bitmapFont = new BitmapFont();
+	          
+	          float posX = 1800f, posY = Gdx.graphics.getHeight() - 650f; 
+		bitmapFont.draw(Render.batch, String.valueOf(jugador.getPuntos()), posX, posY);
+	}
+
 	private void dibujarMesaCartas(SpriteBatch batch) {
 		float width = 150.f;
 	    float height = 250.f;
@@ -99,9 +147,6 @@ public class JuegoPantalla implements Screen{
 	    float inicioX = (Gdx.graphics.getWidth() - anchoTotal) / 2.f;
 	    float y = 150.f;
 
-	    float mouseX = Gdx.input.getX();
-	    float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-
 	    Carta cartaAEliminar = null;
 	    int indice = 0;
         
@@ -110,10 +155,13 @@ public class JuegoPantalla implements Screen{
 	        float width = anchoCarta;
 	        float height = alturaCarta;
 	         
-	        if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) {
+	        if (this.mouseX >= x && this. mouseX <= x + width && this.mouseY >= y && this.mouseY <= y + height) {
 	        	
 	                width *= 1.2f;   // Aumentar tamaño
 	                height *= 1.2f;
+	                
+	                x -= (width - anchoCarta) / 2;
+					y -= (height - alturaCarta) / 2;
 	                
 	   	            cartaDesc = carta;
 	   	 
@@ -121,9 +169,6 @@ public class JuegoPantalla implements Screen{
 	   	          
 	   	          float posX = 20f, posY = Gdx.graphics.getHeight() - 20f; 
 				bitmapFont.draw(Render.batch, carta.getDescripcion(), posX, posY);
-				
-					x -= (width - anchoCarta) / 2;
-					y -= (height - alturaCarta) / 2;
 	                
 	                if (Gdx.input.isTouched()) {
 	                	long tiempoActual = TimeUtils.millis();
@@ -148,7 +193,10 @@ public class JuegoPantalla implements Screen{
 	    
 		return cartaDesc;
 	}
-
+	private void actualizarMouse() {
+		mouseX = Gdx.input.getX();
+		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+	}
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub

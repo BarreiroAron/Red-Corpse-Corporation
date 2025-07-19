@@ -16,8 +16,8 @@ public abstract class Entidad {
 	
 	
 	public void tirarCarta(Carta cartaSeleccionada, Juego juego) {
-		//poner funcion para elegir enemigo si es que no lo determina la carta 
-		cartaSeleccionada.usar(this, cartaSeleccionada.getEnemigoDeterminado(juego.getJugadores(),this), juego);
+		Entidad enemigo = cartaSeleccionada.getEnemigoDeterminado(juego.getJugadores(),this);
+		cartaSeleccionada.usar(this, enemigo, juego);
 	}
 	
 	public Entidad(String nombre, int puntos) {
@@ -25,6 +25,17 @@ public abstract class Entidad {
 		this.puntos = puntos;
 	}
 
+	public void modificarPuntos(int puntosCambiados, boolean porcentual) {
+		if(puntosCambiados<0){
+			this.puntos-=puntosCambiados;
+			System.out.println("Se restaron");
+		}else if(puntosCambiados>0) {
+			this.puntos+=puntosCambiados;
+			System.out.println("Se Sumaron");
+		}
+		System.out.println(" "+ puntosCambiados); 
+	}
+	
 	public void modificarPuntos(int puntos, double modificarPuntos) {
 		System.out.println("Se modificaron " + puntos + " Puntos");
 	}
@@ -54,6 +65,6 @@ public abstract class Entidad {
 	}
 	
 	public void setPuntos(int puntosModificados) {
-		puntos += puntosModificados;
+		this.puntos += puntosModificados;
 	}
 }

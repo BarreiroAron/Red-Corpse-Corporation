@@ -12,10 +12,10 @@ public abstract class Carta {
 		
 		private int puntosAumentadosRival;
 		private int puntosDisminuidos;
+		private boolean porcentual;
 		private Habilidad habilidad;
 		private Imagen imagenCarta;
 		private Imagen imagenEspalda= new Imagen(Recursos.CARTA_ESPALDA);
-		private boolean porcentual;
 		private int x;
 		private int y;
 		private String descripcion;
@@ -42,6 +42,7 @@ public abstract class Carta {
 		}
 		
 		public void usar(Entidad jugador ,Entidad rival, Juego juego) {
+			rival.modificarPuntos(this.getPuntosAumentadosRival(), this.porcentual);
 			habilidad.ejecutar(this, jugador, rival, juego);
 		}
 

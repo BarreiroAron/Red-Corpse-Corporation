@@ -93,8 +93,12 @@ public class Juego {
 		
 	}
 	
+	public void robarCartaMazo(Entidad jugador) {
+		Carta carta = mazo.remove(0);
+		jugador.agregarCarta(carta);
+	}
+	
 	public Entidad getJugadorActual() {
-		System.out.println("el indice del jugador actual es  " + indiceJugadorActual);
 		return jugadores.get(indiceJugadorActual);
 	}
 	
@@ -110,13 +114,13 @@ public class Juego {
 	}
 	
 	public void siguienteJugador() {
-	    if (indiceJugadorActual < jugadores.size() - 1) {
-	        indiceJugadorActual++;
-	    } else {
-	        indiceJugadorActual = 0;
-	    }
+	    int cantidadJugadores = jugadores.size();
+	    indiceJugadorActual = (indiceJugadorActual + direccionRonda + cantidadJugadores) % cantidadJugadores;
 	}
-
+	
+	public void invertirOrden() {
+	    direccionRonda *= -1;
+	}
 	
 	private int getIndiceJugador() {
 		return indiceJugadorActual;
@@ -152,10 +156,6 @@ public class Juego {
 
 	public int getDireccionRonda() {
 		return direccionRonda;
-	}
-
-	public void setDireccionRonda(int direccionRonda) {
-		this.direccionRonda = direccionRonda;
 	}
 
 	public int getCantidadCartasMazo() {

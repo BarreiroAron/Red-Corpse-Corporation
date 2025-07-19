@@ -27,9 +27,9 @@ public class PantallaCarga implements Screen {
 	ArrayList<Entidad> jugadores = new ArrayList<>();
 	Entidad entidad1 = new Jugador("Entidad 1", 100);
 	Entidad entidad2 = new Rival("Entidad 2", 100);
+	Entidad entidad3 = new Rival("Entidad 3", 100);
 
-	 
-	Juego juego = new Juego(jugadores);
+	Juego juego;
 	
 	@Override
 	public void show() { 
@@ -39,6 +39,7 @@ public class PantallaCarga implements Screen {
 		
 		jugadores.add(entidad1);
 		jugadores.add(entidad2);
+		jugadores.add(entidad3);
 	}
 
 	@Override
@@ -66,9 +67,8 @@ public class PantallaCarga implements Screen {
 				if(f<0) {
 					
 					f=0;
-					
-					Render.inicio.setScreen(new JuegoPantalla(juego));
 					juego= new Juego(jugadores);
+					Render.inicio.setScreen(new JuegoPantalla(juego));
 					
 				}
 			}

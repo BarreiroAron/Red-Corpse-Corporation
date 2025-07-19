@@ -29,12 +29,8 @@ public enum Habilidad {
     CAMBIO_DIRECCION { //Sirve para efecto de Cambio de ronda
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, Juego juego) {
-        	juego.setDireccionRonda(juego.getDireccionRonda() * -1);
+        	juego.invertirOrden();
 			System.out.println("Dirección cambiada a: " + juego.getDireccionRonda());
-			Jugador modificarPuntos = new Jugador(jugador.nombre, jugador.puntos);
-			System.out.println("Puntos antes: " + jugador.puntos);//Esta linea es para ver si los puntos son modificados
-			jugador.modificarPuntos(jugador.puntos, 0.6);
-			System.out.println("Puntos despues: " + jugador.puntos);//Esta linea es para ver si los puntos son modificados
         }
     },
     

@@ -25,7 +25,7 @@ import juegos.HiloTiempoPartida;
 import juegos.TiempoListener;
 
 
-public class JuegoPantalla implements Screen{
+public class JuegoPantalla implements Screen,TiempoListener{
 
 	BitmapFont bitmapFont;
 	
@@ -51,9 +51,9 @@ public class JuegoPantalla implements Screen{
 	
 	 public JuegoPantalla(Juego juego) {
 	        this.juego = juego;
-	      /*  hiloTiempo = new HiloTiempoPartida(this);
+	        hiloTiempo = new HiloTiempoPartida(this);
 	        hiloTiempo.setMinutos(3); // por ejemplo 3 minutos
-	        hiloTiempo.start();*/
+	        hiloTiempo.start();
 	  };
 	
 	@Override
@@ -88,6 +88,8 @@ public class JuegoPantalla implements Screen{
 		dibujarMazo(Render.batch,juego.getJugadorActual());
 		
 		dibujarMesaCartas(Render.batch);
+		
+		dibujarBarraTiempo();
 		
 		Render.batch.end();
 		
@@ -138,10 +140,7 @@ public class JuegoPantalla implements Screen{
 
 	    float x = centroX - (anchoActual / 2f);
 
-	    
-	    Render.batch.begin();
 	    Render.batch.draw(BarraDeTiempo, x, y, anchoActual, altoBarra);
-	    Render.batch.end();
 	}
 
 	private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual) {
@@ -236,7 +235,7 @@ public class JuegoPantalla implements Screen{
 		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 	}
 	
-	/* @Override
+	@Override
 	    public void onProgresoActualizado(float nuevoProgreso) {
 	        this.progreso = nuevoProgreso;
 	    }
@@ -245,7 +244,7 @@ public class JuegoPantalla implements Screen{
 	    public void onTiempoFinalizado() {
 	        System.out.println("Se terminó el tiempo de la ronda.");
 	        // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
-	    }*/
+	   }
 	
 	@Override
 	public void resize(int width, int height) {

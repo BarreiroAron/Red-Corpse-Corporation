@@ -24,7 +24,7 @@ import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 
-public class Juego implements ControladorDeJuego  {
+public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private int direccionRonda = 1;
 	private int turno;
@@ -47,9 +47,9 @@ public class Juego implements ControladorDeJuego  {
 		this.jugadores= Jugadores;
 		iniciarMazo();
 		repartirCartas();
-		//HiloTiempoPartida hiloDeTiempo = new HiloTiempoPartida(this);
-		// hiloDeTiempo.setMinutos(tiempo);
-		//hiloDeTiempo.start();
+		HiloTiempoPartida hiloDeTiempo = new HiloTiempoPartida(this);
+		hiloDeTiempo.setMinutos(tiempo);
+		hiloDeTiempo.start();
 	}
 
 
@@ -221,14 +221,14 @@ public class Juego implements ControladorDeJuego  {
     }
 
 
-	/*@Override
+	@Override
     public void onProgresoActualizado(float nuevoProgreso) {
     }
 
     @Override
     public void onTiempoFinalizado() {
         // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
-    }*/
+    }
 
 
 }

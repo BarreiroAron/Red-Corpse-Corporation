@@ -2,6 +2,8 @@ package cartas;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import Entidades.Entidad;
@@ -42,7 +44,25 @@ public enum Habilidad {
     
     VER_CARTAS_SIGUIENTES() { //sirve para efectos de Ojo que todo lo ve
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-            
+        	   if (controlador instanceof Juego juego) {
+                   ArrayList<Carta> mazo = juego.getMazo();
+                   ArrayList<Carta> cartaMostrada = new ArrayList<>();
+
+                   for (int i = 0; i < 3 && i < mazo.size(); i++) {
+                       cartaMostrada.add(mazo.get(i));
+                   }
+
+                   juego.setCartasMostradas(cartaMostrada);
+
+                   System.out.println("Cartas reveladas: ");
+                   for (Carta c : cartaMostrada) {
+                       System.out.println("- " + c.getClass().getSimpleName());
+                       JOptionPane.showMessageDialog(null, //Esta parte del codigo va a ser muy primitiva por ahora
+                               " " + c.getClass().getSimpleName(),
+                               "Carta numero " + (mazo.indexOf(c)+1),
+                               JOptionPane.INFORMATION_MESSAGE);
+                   }
+               }
         }
     },
     

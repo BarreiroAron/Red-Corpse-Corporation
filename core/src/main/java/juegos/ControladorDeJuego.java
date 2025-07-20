@@ -8,4 +8,5 @@ public interface ControladorDeJuego {
 		void marcarReinicio();
 	    void cambiarDireccion();
 	    void robarCarta(Entidad jugador);
+	    void mostrarCartasSiguientes(int cantidad);
 }

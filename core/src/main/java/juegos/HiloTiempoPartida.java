@@ -15,7 +15,7 @@ public class HiloTiempoPartida extends Thread {
     }
 
     /**
-     * Reinicia el hilo con una nueva duración en minutos.
+     * Reinicia el hilo con una nueva duracion en minutos.
      */
     public void setMinutos(int minutos) {
         this.tiempoInicial = minutos * 60 * 1000;
@@ -49,7 +49,7 @@ public class HiloTiempoPartida extends Thread {
                 }
 
                 try {
-                    Thread.sleep(100); // pausa cuando no está corriendo
+                    Thread.sleep(100); // pausa cuando no esta corriendo
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

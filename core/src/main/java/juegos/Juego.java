@@ -43,6 +43,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private boolean debeReiniciar= false;
 	
+	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
+	
 	public Juego( ArrayList<Entidad> Jugadores){
 		this.jugadores= Jugadores;
 		iniciarMazo();
@@ -50,6 +52,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		HiloTiempoPartida hiloDeTiempo = new HiloTiempoPartida(this);
 		hiloDeTiempo.setMinutos(tiempo);
 		hiloDeTiempo.start();
+		VentiladorHilo VentiladorHilo = new VentiladorHilo();
+		VentiladorHilo.start();
 	}
 
 
@@ -139,11 +143,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		
 		System.out.println("Partida reiniciada por Company");
 	}
-
-	
-	public Entidad getJugadorActual() {
-		return jugadores.get(indiceJugadorActual);
-	}
 	
 	public void agregarCartaMesa(Carta  carta) {
 		mesa.add(carta);
@@ -165,12 +164,30 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    direccionRonda *= -1;
 	}
 	
-	private int getIndiceJugador() {
-		return indiceJugadorActual;
+	public void aumentarIndiceMesa() {
+		indiceMesa++;
 	}
 	
-	private void setIndiceJugador(int cambioDeIndice) {
-		this.indiceJugadorActual = cambioDeIndice;
+	@Override
+	public void mostrarCartasSiguientes(int cantidad) {
+	    ArrayList<Carta> cartasMostradas = new ArrayList<>();
+	    for (int i = 0; i < cantidad && i < mazo.size(); i++) {
+	        cartasMostradas.add(mazo.get(i));
+	    }
+	    setCartasMostradas(cartasMostradas);
+
+	    System.out.println("Mostrando próximas " + cantidad + " cartas:");
+	    for (Carta c : cartasMostradas) {
+	        System.out.println("- " + c.getClass().getSimpleName());
+	    }
+	}
+	
+	public Entidad getJugadorActual() {
+		return jugadores.get(indiceJugadorActual);
+	}
+	
+	private int getIndiceJugador() {
+		return indiceJugadorActual;
 	}
 
 	public Entidad getJugador(int indice) {
@@ -188,10 +205,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public int getIndiceMesa() {
 		return indiceMesa;
 	}
-	
-	public void aumentarIndiceMesa() {
-		indiceMesa++;
-	}
 
 	public int getDireccionRonda() {
 		return direccionRonda;
@@ -200,11 +213,28 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public int getCantidadCartasMazo() {
 		return cantidadCartasMazo;
 	}
+	
+	public ArrayList<Carta> getCartasMostradas() {
+		return cartasMostradas;
+	}
 
+	public ArrayList<Carta> getMazo() {
+	    return mazo;
+	}
+	
 	public void setCantidadCartasMazo(int cantidadCartasMazo) {
 		this.cantidadCartasMazo = cantidadCartasMazo;
 	}
 
+	
+	public void setCartasMostradas(ArrayList<Carta> cartasMostradas) {
+	    this.cartasMostradas = cartasMostradas;
+	}
+	
+	private void setIndiceJugador(int cambioDeIndice) {
+		this.indiceJugadorActual = cambioDeIndice;
+	}
+	
 	@Override
 	public void cambiarDireccion() {
 		invertirOrden();
@@ -227,8 +257,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
     @Override
     public void onTiempoFinalizado() {
-        // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
     }
-
 
 }

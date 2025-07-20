@@ -3,7 +3,9 @@ package Pantallas;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -49,10 +51,12 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	 private float progreso = 1.0f;
 	 private HiloTiempoPartida hiloTiempo;
 	
+	 private Sound CartaTirada;
+	 
 	 public JuegoPantalla(Juego juego) {
 	        this.juego = juego;
 	        hiloTiempo = new HiloTiempoPartida(this);
-	        hiloTiempo.setMinutos(3); // por ejemplo 3 minutos
+	        hiloTiempo.setMinutos(3);
 	        hiloTiempo.start();
 	  };
 	
@@ -73,8 +77,6 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	@Override
 	public void render(float delta) {
 		Render.limpiarPantalla();
-		
-	/*	juego.actualizar(); ESTO ES DEL COMPANY*/
 		
 		Render.batch.begin();
 		
@@ -110,7 +112,7 @@ public class JuegoPantalla implements Screen,TiempoListener{
 		
 		if (this.mouseX >= x && this.mouseX <= x + width && this.mouseY >= y && this.mouseY <= y + height) {
         	
-            width *= 1.2f;   // Aumentar tamaño
+            width *= 1.2f;
             height *= 1.2f;
             
             x -= (width - anchoCarta) / 2;
@@ -149,10 +151,9 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	}
 
 	private void dibujarPuntos(Entidad jugador) {
-		BitmapFont bitmapFont = new BitmapFont();
-	          
-	          float posX = 1800f, posY = Gdx.graphics.getHeight() - 500f; 
-		bitmapFont.draw(Render.batch, String.valueOf(jugador.getPuntos()), posX, posY);
+		   float posX = Gdx.graphics.getWidth() - 150f;
+		    float posY = Gdx.graphics.getHeight() - 50f;
+		    bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
 	}
 
 	private void dibujarMesaCartas(SpriteBatch batch) {
@@ -210,6 +211,7 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	                	long tiempoActual = TimeUtils.millis();
 	                	
 	                    if (tiempoActual - ultimoClickTime >= cooldownMs) {
+	                    	sonidoCartaTirada();
 	                    	juego.jugarCarta(carta, jugador);
 	                        juego.agregarCartaMesa(carta);
 	                        cartaAEliminar = carta;
@@ -233,6 +235,11 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	private void actualizarMouse() {
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+	}
+	
+	public void sonidoCartaTirada() {
+		CartaTirada = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
+		CartaTirada.play();
 	}
 	
 	@Override

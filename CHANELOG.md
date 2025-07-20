@@ -36,3 +36,8 @@
 18) -- Julio 18 2025 -- Se cambio la forma de agregar los puntos de forma mas general y de cambiar orden de la ronda, se muestran los puntos y se pueden agregar catas a la mano de manera indefinida
 
 19) -- Julio 19 2025 -- Trabajamos en la funcion REINICIAR_CARTA de Company para su futuro funcionamiento en el juego. Actualmente se encuentra en proceso de ser terminada.
+
+20) -- Julio 19 2025 -- se realizo un cambio drastico en cuanto al ordenamiento (principio de responsabilidad unica) del codigo. Ahora presenta un apartado de ControladorDeJuego en donde se aprecian varias funciones usadas por cartas complejas del juego. Este ordenamiento en donde se uso "Interface", permitio una facilidad mayor a la anterior a la hora de crear los efectos de las cartas. Una vez implementado esto, se termino de realizar los efectos de la funcion REINICIAR_CARTA usada por la carta "Company". 
+
+21) -- Julio 20 2025 -- Domingo... Se introdujo sonido al videojuego mediante las librerias com.badlogic.gdx.Gdx y com.badlogic.gdx.audio.Sound. Introduciendo sonido al tirar las cartas y un sonido ambiental de una ventilacion de aire en la pared. Como sonido ambiental tambien fue agregado un skillcheck con sonido de disparos a las afueras de la compañia (estas funciones fueron metidas en un hilo). Tambien se agrego el funcioaniento de OjoQueTodoLoVe y provisoriamente se agrego una alerta para comprobar que la carta es funcional a la hora de jugar el videojuego.
+

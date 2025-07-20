@@ -14,18 +14,16 @@ public abstract class Entidad {
 	public int puntos;
 	protected ArrayList<Carta> mano = new ArrayList<>();
 	
-	
-	public void tirarCarta(Carta cartaSeleccionada, Juego juego) {
-		Entidad enemigo = cartaSeleccionada.getEnemigoDeterminado(juego.getJugadores(),this);
-		cartaSeleccionada.usar(this, enemigo, juego);
-	}
-	
 	public Entidad(String nombre, int puntos) {
 		this.nombre = nombre;
 		this.puntos = puntos;
 	}
 
 	public void modificarPuntos(int puntosCambiados, boolean porcentual) {
+		if(porcentual) {
+			puntosCambiados= puntos *(puntosCambiados/100);
+		}
+		
 		if(puntosCambiados<0){
 			this.puntos-=puntosCambiados;
 			System.out.println("Se restaron");
@@ -41,7 +39,7 @@ public abstract class Entidad {
 	}
 	
 	public ArrayList<Carta> getMano() {
-		return mano;
+		return this.mano;
 	}
 
 	public void setMano(ArrayList<Carta> mano) {
@@ -49,19 +47,19 @@ public abstract class Entidad {
 	}
 	
 	public void agregarCarta(Carta nuevaCarta) {
-		mano.add(nuevaCarta);
+		this.mano.add(nuevaCarta);
 	}
 	public void removerCarta(Carta carta){
-		mano.remove(carta);
+		this.mano.remove(carta);
 	}
 
 	public String getNombre() {
 		// TODO Auto-generated method stub
-		return nombre;
+		return this.nombre;
 	};
 	
 	public int getPuntos() {
-		return puntos;
+		return this.puntos;
 	}
 	
 	public void setPuntos(int puntosModificados) {

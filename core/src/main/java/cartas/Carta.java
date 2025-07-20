@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 import Entidades.Entidad;
 import Utiles.Recursos;
+import juegos.ControladorDeJuego;
 import juegos.Juego;
 
 public abstract class Carta {
@@ -39,11 +40,6 @@ public abstract class Carta {
 			return "Carta [habilidad=" + habilidad + ", puntosAumentadosRival=" + puntosAumentadosRival
 					+ ", puntosDisminuidos=" + puntosDisminuidos + ", texturaCarta="
 					+ imagenCarta + ", texturaCartaEspalda=" + imagenEspalda + "]";
-		}
-		
-		public void usar(Entidad jugador ,Entidad rival, Juego juego) {
-			rival.modificarPuntos(this.getPuntosAumentadosRival(), this.porcentual);
-			habilidad.ejecutar(this, jugador, rival, juego);
 		}
 
 		public int getPuntosAumentadosRival() {
@@ -116,6 +112,10 @@ public abstract class Carta {
 
 		public Entidad getEnemigoDeterminado(ArrayList<Entidad> jugadores, Entidad entidadJugada) {
 			return enemigoDeterminado.devolverEnemigo(jugadores,entidadJugada);
+		}
+
+		public boolean getPorcentual() {
+			return porcentual;
 		}
 		
 	}

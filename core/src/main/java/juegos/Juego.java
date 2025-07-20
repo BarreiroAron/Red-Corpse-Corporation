@@ -24,7 +24,7 @@ import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 
-public class Juego {
+public class Juego implements ControladorDeJuego  {
 	
 	private int direccionRonda = 1;
 	private int turno;
@@ -34,19 +34,24 @@ public class Juego {
 	private ArrayList<Carta> mesa = new ArrayList<>();;
 	private ArrayList<Entidad> jugadores;
 	
-	/*private boolean debeReiniciar = false; ESTO ES DEL COMPANY*/
-	
 	private int indiceMesa=0;
 	private int indiceMazo=0;
 	private int indiceJugadorActual=0;
 	private int tiempo =2;
 	private int rondas=0;
 	
+	
+	private boolean debeReiniciar= false;
+	
 	public Juego( ArrayList<Entidad> Jugadores){
 		this.jugadores= Jugadores;
 		iniciarMazo();
 		repartirCartas();
+		//HiloTiempoPartida hiloDeTiempo = new HiloTiempoPartida(this);
+		// hiloDeTiempo.setMinutos(tiempo);
+		//hiloDeTiempo.start();
 	}
+
 
 	private void iniciarMazo() {
 		System.out.println("Se creo mazo");
@@ -82,6 +87,17 @@ public class Juego {
 	    Collections.shuffle(mazo);
 	}
 	
+	public void actualizar(){
+		actualizarReiniciarPartida();
+	}
+	
+	public void jugarCarta(Carta carta, Entidad jugador) {
+		Entidad enemigo = carta.getEnemigoDeterminado(jugadores,jugador);
+		jugador.modificarPuntos(carta.getPuntosDisminuidos(), carta.getPorcentual());
+		enemigo.modificarPuntos(carta.getPuntosAumentadosRival(), carta.getPorcentual());
+	    carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
+	}
+	
 	private void repartirCartas() {
 		System.out.println("Se reparten cartas");
 		for (Entidad jugador : jugadores) {
@@ -100,7 +116,7 @@ public class Juego {
 		jugador.agregarCarta(carta);
 	}
 	
-/* TODO ESTO ES DEL COMPANY
+
 	public void marcarReinicio() {
 	    debeReiniciar = true;
 	}
@@ -122,8 +138,8 @@ public class Juego {
 		repartirCartas();
 		
 		System.out.println("Partida reiniciada por Company");
-	} TODO ESTO ES DEL COMPANY
-	*/
+	}
+
 	
 	public Entidad getJugadorActual() {
 		return jugadores.get(indiceJugadorActual);
@@ -176,10 +192,6 @@ public class Juego {
 	public void aumentarIndiceMesa() {
 		indiceMesa++;
 	}
-	
-	public void actualizar(){
-		
-	}
 
 	public int getDireccionRonda() {
 		return direccionRonda;
@@ -192,6 +204,31 @@ public class Juego {
 	public void setCantidadCartasMazo(int cantidadCartasMazo) {
 		this.cantidadCartasMazo = cantidadCartasMazo;
 	}
+
+	@Override
+	public void cambiarDireccion() {
+		invertirOrden();
+	}
+
+	@Override
+	public void robarCarta(Entidad jugador) {
+		robarCartaMazo(jugador);
+	}
+	
+	@Override
+    public void modificarPuntos(Entidad objetivo, int puntos, boolean esPorcentual) {
+        objetivo.modificarPuntos(puntos, esPorcentual);
+    }
+
+
+	/*@Override
+    public void onProgresoActualizado(float nuevoProgreso) {
+    }
+
+    @Override
+    public void onTiempoFinalizado() {
+        // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
+    }*/
 
 
 }

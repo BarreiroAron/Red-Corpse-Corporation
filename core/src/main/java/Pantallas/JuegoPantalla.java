@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.TimeUtils;
@@ -20,6 +21,9 @@ import cartasNormales.Redento;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
 
+import juegos.HiloTiempoPartida;
+import juegos.TiempoListener;
+
 
 public class JuegoPantalla implements Screen{
 
@@ -28,6 +32,8 @@ public class JuegoPantalla implements Screen{
 	Imagen Mesa;
 	Imagen Cartel;
 	Imagen Enemigo;
+	
+	Texture BarraDeTiempo;
 	
 	Carta tfp;
 	
@@ -40,10 +46,15 @@ public class JuegoPantalla implements Screen{
 	float mouseX = Gdx.input.getX();
 	float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+	 private float progreso = 1.0f;
+	 private HiloTiempoPartida hiloTiempo;
 	
-	public JuegoPantalla(Juego juego) {
-		this.juego=juego;
-	}
+	 public JuegoPantalla(Juego juego) {
+	        this.juego = juego;
+	      /*  hiloTiempo = new HiloTiempoPartida(this);
+	        hiloTiempo.setMinutos(3); // por ejemplo 3 minutos
+	        hiloTiempo.start();*/
+	  };
 	
 	@Override
 	public void show() {
@@ -53,7 +64,10 @@ public class JuegoPantalla implements Screen{
 		Cartel = new Imagen(Recursos.CARTEL);
 		Enemigo = new Imagen(Recursos.RIVAL1);
 		
+		BarraDeTiempo =  new Texture(Recursos.TEXTURA_BARRA);
+		
 		tfp = new ThanksForPlaying();
+		
 	}
 	
 	@Override
@@ -86,7 +100,7 @@ public class JuegoPantalla implements Screen{
 	private void dibujarMazo(SpriteBatch batch,Entidad jugador) {
 		Imagen espaldaCarta= new Imagen (Recursos.CARTA_ESPALDA);
 		float y = 150.f;
-		float x = 1500.f;
+		float x = 1650.f;
 		float anchoCarta = 150.f;
 	    float alturaCarta = 250.f;
         float width = anchoCarta;
@@ -111,6 +125,24 @@ public class JuegoPantalla implements Screen{
 		espaldaCarta.dibujar(batch, x, y, width, height);
 		
 	}
+	
+	private void dibujarBarraTiempo() {
+	    float progreso = hiloTiempo.getProgreso(); // de 1.0 a 0.0
+	    float anchoMax = 400;
+	    float altoBarra = 20;
+
+	    float anchoActual = anchoMax * progreso;
+
+	    float centroX = Gdx.graphics.getWidth() / 2f;
+	    float y = 50;
+
+	    float x = centroX - (anchoActual / 2f);
+
+	    
+	    Render.batch.begin();
+	    Render.batch.draw(BarraDeTiempo, x, y, anchoActual, altoBarra);
+	    Render.batch.end();
+	}
 
 	private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual) {
 		dibujarMano(Render.batch,juego.getJugadorActual());
@@ -120,7 +152,7 @@ public class JuegoPantalla implements Screen{
 	private void dibujarPuntos(Entidad jugador) {
 		BitmapFont bitmapFont = new BitmapFont();
 	          
-	          float posX = 1800f, posY = Gdx.graphics.getHeight() - 650f; 
+	          float posX = 1800f, posY = Gdx.graphics.getHeight() - 500f; 
 		bitmapFont.draw(Render.batch, String.valueOf(jugador.getPuntos()), posX, posY);
 	}
 
@@ -130,9 +162,10 @@ public class JuegoPantalla implements Screen{
 		float x =  (Gdx.graphics.getWidth()/2.f)-width/2;
         float y = Gdx.graphics.getHeight()/2.f;
         
-		if(juego.getIndiceMesa()>=1) {
-			juego.getMesa().getLast().getTexturaCarta().dibujar(batch, x, y, width, height);
-		}
+        if (!juego.getMesa().isEmpty()) {
+            Carta cartaSuperior = juego.getMesa().get(juego.getMesa().size() - 1);
+            cartaSuperior.getTexturaCarta().dibujar(batch, x, y, width, height);
+        }
 	}
 
 	public Carta dibujarMano(SpriteBatch batch, Entidad jugador) {
@@ -143,7 +176,7 @@ public class JuegoPantalla implements Screen{
 	    int cantidadCartas = mano.size();
 	    float anchoCarta = 150.f;
 	    float alturaCarta = 250.f;
-	    float espacioEntreCartas = 40.f;
+	    float espacioEntreCartas = 10.f;
 	   
 	    float anchoTotal = cantidadCartas * anchoCarta + (cantidadCartas - 1) * espacioEntreCartas;
 
@@ -178,7 +211,7 @@ public class JuegoPantalla implements Screen{
 	                	long tiempoActual = TimeUtils.millis();
 	                	
 	                    if (tiempoActual - ultimoClickTime >= cooldownMs) {
-	                        jugador.tirarCarta(carta,juego);
+	                    	juego.jugarCarta(carta, jugador);
 	                        juego.agregarCartaMesa(carta);
 	                        cartaAEliminar = carta;
 	                        juego.sumarRonda();
@@ -202,6 +235,18 @@ public class JuegoPantalla implements Screen{
 		mouseX = Gdx.input.getX();
 		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 	}
+	
+	/* @Override
+	    public void onProgresoActualizado(float nuevoProgreso) {
+	        this.progreso = nuevoProgreso;
+	    }
+
+	    @Override
+	    public void onTiempoFinalizado() {
+	        System.out.println("Se terminó el tiempo de la ronda.");
+	        // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
+	    }*/
+	
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub

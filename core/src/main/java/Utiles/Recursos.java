@@ -1,5 +1,7 @@
 package Utiles;
 
+import com.badlogic.gdx.graphics.Texture;
+
 public class Recursos {
 	
 	public  final static String FONDO= "FondoCarga.jpg" ; //imagen provisoria 
@@ -37,5 +39,7 @@ public class Recursos {
 	
 	// Cartas malas
 	public static final String PECADO_CODICIA = "PecadoDeLaCodiciaBETA.png";
+	
+	public static final String TEXTURA_BARRA = "barra.png";
 	
 }

@@ -46,6 +46,10 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private boolean debeReiniciar= false;
 	
+	private boolean partidaFinalizada= false;
+	
+	private boolean cartasDisponiblesMazo= true;
+
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
 	public Juego( ArrayList<Entidad> Jugadores){
@@ -97,8 +101,25 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public void actualizar(){
 		actualizarReiniciarPartida();
 		actualizarJugadorPerdedor();
+		comprobarPartidaTerminada();
+		actualizarCartasDisponiblesMazo();
 	}
 	
+	private void actualizarCartasDisponiblesMazo() {
+		if(!cartasDisponiblesMazo) {
+			rebarajearMesa();
+		}
+	}
+
+
+	private void comprobarPartidaTerminada() {
+		
+		if(jugadores.size()==1) {
+			partidaFinalizada=true;
+		}
+	}
+
+
 	private void actualizarJugadorPerdedor() {
 		 if (jugadorPerdedor != null) {
 		        System.out.println("Jugador eliminado: " + jugadorPerdedor.getNombre());
@@ -109,37 +130,37 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private void eliminarYReacomodarJugador(Entidad jugadorAEliminar) {
 	    if (jugadores.isEmpty()) return;
-
 	    int indexEliminado = jugadores.indexOf(jugadorAEliminar);
 	    if (indexEliminado == -1) return;
 
-	    // Eliminar jugador
+	    //Se agregan las cartas de la mano para no perderlas
+	    mazo.addAll(jugadores.get(indexEliminado).getMano());
+	    //Elimina el juagodor
 	    jugadores.remove(indexEliminado);
 
-	    // Ajustar índice actual
 	    if (jugadores.isEmpty()) {
 	        indiceJugadorActual = 0;
-	        return; // No hay más jugadores
+	        return;
 	    }
 
 	    if (indexEliminado < indiceJugadorActual) {
 	        indiceJugadorActual--;
 	    } else if (indexEliminado == indiceJugadorActual) {
-	        // Si eliminaste al jugador actual, el turno pasa al siguiente
-	        // pero ojo con wrap-around
+	    	
 	        if (indiceJugadorActual >= jugadores.size()) {
 	            indiceJugadorActual = 0;
 	        }
 	    }
 
-	    // Protección extra por las dudas
 	    if (indiceJugadorActual >= jugadores.size()) {
 	        indiceJugadorActual = jugadores.size() - 1;
 	    }
 	    
-	    hiloDeTiempo = new HiloTiempoPartida(this);
-        hiloDeTiempo.setMinutos(tiempo);
-        hiloDeTiempo.start();
+	    if(jugadores.size()>1){
+	    	hiloDeTiempo = new HiloTiempoPartida(this);
+	        hiloDeTiempo.setMinutos(tiempo);
+	        hiloDeTiempo.start();
+	    }
 	}
 
 
@@ -166,8 +187,18 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public void robarCartaMazo(Entidad jugador) {
 		Carta carta = mazo.remove(0);
 		jugador.agregarCarta(carta);
+		if(mazo.size()==0) {
+			cartasDisponiblesMazo=false;
+		}
 	}
 	
+
+	private void rebarajearMesa(){
+		mazo.addAll(mesa);
+		mesa.clear();
+		cartasDisponiblesMazo=true;
+	}
+
 
 	public void marcarReinicio() {
 	    debeReiniciar = true;
@@ -311,6 +342,10 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.indiceJugadorActual = cambioDeIndice;
 	}
 	
+	public boolean isPartidaFinalizada() {
+		return partidaFinalizada;
+	}
+	
 	@Override
 	public void cambiarDireccion() {
 		invertirOrden();
@@ -338,7 +373,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
     @Override
     public void onTiempoFinalizado() {
-    	asignarJugadorPerdedor();
+    		asignarJugadorPerdedor();
     }
 
 }

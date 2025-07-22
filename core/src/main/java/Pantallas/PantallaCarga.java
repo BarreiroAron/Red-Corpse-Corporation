@@ -2,6 +2,7 @@ package Pantallas;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -15,6 +16,8 @@ import cartas.Imagen;
 import juegos.Juego;
 
 public class PantallaCarga implements Screen {
+	
+	private final Game game;
 	
 	Imagen fondo;
 	final float sumaDeTransparencia = 0.1f;
@@ -30,6 +33,10 @@ public class PantallaCarga implements Screen {
 	Entidad entidad3 = new Rival("Entidad 3", 100);
 
 	Juego juego;
+	
+	public PantallaCarga(Game game) {
+        this.game = game;
+    }
 	
 	@Override
 	public void show() { 
@@ -68,7 +75,7 @@ public class PantallaCarga implements Screen {
 					
 					f=0;
 					juego= new Juego(jugadores);
-					Render.inicio.setScreen(new JuegoPantalla(juego));
+					game.setScreen(new JuegoPantalla(game, new Juego(jugadores)));
 					
 				}
 			}

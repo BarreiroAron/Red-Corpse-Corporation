@@ -45,3 +45,6 @@
 22) -- Julio 20 2025 -- Domingo... Se introdujo sonido al videojuego mediante las librerias com.badlogic.gdx.Gdx y com.badlogic.gdx.audio.Sound. Introduciendo sonido al tirar las cartas y un sonido ambiental de una ventilacion de aire en la pared. Como sonido ambiental tambien fue agregado un skillcheck con sonido de disparos a las afueras de la compañia (estas funciones fueron metidas en un hilo). Tambien se agrego el funcioaniento de OjoQueTodoLoVe y provisoriamente se agrego una alerta para comprobar que la carta es funcional a la hora de jugar el videojuego.
 
 22) -- Julio 21 2025 -- Se eliminan jugadores al terminar el contador y la informacion de el progreso del hilo es directo en juego y no son dos distintos
+
+22) -- Julio 22 2025 -- Cuando se termina el contador y solo queda 1 jugador se da como jugador ganado y se reinicia el juego, tambien las cartas de los jugadores muertos se agregan al mazo y si se termina las cartas del mazo se agarran las de la mesa 
+

@@ -2,6 +2,7 @@ package Pantallas;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
@@ -42,7 +43,8 @@ public class JuegoPantalla implements Screen{
 	private long cooldownMs = 500; 
 	private long ultimoClickTime = 0;
 	
-	Juego juego;
+	private final Game game; // para cambiar pantalla
+	private final Juego juego; // tu lógica
 	
 	//variables para detectar el mouse
 	float mouseX = Gdx.input.getX();
@@ -53,9 +55,10 @@ public class JuegoPantalla implements Screen{
 	
 	 private Sound CartaTirada;
 	 
-	 public JuegoPantalla(Juego juego) {
-	        this.juego = juego;
-	  };
+	 public JuegoPantalla(Game game, Juego juego) {
+		    this.game = game;
+		    this.juego = juego;
+	}
 	
 	@Override
 	public void show() {
@@ -73,6 +76,11 @@ public class JuegoPantalla implements Screen{
 	
 	@Override
 	public void render(float delta) {
+		
+		 update(delta);
+		 
+		 if (juego.isPartidaFinalizada()) return;
+		
 		Render.limpiarPantalla();
 		
 		Render.batch.begin();
@@ -95,6 +103,14 @@ public class JuegoPantalla implements Screen{
 		
 		juego.actualizar();
 		actualizarMouse();
+	}
+	
+	private void update(float delta) {
+		
+	    if (juego.isPartidaFinalizada()) {
+	    	game.setScreen(new PantallaCarga(game));
+	        return;
+	    }
 	}
 
 	//despues ver de generalizar metodos de aumento y click para dibujar mazo y dibujar mano

@@ -2,13 +2,15 @@ package juegos;
 
 public class HiloTiempoPartida extends Thread {
 
-    private int tiempoInicial;    // milisegundos
-    private int tiempoRestante;   // milisegundos
+    private float tiempoInicial;    // milisegundos
+    private float tiempoRestante;   // milisegundos
 
     private volatile float progreso = 1.0f; // entre 1.0 y 0.0
     private boolean enEjecucion = false;
 
     private final TiempoListener listener;
+    
+    private boolean terminado = false;
 
     public HiloTiempoPartida(TiempoListener listener) {
         this.listener = listener;
@@ -17,8 +19,8 @@ public class HiloTiempoPartida extends Thread {
     /**
      * Reinicia el hilo con una nueva duracion en minutos.
      */
-    public void setMinutos(int minutos) {
-        this.tiempoInicial = minutos * 60 * 1000;
+    public void setMinutos(float tiempo) {
+        this.tiempoInicial = tiempo * 60 * 1000;
         this.tiempoRestante = tiempoInicial;
         this.progreso = 1.0f;
         this.enEjecucion = true;
@@ -30,7 +32,10 @@ public class HiloTiempoPartida extends Thread {
     public void detener() {
         this.enEjecucion = false;
     }
-
+    
+    public void terminar() {
+        terminado = true;
+    }
     /**
      * Devuelve el progreso actual (entre 1.0 y 0.0).
      */
@@ -40,7 +45,7 @@ public class HiloTiempoPartida extends Thread {
 
     @Override
     public void run() {
-        while (true) {
+        while (!terminado) {
             if (!enEjecucion || tiempoRestante <= 0) {
                 if (tiempoRestante <= 0 && listener != null) {
                     progreso = 0.0f;

@@ -27,7 +27,7 @@ import juegos.HiloTiempoPartida;
 import juegos.TiempoListener;
 
 
-public class JuegoPantalla implements Screen,TiempoListener{
+public class JuegoPantalla implements Screen{
 
 	BitmapFont bitmapFont;
 	
@@ -55,9 +55,6 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	 
 	 public JuegoPantalla(Juego juego) {
 	        this.juego = juego;
-	        hiloTiempo = new HiloTiempoPartida(this);
-	        hiloTiempo.setMinutos(3);
-	        hiloTiempo.start();
 	  };
 	
 	@Override
@@ -83,7 +80,7 @@ public class JuegoPantalla implements Screen,TiempoListener{
 		Mesa.dibujar();
 		Cartel.dibujar();
 		
-		 dibujarPuntos(juego.getJugadorActual());
+		dibujarPuntos(juego.getJugadorActual());
 		
 		dibujarInterfazJugador(Render.batch,juego.getJugadorActual());
 		
@@ -131,7 +128,7 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	}
 	
 	private void dibujarBarraTiempo() {
-	    float progreso = hiloTiempo.getProgreso(); // de 1.0 a 0.0
+	    float progreso = juego.getProgresoTiempo(); // de 1.0 a 0.0
 	    float anchoMax = 400;
 	    float altoBarra = 20;
 
@@ -151,6 +148,7 @@ public class JuegoPantalla implements Screen,TiempoListener{
 	}
 
 	private void dibujarPuntos(Entidad jugador) {
+		 if (jugador == null) return;
 		   float posX = Gdx.graphics.getWidth() - 150f;
 		    float posY = Gdx.graphics.getHeight() - 50f;
 		    bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
@@ -241,17 +239,6 @@ public class JuegoPantalla implements Screen,TiempoListener{
 		CartaTirada = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
 		CartaTirada.play();
 	}
-	
-	@Override
-	    public void onProgresoActualizado(float nuevoProgreso) {
-	        this.progreso = nuevoProgreso;
-	    }
-
-	    @Override
-	    public void onTiempoFinalizado() {
-	        System.out.println("Se terminó el tiempo de la ronda.");
-	        // Acá podrías decidir reiniciar el hilo o pasar a otro estado del juego
-	   }
 	
 	@Override
 	public void resize(int width, int height) {

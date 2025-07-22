@@ -37,9 +37,12 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private int indiceMesa=0;
 	private int indiceMazo=0;
 	private int indiceJugadorActual=0;
-	private int tiempo =2;
+	private float tiempo =0.5f;
 	private int rondas=0;
 	
+	Entidad jugadorPerdedor=null;
+	
+	HiloTiempoPartida hiloDeTiempo;
 	
 	private boolean debeReiniciar= false;
 	
@@ -49,9 +52,9 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.jugadores= Jugadores;
 		iniciarMazo();
 		repartirCartas();
-		HiloTiempoPartida hiloDeTiempo = new HiloTiempoPartida(this);
-		hiloDeTiempo.setMinutos(tiempo);
-		hiloDeTiempo.start();
+		this.hiloDeTiempo = new HiloTiempoPartida(this);
+		this.hiloDeTiempo.setMinutos(tiempo);
+		this.hiloDeTiempo.start();
 		VentiladorHilo VentiladorHilo = new VentiladorHilo();
 		VentiladorHilo.start();
 	}
@@ -93,8 +96,53 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	public void actualizar(){
 		actualizarReiniciarPartida();
+		actualizarJugadorPerdedor();
 	}
 	
+	private void actualizarJugadorPerdedor() {
+		 if (jugadorPerdedor != null) {
+		        System.out.println("Jugador eliminado: " + jugadorPerdedor.getNombre());
+		        eliminarYReacomodarJugador(jugadorPerdedor);
+		        jugadorPerdedor = null;
+		    }
+	}
+	
+	private void eliminarYReacomodarJugador(Entidad jugadorAEliminar) {
+	    if (jugadores.isEmpty()) return;
+
+	    int indexEliminado = jugadores.indexOf(jugadorAEliminar);
+	    if (indexEliminado == -1) return;
+
+	    // Eliminar jugador
+	    jugadores.remove(indexEliminado);
+
+	    // Ajustar índice actual
+	    if (jugadores.isEmpty()) {
+	        indiceJugadorActual = 0;
+	        return; // No hay más jugadores
+	    }
+
+	    if (indexEliminado < indiceJugadorActual) {
+	        indiceJugadorActual--;
+	    } else if (indexEliminado == indiceJugadorActual) {
+	        // Si eliminaste al jugador actual, el turno pasa al siguiente
+	        // pero ojo con wrap-around
+	        if (indiceJugadorActual >= jugadores.size()) {
+	            indiceJugadorActual = 0;
+	        }
+	    }
+
+	    // Protección extra por las dudas
+	    if (indiceJugadorActual >= jugadores.size()) {
+	        indiceJugadorActual = jugadores.size() - 1;
+	    }
+	    
+	    hiloDeTiempo = new HiloTiempoPartida(this);
+        hiloDeTiempo.setMinutos(tiempo);
+        hiloDeTiempo.start();
+	}
+
+
 	public void jugarCarta(Carta carta, Entidad jugador) {
 		Entidad enemigo = carta.getEnemigoDeterminado(jugadores,jugador);
 		jugador.modificarPuntos(carta.getPuntosDisminuidos(), carta.getPorcentual());
@@ -182,9 +230,37 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    }
 	}
 	
-	public Entidad getJugadorActual() {
-		return jugadores.get(indiceJugadorActual);
+	private void asignarJugadorPerdedor() {
+	    if (jugadores.isEmpty()) return;
+
+	    Entidad perdedor = jugadores.get(0);
+	    int mayorPuntaje = perdedor.getPuntos();
+
+	    for (Entidad jugador : jugadores) {
+	        if (jugador.getPuntos() > mayorPuntaje) {
+	            perdedor = jugador;
+	            mayorPuntaje = jugador.getPuntos();
+	        }
+	    }
+
+	    jugadorPerdedor = perdedor;
+
+	    if (hiloDeTiempo != null) {
+	        hiloDeTiempo.terminar();
+	    }
 	}
+
+	
+	public Entidad getJugadorActual() {
+	    if (jugadores.isEmpty()) return null;
+
+	    if (indiceJugadorActual >= jugadores.size()) {
+	        indiceJugadorActual = 0;
+	    }
+
+	    return jugadores.get(indiceJugadorActual);
+	}
+
 	
 	private int getIndiceJugador() {
 		return indiceJugadorActual;
@@ -245,6 +321,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		robarCartaMazo(jugador);
 	}
 	
+	public float getProgresoTiempo() {
+	    if (hiloDeTiempo == null) return 0f;
+	    return hiloDeTiempo.getProgreso(); // ← accede al hilo real
+	}
+	
 	@Override
     public void modificarPuntos(Entidad objetivo, int puntos, boolean esPorcentual) {
         objetivo.modificarPuntos(puntos, esPorcentual);
@@ -257,6 +338,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
     @Override
     public void onTiempoFinalizado() {
+    	asignarJugadorPerdedor();
     }
 
 }

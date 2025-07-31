@@ -23,6 +23,7 @@ import cartasNormales.Redento;
 import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
+import sonidos.SonidoAmbientalHilo;
 
 public class Juego implements ControladorDeJuego, TiempoListener {
 	
@@ -59,7 +60,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.hiloDeTiempo = new HiloTiempoPartida(this);
 		this.hiloDeTiempo.setMinutos(tiempo);
 		this.hiloDeTiempo.start();
-		VentiladorHilo VentiladorHilo = new VentiladorHilo();
+		SonidoAmbientalHilo VentiladorHilo = new SonidoAmbientalHilo();
 		VentiladorHilo.start();
 	}
 

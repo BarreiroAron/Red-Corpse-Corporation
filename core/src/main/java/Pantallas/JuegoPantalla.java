@@ -243,7 +243,7 @@ public class JuegoPantalla implements Screen{
 	                    });
 
 	            ultimoClickTime = TimeUtils.millis();
-	            clicProcesado   = true;             // ← ya no entra en otros clics
+	            clicProcesado   = true;             // ya no entra en otros clics
 	        }
 
 	        indice++;

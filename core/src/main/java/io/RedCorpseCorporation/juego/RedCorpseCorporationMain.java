@@ -31,8 +31,9 @@ public class RedCorpseCorporationMain extends Game {
     public void create() {
         Render.inicio = this;
         Render.batch = new SpriteBatch();
+        setScreen(new menues.MenuPrincipal(this));
 
-        this.setScreen(new PantallaCarga(this)); // ✅ Pasás this como Game
+       // this.setScreen(new PantallaCarga(this)); // ✅ Pasás this como Game
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);

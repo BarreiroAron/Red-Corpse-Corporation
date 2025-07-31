@@ -29,6 +29,8 @@ public class MenuPrincipal implements Screen {
     private float xBoton, yBotonJugar, yBotonOpciones, yBotonSalir;
     private float anchoBoton = 309, altoBoton = 115;
 
+    SonidoMenuPrincipalHilo sonidoMenuPrincipalHilo;
+    
     public MenuPrincipal(Game game) {
         this.game = game;
     }
@@ -44,8 +46,8 @@ public class MenuPrincipal implements Screen {
         botonSalir = new Imagen("salirBoton.png");
 
         
-        SonidoMenuPrincipalHilo sonidoMenuPrincipalHilo = new SonidoMenuPrincipalHilo();
-		sonidoMenuPrincipalHilo.start();
+        this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipalHilo();
+		this.sonidoMenuPrincipalHilo.start();
 
         xBoton = (Util.getAnchoPantalla() - anchoBoton) / 2f;
         yBotonJugar = 400f;
@@ -72,7 +74,10 @@ public class MenuPrincipal implements Screen {
         if (Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.LEFT)) {
             if (hoverJugar) {
                 game.setScreen(new PantallaCarga(game));
-            } else if (hoverSalir) {
+            }else if(hoverOpciones) {
+            	game.setScreen(new MenuOpciones(game, this));
+            }
+            else if (hoverSalir) {
                 Gdx.app.exit();
             }
         }
@@ -86,7 +91,7 @@ public class MenuPrincipal implements Screen {
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}
     @Override public void resume() {}
-    @Override public void hide() {}
-    @Override public void dispose() {
+    @Override public void hide() { sonidoMenuPrincipalHilo.stop();}
+    @Override public void dispose() { sonidoMenuPrincipalHilo.stop();
     }
 }

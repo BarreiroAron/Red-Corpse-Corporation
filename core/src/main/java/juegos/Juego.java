@@ -24,6 +24,7 @@ import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 import sonidos.SonidoAmbientalHilo;
+import sonidos.SonidoManager;
 
 public class Juego implements ControladorDeJuego, TiempoListener {
 	
@@ -61,7 +62,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.hiloDeTiempo.setMinutos(tiempo);
 		this.hiloDeTiempo.start();
 		SonidoAmbientalHilo VentiladorHilo = new SonidoAmbientalHilo();
-		VentiladorHilo.start();
 	}
 
 

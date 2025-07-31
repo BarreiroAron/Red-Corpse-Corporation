@@ -18,19 +18,16 @@ public class SonidoMenuPrincipalHilo {
     }
     
     public void start() {
-        Thread soundThread = new Thread(new Runnable() {
-        	public void run() {
-        		idSonidoRedCorpseCorporation = sonidoRedCorpseCorporation.play();
-        }
-       });
-        soundThread.start();
+        Thread t = new Thread(() ->
+            idSonidoRedCorpseCorporation =
+                SonidoManager.i().playAmbientLoop(sonidoRedCorpseCorporation));
+        t.start();
     }
-    
-    public void stop() {
+
+    public void stop(){
     	audioCorre = false;
-        if (sonidoRedCorpseCorporation != null) {
-        	sonidoRedCorpseCorporation.stop(idSonidoRedCorpseCorporation);
-        	sonidoRedCorpseCorporation.dispose();
-        }
+        SonidoManager.i().stopAmbientLoop(idSonidoRedCorpseCorporation);
+        sonidoRedCorpseCorporation.dispose();
     }
+
 }

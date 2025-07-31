@@ -27,6 +27,7 @@ import juegos.Juego;
 
 import juegos.HiloTiempoPartida;
 import juegos.TiempoListener;
+import sonidos.SonidoManager;
 
 
 public class JuegoPantalla implements Screen{
@@ -257,7 +258,7 @@ public class JuegoPantalla implements Screen{
 	}
 	
 	public void sonidoCartaTirada() {
-	    this.CartaTirada.play();
+		SonidoManager.i().playSfx(this.CartaTirada);
 	}
 	
 	@Override

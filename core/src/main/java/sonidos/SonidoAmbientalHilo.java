@@ -15,67 +15,38 @@ public class SonidoAmbientalHilo {
 
     public SonidoAmbientalHilo() {
         sonidoVentilador = Gdx.audio.newSound(Gdx.files.internal("VentiladorPared.ogg"));
-        sonidoDisparo = Gdx.audio.newSound(Gdx.files.internal("SonidoDisparo.mp3"));
+        sonidoDisparo    = Gdx.audio.newSound(Gdx.files.internal("SonidoDisparo.mp3"));
         audioCorre = true;
         start();
     }
 
-    public void start() {
-        Thread soundThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (audioCorre) {
-                    final int sonidoArmaAleatorio = Util.sacarNumeroRandom(probabilidadDisparo);
+    private void start() {
+        Thread t = new Thread(() -> {
+            // 1) Arranca el loop del ventilador con el volumen global de ambiente
+            idSonidoVentilador = SonidoManager.i().playAmbientLoop(sonidoVentilador);
 
-                    Gdx.app.postRunnable(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (sonidoVentilador != null && audioCorre) {
-                                idSonidoVentilador = sonidoVentilador.play();
-                            }
-                        }
-                    });
-
-                    try {
-                        Thread.sleep(10_000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-
-                    if (sonidoArmaAleatorio == 777) {
-                        Gdx.app.postRunnable(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (sonidoDisparo != null && audioCorre) {
-                                    sonidoDisparo.play();
-                                }
-                            }
-                        });
-                    }
+            while (audioCorre) {
+                if (Util.sacarNumeroRandom(probabilidadDisparo) == 777) {
+                    // 2) Disparo puntual al volumen de SFX
+                    Gdx.app.postRunnable(() ->
+                        SonidoManager.i().playSfx(sonidoDisparo));
                 }
+                try {
+					Thread.sleep(10_000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
-
-        soundThread.start();
+        t.start();
     }
 
-    public void stop() {
+    public void stop(){
         audioCorre = false;
-
-        Gdx.app.postRunnable(new Runnable() {
-            @Override
-            public void run() {
-                if (sonidoVentilador != null) {
-                    sonidoVentilador.stop(idSonidoVentilador);
-                    sonidoVentilador.dispose();
-                    sonidoVentilador = null;
-                }
-
-                if (sonidoDisparo != null) {
-                    sonidoDisparo.dispose();
-                    sonidoDisparo = null;
-                }
-            }
-        });
+        SonidoManager.i().stopAmbientLoop(idSonidoVentilador);
+        sonidoVentilador.dispose();
+        sonidoDisparo.dispose();
     }
+
 }

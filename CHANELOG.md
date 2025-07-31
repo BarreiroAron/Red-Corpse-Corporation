@@ -50,4 +50,7 @@
 
 25) -- Julio 30 2025 -- Se realizo cambios en las animaciones para poder hacerlas de manera mas dinamicas y aplicables a toda imagen sin problemas de manera que no se repita codigo.
 
+26) -- Juluo 30 2025 -- Se introdujo al codigo un menu con las opciones de "Jugar" (nos manda directamente al videojuego), "Opciones" (aun no hace sus respectivas funciones) y "Salir" (cierra el juego). Como extra: Tambien se introdujo sonidos al menu nuevo.
+                                 Se arreglo un bug que el codigo del sonido ambiental del ventilador tenia, a la hora de cerrar el juego, el hilo del ventilador seguia corriendo y por ende, habia un momento en donde tiraba error este hilo. No afectaba nada al juego ya que tiraba error a la hora de cerrar todo. Pero claramente es una mala practica asi que decidimos arreglarlo (tambien el bug presentaba cosas extrañas como que a la hora de cerrar el codigo, se apagaba y se volvia a encender pero sin nada).
+
 

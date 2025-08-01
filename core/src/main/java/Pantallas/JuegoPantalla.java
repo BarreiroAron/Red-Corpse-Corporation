@@ -27,6 +27,7 @@ import juegos.Juego;
 
 import juegos.HiloTiempoPartida;
 import juegos.TiempoListener;
+import menues.MenuPrincipal;
 import sonidos.SonidoManager;
 
 
@@ -62,6 +63,8 @@ public class JuegoPantalla implements Screen{
 	 final float CENTRODEMESAX =  (Gdx.graphics.getWidth()/2.f)-ANCHOCARTA/2;
 	 final float CENTRODEMESAY = Gdx.graphics.getHeight()/2.f;
 	 
+	 private boolean menuPausaActivo = false;
+	 
 	 public JuegoPantalla(Game game, Juego juego) {
 		    this.game = game;
 		    this.juego = juego;
@@ -87,6 +90,7 @@ public class JuegoPantalla implements Screen{
 	
 	@Override
 	public void render(float delta) {
+		this.menuPausaActivo = false;
 		
 		 update(delta);
 		 
@@ -120,9 +124,15 @@ public class JuegoPantalla implements Screen{
 	}
 	
 	private void update(float delta) {
-		
+	    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+	        if (!menuPausaActivo) {
+	            game.setScreen(new MenuPrincipal(game, this));
+	            menuPausaActivo = true;
+	        }
+	    }
+
 	    if (juego.isPartidaFinalizada()) {
-	    	game.setScreen(new PantallaCarga(game));
+	        game.setScreen(new PantallaCarga(game));
 	        return;
 	    }
 	}
@@ -198,7 +208,7 @@ public class JuegoPantalla implements Screen{
 	    float inicioX = (Gdx.graphics.getWidth() - total) / 2f;
 	    
 	    
-	    boolean clicProcesado = false;   // determina el fin del proceso
+	    boolean clicProcesado = false;   // determina fin del proceso
 
 	    int indice = 0;
 	    for (Carta carta : mano) {
@@ -221,7 +231,7 @@ public class JuegoPantalla implements Screen{
 	        }
 
 	        //logica del click
-	        if (!clicProcesado                      // si se proceso el click
+	        if (!clicProcesado                      
 	            && hovered
 	            && Gdx.input.justTouched()
 	            && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
@@ -244,13 +254,14 @@ public class JuegoPantalla implements Screen{
 	                    });
 
 	            ultimoClickTime = TimeUtils.millis();
-	            clicProcesado   = true;             // ya no entra en otros clics
+	            clicProcesado   = true;            
 	        }
 
 	        indice++;
 	    }
 	}
 
+	
 	
 	private void actualizarMouse() {
 		mouseX = Gdx.input.getX();

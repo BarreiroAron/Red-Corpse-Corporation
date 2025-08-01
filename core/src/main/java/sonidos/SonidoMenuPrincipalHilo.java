@@ -7,27 +7,27 @@ import Utiles.Util;
 
 public class SonidoMenuPrincipalHilo {
 	
-	private long idSonidoRedCorpseCorporation;
-    private Sound sonidoRedCorpseCorporation;
+	private long idSonidoSoundract;
+    private Sound sonidoSoundract;
     private boolean audioCorre;
     
     public SonidoMenuPrincipalHilo() {
-    	sonidoRedCorpseCorporation = Gdx.audio.newSound(Gdx.files.internal("RedCorpseCorporationAudio.wav"));
+    	sonidoSoundract = Gdx.audio.newSound(Gdx.files.internal("BalatroOrquestaSoundractProvisorio.mp3"));
     	audioCorre = true;
         start();
     }
     
     public void start() {
         Thread t = new Thread(() ->
-            idSonidoRedCorpseCorporation =
-                SonidoManager.i().playAmbientLoop(sonidoRedCorpseCorporation));
+            idSonidoSoundract =
+                SonidoManager.i().playAmbientLoop(sonidoSoundract));
         t.start();
     }
 
     public void stop(){
     	audioCorre = false;
-        SonidoManager.i().stopAmbientLoop(idSonidoRedCorpseCorporation);
-        sonidoRedCorpseCorporation.dispose();
+        SonidoManager.i().stopAmbientLoop(idSonidoSoundract);
+        sonidoSoundract.dispose();
     }
 
 }

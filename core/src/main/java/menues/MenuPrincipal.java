@@ -7,6 +7,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.Input.Buttons;
+import com.badlogic.gdx.audio.Sound;
 
 import Pantallas.PantallaCarga;
 import Utiles.Animaciones;
@@ -31,8 +32,20 @@ public class MenuPrincipal implements Screen {
 
     SonidoMenuPrincipalHilo sonidoMenuPrincipalHilo;
     
+    private Screen pantallaAnterior;
+    private boolean pausa = false;
+    
+    private Sound redCorpseCorporationAudio;
+    private long idRedCorpseCorporationAudio;
+    
     public MenuPrincipal(Game game) {
         this.game = game;
+    }
+    
+    public MenuPrincipal(Game game, Screen pantallaAnterior) {
+        this.game = game;
+        this.pantallaAnterior = pantallaAnterior;
+        this.pausa = true;
     }
 
     @Override
@@ -44,7 +57,8 @@ public class MenuPrincipal implements Screen {
         botonJugar = new Imagen("jugarBoton.png");
         botonOpciones = new Imagen("opcionesBoton.png");
         botonSalir = new Imagen("salirBoton.png");
-
+        
+        startAudio();
         
         this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipalHilo();
 		this.sonidoMenuPrincipalHilo.start();
@@ -70,23 +84,44 @@ public class MenuPrincipal implements Screen {
         boolean hoverSalir = Animaciones.animarHover(batch, botonSalir, xBoton, yBotonSalir, anchoBoton, altoBoton, mouseX, mouseY, 1.1f, 10f, delta);
         
         batch.end();
-
+        
         if (Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.LEFT)) {
             if (hoverJugar) {
-                game.setScreen(new PantallaCarga(game));
-            }else if(hoverOpciones) {
-            	game.setScreen(new MenuOpciones(game, this));
-            }
-            else if (hoverSalir) {
+                if (pausa && pantallaAnterior != null) {
+                    game.setScreen(pantallaAnterior);
+                } else {
+                    game.setScreen(new PantallaCarga(game));
+                }
+            } else if (hoverOpciones) {
+                game.setScreen(new MenuOpciones(game, this));
+            } else if (hoverSalir) {
                 Gdx.app.exit();
             }
         }
+
 
     }
 
     private boolean estaDentro(float mx, float my, float x, float y, float w, float h) {
         return mx >= x && mx <= x + w && my >= y && my <= y + h;
     }
+    
+    public void startAudio() {
+        if (redCorpseCorporationAudio == null) {
+            redCorpseCorporationAudio = Gdx.audio.newSound(Gdx.files.internal("RedCorpseCorporationAudio.wav")); // Cambiá el nombre si hace falta
+            idRedCorpseCorporationAudio = redCorpseCorporationAudio.play();
+            redCorpseCorporationAudio.setLooping(idRedCorpseCorporationAudio, false); // No se repite
+        }
+    }
+
+    public void stopAudio() {
+        if (redCorpseCorporationAudio != null) {
+            redCorpseCorporationAudio.stop(idRedCorpseCorporationAudio);
+            redCorpseCorporationAudio.dispose();
+            redCorpseCorporationAudio = null;
+        }
+    }
+
 
     @Override public void resize(int width, int height) {}
     @Override public void pause() {}

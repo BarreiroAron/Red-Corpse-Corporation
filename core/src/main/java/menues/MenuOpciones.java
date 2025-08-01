@@ -64,9 +64,11 @@ public class MenuOpciones implements Screen {
         ambientSlider = new Slider(0, 1, 0.01f, false, sliderStyle);
         ambientSlider.setValue(SonidoManager.i().getAmbientVolume());
         ambientSlider.addListener(new ChangeListener() {
+        	
             @Override public void changed(ChangeEvent event, Actor actor) {
                 SonidoManager.i().setAmbientVolume(ambientSlider.getValue());
             }
+            
         });
 
         sfxSlider = new Slider(0, 1, 0.01f, false, sliderStyle);

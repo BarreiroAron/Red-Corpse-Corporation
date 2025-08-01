@@ -22,12 +22,10 @@ public class SonidoAmbientalHilo {
 
     private void start() {
         Thread t = new Thread(() -> {
-            // 1) Arranca el loop del ventilador con el volumen global de ambiente
             idSonidoVentilador = SonidoManager.i().playAmbientLoop(sonidoVentilador);
 
             while (audioCorre) {
                 if (Util.sacarNumeroRandom(probabilidadDisparo) == 777) {
-                    // 2) Disparo puntual al volumen de SFX
                     Gdx.app.postRunnable(() ->
                         SonidoManager.i().playSfx(sonidoDisparo));
                 }

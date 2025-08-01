@@ -66,3 +66,6 @@ Como algo extra. Se puede configurar el run para hacer un run personalizado de R
 
 <img width="717" height="598" alt="image" src="https://github.com/user-attachments/assets/02683523-d415-423a-8971-bbbec599761b" />
 
+Si todo sale de perlas! El juego se va a ver asi al ejecutar: 
+
+<img width="1360" height="736" alt="image" src="https://github.com/user-attachments/assets/5d71398b-4f72-49ac-affd-610466192350" />

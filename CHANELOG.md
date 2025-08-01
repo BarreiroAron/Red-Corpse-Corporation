@@ -1,5 +1,78 @@
+# Changelog
 
-1)  -- Mayo 18 2025 -- Creamos el README.md.   -- Alpha 0.1 --
+Este archivo documenta los cambios importantes realizados en el proyecto **RED CORPSE CORPORATION**.
+
+---
+
+## [Unreleased]
+
+---
+
+## [Alpha 0.1]
+
+---
+
+### Añadidos
+- README.md creado. -- 2025-05-18 --
+- Proyecto inicial de `libGDX` configurado y compilado correctamente en Eclipse / IntelliJ. -- 2025-05-18 --
+- Instalación y configuración de Git con conexión al repositorio GitHub. -- 2025-05-18 --
+- Primeros sprites integrados (creados entre mayo 18 y julio 2). -- 2025-07-02 --
+- Pantalla principal con menús funcionales: "Jugar", "Opciones" y "Salir". -- 2025-07-30 --
+- Implementación de sonido en el menú y dentro del juego (cartas, ventilación, skillcheck, etc.). -- 2025-07-20 --
+- División del audio en "ambiente" y "efectos", con control deslizante desde el menú de opciones. -- 2025-07-30 --
+- Pantalla de carga integrada. -- 2025-07-02 --
+- Mazo de cartas creado con lógica inicial. -- 2025-07-10 --
+- Sistema de jugador y jugador rival añadido. -- 2025-07-10 --
+- Se agregó clase `Carta` y sus efectos base. -- 2025-07-14 --
+- Implementación de hilos para controlar el tiempo de ronda (2 minutos por partida). -- 2025-07-18 --
+- Al terminar el tiempo, se determina un ganador. -- 2025-07-18 --
+- Sistema de puntajes implementado y modificado por efectos de cartas. -- 2025-07-14 --
+- SonidoManager incorporado para controlar audio dinámicamente. -- 2025-07-20 --
+- Sistema de pausa implementado mediante tecla `Esc`. -- 2025-08-01 --
+- Nuevos assets: reemplazo del `Mímico` provisorio y música ambiental provisoria. -- 2025-08-01 --
+
+### Cambios
+- FPS limitados a 60 para estabilidad general del juego. -- 2025-07-10 --
+- Dimensiones de pantalla ajustadas a resolución estándar de monitores de PC. -- 2025-07-10 --
+- Sprites redimensionados para mejor ajuste gráfico. -- 2025-07-10 --
+- Rediseño completo del control de cartas:  
+  - Ahora cada carta tiene posición X/Y, imagen, tipo y descripción dinámica visible con el mouse.  
+  - Cartas descartadas correctamente tras su uso. -- 2025-07-14 --
+- Reorganización del código bajo el principio de responsabilidad única:  
+  - Se creó `ControladorDeJuego` con interfaces para facilitar efectos complejos. -- 2025-07-14 --
+- Implementación de `enum EnemigoDeterminado` para lógica de objetivo dinámico. -- 2025-07-14 --
+- Las cartas “Cambio de Ronda” y “Saltamontes” ahora aplican sus efectos correctamente. -- 2025-07-18 --
+- Lógica del mazo mejorada: si se acaba, se reutilizan cartas de la mesa. -- 2025-07-18 --
+- Animaciones refactorizadas para ser dinámicas y reutilizables. -- 2025-07-22 --
+- Mejora visual en el menú principal y en la pantalla de opciones. -- 2025-07-30 --
+
+### Arreglos
+- Bug del sonido ambiental (ventilador) que seguía activo al cerrar el juego fue solucionado. -- 2025-07-30 --
+- Correcciones menores visuales y de lógica durante la transición entre pantallas. -- 2025-07-22 --
+- Se optimizó el uso de hilos para evitar errores al finalizar partidas. -- 2025-07-22 --
+
+
+
+---
+
+
+## Fechas significativas:
+
+- **Mayo 18, 2025** – Inicio del proyecto, creación del README.md, configuración de libGDX y Git.
+- **Julio 2–10, 2025** – Se integran gráficos, lógica básica del juego, cartas, jugadores, y pantalla de carga.
+- **Julio 14–22, 2025** – Lógica avanzada de cartas, puntos, rondas, hilos, audio y efectos implementados.
+- **Julio 30, 2025** – Introducción del menú principal, opciones de audio, fixes críticos y pantalla de opciones.
+- **Agosto 1, 2025** – Mejora de la gestión de sonido, implementación de menú de pausa y nuevos assets.
+
+
+---
+
+
+
+- Cambios con mas explicación a fondo:
+
+
+1)  -- Mayo 18 2025 -- Creamos el README.md.
 
 2)  -- Mayo 18 2025 -- Creamos el proyecto libGDX y lo compilamos para ver que ande en el eclipse o InteliJ.  
 

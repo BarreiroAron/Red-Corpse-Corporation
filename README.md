@@ -1,4 +1,4 @@
-<img width="1359" height="578" alt="image" src="https://github.com/user-attachments/assets/eb87ff3d-f572-4367-a975-707190899198" />                                                 R E D   C O R P S E   C O R P O R A T I O N
+                                           R E D   C O R P S E   C O R P O R A T I O N
 
 o- integrantes del grupo:
                           Lucas Giordano - Aron Barreiro.

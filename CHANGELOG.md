@@ -131,3 +131,5 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 28) -- Agosto 1 2025 -- Se cambiaron los criterios de la barra de sonidos (ahora la barra de arriba baja la musica y ventilador, la de abajo baja el sonido de las cartas).
                                                 Se agrego un menu de pausa el cual se activa mediante la tecla de "Esc" en el teclado, este menu fue creado con la reeutilizacion                            del codigo de "MenuPrincipal".
                                                  Se agregaron nuevos assets, modfificando asi el asset provisorio de "Mimico", sustituyendolo por el asset final y tambien se                               agrego un asset de musica provisoria.   -- Alpha 0.1 --
+
+29) -- Agosto 2 2025 -- Implementamos animaciones por frames con TextureRegion, creamops las clases para que los personajes los tenga por cuenta propia;

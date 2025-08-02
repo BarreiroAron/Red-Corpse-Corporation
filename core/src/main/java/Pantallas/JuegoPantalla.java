@@ -30,6 +30,8 @@ import juegos.TiempoListener;
 import menues.MenuPrincipal;
 import sonidos.SonidoManager;
 
+import Entidades.CuerpoAnimado;
+
 
 public class JuegoPantalla implements Screen{
 
@@ -54,14 +56,16 @@ public class JuegoPantalla implements Screen{
 	float mouseX = Gdx.input.getX();
 	float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
 
+	private float ANCHO_PERSONAJE=450f;
+	private float LARGO_PERSONAJE=700f;
 	
 	 private Sound CartaTirada;
 	 
 	 final float ANCHOCARTA= 150f;
-	 final float LARGOCARTA = 250.f;
+	 final float LARGOCARTA = 250f;
 	 
 	 final float CENTRODEMESAX =  (Gdx.graphics.getWidth()/2.f)-ANCHOCARTA/2;
-	 final float CENTRODEMESAY = Gdx.graphics.getHeight()/2.f;
+	 final float CENTRODEMESAY = (Gdx.graphics.getHeight()/2.f) -80;
 	 
 	 private boolean menuPausaActivo = false;
 	 
@@ -109,6 +113,8 @@ public class JuegoPantalla implements Screen{
 		
 		dibujarMazo(Render.batch,juego.getJugadorActual(),delta);
 		
+		dibujarJugadores(Render.batch);
+		
 		dibujarMesaCartas(Render.batch);
 		
 		dibujarBarraTiempo();
@@ -123,6 +129,36 @@ public class JuegoPantalla implements Screen{
 		actualizarMouse();
 	}
 	
+	private void dibujarJugadores(SpriteBatch batch) {
+
+	    Entidad jugadorActual = juego.getJugadorActual();   // puede ser null
+	    int total    = juego.getJugadores().size();
+	    int visibles = (jugadorActual == null) ? total : total - 1;
+	    if (visibles <= 0) return;
+
+	    float paso        = (float) Gdx.graphics.getWidth() / (visibles + 1);
+	    float alturaBase  = 550f;
+	    float delta       = Gdx.graphics.getDeltaTime();   
+
+	    int indiceVisible = 0;
+
+	    for (Entidad jugador : juego.getJugadores()) {
+
+	        if (jugador == jugadorActual) continue;         // saltamos turno
+
+	        float x = paso * (indiceVisible + 1) - LARGO_PERSONAJE / 2f;
+	        float y = alturaBase + (((indiceVisible % 2 == 0)&& total>3 )? 75f : 0f);
+
+	        jugador.getCuerpo().draw(batch,                         //se dibuja por frames
+	                     x, y,
+	                     LARGO_PERSONAJE, ANCHO_PERSONAJE,
+	                     delta);
+
+	        indiceVisible++;
+	    }
+	}
+
+
 	private void update(float delta) {
 	    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 	        if (!menuPausaActivo) {

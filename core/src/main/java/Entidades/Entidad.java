@@ -6,17 +6,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import cartas.Carta;
+import cartas.Imagen;
 import juegos.Juego;
 
 public abstract class Entidad {
 	
 	public String nombre;
 	public int puntos;
+	private CuerpoAnimado cuerpo;
 	protected ArrayList<Carta> mano = new ArrayList<>();
 	
-	public Entidad(String nombre, int puntos) {
+	public Entidad(String nombre, int puntos,CuerpoAnimado cuerpo) {
 		this.nombre = nombre;
 		this.puntos = puntos;
+		this.cuerpo = cuerpo;
 	}
 
 	public void modificarPuntos(int puntosCambiados, boolean porcentual) {
@@ -40,6 +43,10 @@ public abstract class Entidad {
 	
 	public ArrayList<Carta> getMano() {
 		return this.mano;
+	}
+	
+	public CuerpoAnimado getCuerpo() {
+		return cuerpo;
 	}
 
 	public void setMano(ArrayList<Carta> mano) {

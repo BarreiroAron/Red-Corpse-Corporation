@@ -3,14 +3,15 @@ package Entidades;
 import java.util.ArrayList;
 
 import cartas.Carta;
+import cartas.Imagen;
 
 public class Jugador extends Entidad {
 	
 	private String nombre;
 	private int puntos;
 	
-	public Jugador(String nombre, int puntos) {
-		super(nombre, puntos);
+	public Jugador(String nombre, int puntos, CuerpoAnimado cuerpo) {
+		super(nombre, puntos, cuerpo);
 	}
 	
 	public ArrayList<Carta> getMano() {

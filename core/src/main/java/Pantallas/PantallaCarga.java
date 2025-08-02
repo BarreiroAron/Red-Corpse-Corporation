@@ -15,6 +15,8 @@ import Utiles.Util;
 import cartas.Imagen;
 import juegos.Juego;
 
+import Entidades.CuerpoAnimado;
+
 public class PantallaCarga implements Screen {
 	
 	private final Game game;
@@ -28,9 +30,10 @@ public class PantallaCarga implements Screen {
 	boolean procesoFadeTerminado=false;
 	
 	ArrayList<Entidad> jugadores = new ArrayList<>();
-	Entidad entidad1 = new Jugador("Entidad 1", 120);
-	Entidad entidad2 = new Rival("Entidad 2", 100);
-	Entidad entidad3 = new Rival("Entidad 3", 100);
+	CuerpoAnimado[] personajesAnimados = Util.crearListaImagPerRan();
+	Entidad entidad1 = new Jugador("Entidad 1", 120,personajesAnimados[1]);
+	Entidad entidad2 = new Rival("Entidad 2", 100,personajesAnimados[2]);
+	Entidad entidad3 = new Rival("Entidad 3", 100,personajesAnimados[3]);
 
 	Juego juego;
 	

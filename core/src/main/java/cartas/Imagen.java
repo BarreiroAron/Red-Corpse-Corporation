@@ -30,4 +30,9 @@ public class Imagen {
 		public void setTransparencia(float f) {
 			s.setAlpha(f);
 		}
+
+		public Texture getTexture() {
+			// TODO Auto-generated method stub
+			return t;
+		}
 }

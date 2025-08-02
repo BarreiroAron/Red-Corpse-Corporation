@@ -1,9 +1,11 @@
 package Entidades;
 
+import cartas.Imagen;
+
 public class Rival extends Entidad {
 
-	public Rival(String nombre, int puntos) {
-		super(nombre, puntos);
+	public Rival(String nombre, int puntos,CuerpoAnimado cuerpo) {
+		super(nombre, puntos,cuerpo);
 	}
 	
 	public void agregarPuntos(int puntos) {

@@ -16,6 +16,8 @@ o- Tecnologías Principales:
 
 o- Enlace a la Wiki del Proyecto: [Red Corpse Corporation Wiki](https://github.com/BarreiroAron/Red-Corpse-Corporation/wiki).
 
+o- Enlace de prototipo del juego: [Red Corpse Corporation Prototipo Video](https://drive.google.com/file/d/13cWon8siO4uU_EdLT4BVPlcMbehVeWGW/view?usp=drive_link).
+
 ---
 
 o- Instrucciones Básicas de Compilación y Ejecución:

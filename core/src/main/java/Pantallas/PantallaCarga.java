@@ -4,14 +4,16 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Entidades.Entidad;
 import Entidades.Jugador;
 import Entidades.Rival;
 import Utiles.Recursos;
 import Utiles.Render;
-import Utiles.Util;
 import cartas.Imagen;
 import juegos.Juego;
 
@@ -21,22 +23,28 @@ public class PantallaCarga implements Screen {
 	
 	private final Game game;
 	
-	Imagen fondo;
-	final float sumaDeTransparencia = 0.1f;
-	//esto es para escribir menos, hacer referencia al render.batch
-	SpriteBatch i;
-	float f =0;
-	float contadorTiempo =0, tiempoEsperado=1.5f;
-	boolean procesoFadeTerminado=false;
+	private Imagen fondo;
+	private final float sumaDeTransparencia = 0.1f;
+	private SpriteBatch i;
+	private float f = 0;
+	private float contadorTiempo = 0, tiempoEsperado = 1.5f;
+	private boolean procesoFadeTerminado = false;
 	
-	ArrayList<Entidad> jugadores = new ArrayList<>();
-	CuerpoAnimado[] personajesAnimados = Util.crearListaImagPerRan();
-	Entidad entidad1 = new Jugador("Entidad 1", 120,personajesAnimados[1]);
-	Entidad entidad2 = new Rival("Entidad 2", 100,personajesAnimados[2]);
-	Entidad entidad3 = new Rival("Entidad 3", 100,personajesAnimados[3]);
+	private ArrayList<Entidad> jugadores = new ArrayList<>();
+	private CuerpoAnimado[] personajesAnimados = Utiles.Util.crearListaImagPerRan();
+	private Entidad entidad1 = new Jugador("Entidad 1", 120, personajesAnimados[1]);
+	private Entidad entidad2 = new Rival("Entidad 2", 100, personajesAnimados[2]);
+	private Entidad entidad3 = new Rival("Entidad 3", 100, personajesAnimados[3]);
 
-	Juego juego;
+	private Juego juego;
 	
+	// cámara y viewport
+	private OrthographicCamera camera;
+	private Viewport viewport;
+	
+	private static final float VIRTUAL_WIDTH = 1920;
+	private static final float VIRTUAL_HEIGHT = 1080;
+
 	public PantallaCarga(Game game) {
         this.game = game;
     }
@@ -44,42 +52,50 @@ public class PantallaCarga implements Screen {
 	@Override
 	public void show() { 
 		fondo = new Imagen(Recursos.FONDO);
-		i= Render.batch;
+		i = Render.batch;
 		fondo.setTransparencia(f);
 		
 		jugadores.add(entidad1);
 		jugadores.add(entidad2);
 		jugadores.add(entidad3);
-	}
 
+		// inicializar cámara y viewport
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+		camera.position.set(VIRTUAL_WIDTH / 2f, VIRTUAL_HEIGHT / 2f, 0);
+	}
+	
 	@Override
 	public void render(float delta) {
 		Render.limpiarPantalla();
-		i.begin();//inicio
-			fondo.dibujar(i,0,0,Util.getAnchoPantalla(),Util.getAltoPantalla());
-		i.end();//fin
+
+		// actualizar cámara
+		camera.update();
+		i.setProjectionMatrix(camera.combined);
+
+		i.begin();
+			// dibujar fondo en coords virtuales
+			fondo.dibujar(i, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+		i.end();
 		
 		procesarFade();
 	}
 
 	private void procesarFade() {
-		//toda la animacion aparicion y desaparicion
-		if(!procesoFadeTerminado) {
-			f+= sumaDeTransparencia;
-			if(f>1) {
-				f=1;
-				procesoFadeTerminado=true;
+		if (!procesoFadeTerminado) {
+			f += sumaDeTransparencia;
+			if (f > 1) {
+				f = 1;
+				procesoFadeTerminado = true;
 			}
-		}else {
+		} else {
 			contadorTiempo += sumaDeTransparencia;
-			if(contadorTiempo>tiempoEsperado) {
-				f-=0.01f;
-				if(f<0) {
-					
-					f=0;
-					juego= new Juego(jugadores);
+			if (contadorTiempo > tiempoEsperado) {
+				f -= 0.01f;
+				if (f < 0) {
+					f = 0;
+					juego = new Juego(jugadores);
 					game.setScreen(new JuegoPantalla(game, new Juego(jugadores)));
-					
 				}
 			}
 		}
@@ -88,33 +104,11 @@ public class PantallaCarga implements Screen {
 
 	@Override
 	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
+		viewport.update(width, height);
 	}
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
+	@Override public void pause() {}
+	@Override public void resume() {}
+	@Override public void hide() {}
+	@Override public void dispose() {}
 }

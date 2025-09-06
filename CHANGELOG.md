@@ -50,6 +50,8 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 - Bug del sonido ambiental (ventilador) que seguía activo al cerrar el juego fue solucionado. -- 2025-07-30 --
 - Correcciones menores visuales y de lógica durante la transición entre pantallas. -- 2025-07-22 --
 - Se optimizó el uso de hilos para evitar errores al finalizar partidas. -- 2025-07-22 --
+- Se reparo el error de resolucion para que sea adaptable a diferentes pantallas -- 2025-08-03 --
+- Error de resolucion persistente, finalmente arreglado completamente en todas las pantallas -- 2025-9-06 --
 
 
 
@@ -133,3 +135,7 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
                                                  Se agregaron nuevos assets, modfificando asi el asset provisorio de "Mimico", sustituyendolo por el asset final y tambien se                               agrego un asset de musica provisoria.   -- Alpha 0.1 --
 
 29) -- Agosto 2 2025 -- Implementamos animaciones por frames con TextureRegion, creamops las clases para que los personajes los tenga por cuenta propia;
+
+30) -- Septiembre 03 2025 -- Modificamos el codigo de la pantalla de juego para que ahora tenga una resolucion escalable a cualquier monitor. Antes, solo se podia ver completamente el juego si es que se jugaba en una resolucion de 1080 x 1200. Ahora, el juego es jugable en cualquie monnitor con resolucion diferente a la antes mencionada.
+
+31) -- Septiembre 6 2025 -- Agregamos la resolucion de pantalla para todas las computadoras a la pantalla de carga y al menu princpial para que ya no se vean de una manera errada en resoluciones de monitores que sean diferentes a una de 1080 x 1200. El juego ya es adaptable a cualquier resolcion de monitor.

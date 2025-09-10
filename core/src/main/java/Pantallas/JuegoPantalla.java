@@ -24,6 +24,8 @@ import Utiles.Render;
 import cartas.Imagen;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
+import menues.MenuFinPartida;
+import menues.MenuOpciones;
 import sonidos.SonidoManager;
 
 public class JuegoPantalla implements Screen {
@@ -92,7 +94,7 @@ public class JuegoPantalla implements Screen {
 
         this.CartaTirada = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
 
-        this.cartaEspalda = new Imagen(Recursos.CARTA_ESPALDA);
+        this.cartaEspalda = new Imagen(Recursos.MAZO_CARTAS);
 
         this.tfp = new ThanksForPlaying();
     }
@@ -125,7 +127,9 @@ public class JuegoPantalla implements Screen {
         dibujarMesaCartas(Render.batch);
 
         dibujarBarraTiempo();
-
+        
+        
+        
         // actualiza animaciones
         Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
 
@@ -137,7 +141,7 @@ public class JuegoPantalla implements Screen {
 
     private void update(float delta) {
         if (juego.isPartidaFinalizada()) {
-            game.setScreen(new PantallaCarga(game));
+            game.setScreen(new MenuFinPartida(game));
             return;
         }
     }
@@ -206,6 +210,7 @@ public class JuegoPantalla implements Screen {
             long tiempoActual = TimeUtils.millis();
             if (tiempoActual - ultimoClickTime >= cooldownMs) {
                 juego.robarCartaMazo(jugador);
+                juego.siguienteJugador();
                 ultimoClickTime = tiempoActual;
             }
         }

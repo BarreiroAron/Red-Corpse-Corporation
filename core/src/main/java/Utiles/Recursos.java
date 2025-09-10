@@ -11,6 +11,7 @@ public class Recursos {
 	public final static  String RIVAL1= "PersonaRivalDos1920-1080.png" ;
 	
 	public static final String CARTA_ESPALDA ="FondoDeLaCarta.png"; 
+	public static final String MAZO_CARTAS = "MazoCartas.png";
 	
 	// Cartas normales
 	public static final String CAMBIO_DE_RONDA = "cambioDeRondaBETA.jpg";//

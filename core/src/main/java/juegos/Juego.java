@@ -186,11 +186,12 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 	
 	public void robarCartaMazo(Entidad jugador) {
-		Carta carta = mazo.remove(0);
-		jugador.agregarCarta(carta);
 		if(mazo.size()==0) {
 			cartasDisponiblesMazo=false;
+			actualizarCartasDisponiblesMazo();
 		}
+		Carta carta = mazo.remove(0);
+		jugador.agregarCarta(carta);
 	}
 	
 

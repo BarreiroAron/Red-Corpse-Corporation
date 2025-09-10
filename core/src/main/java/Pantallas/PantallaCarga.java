@@ -32,7 +32,7 @@ public class PantallaCarga implements Screen {
 	
 	private ArrayList<Entidad> jugadores = new ArrayList<>();
 	private CuerpoAnimado[] personajesAnimados = Utiles.Util.crearListaImagPerRan();
-	private Entidad entidad1 = new Jugador("Entidad 1", 120, personajesAnimados[1]);
+	private Entidad entidad1 = new Jugador("Entidad 1", 100, personajesAnimados[1]);
 	private Entidad entidad2 = new Rival("Entidad 2", 100, personajesAnimados[2]);
 	private Entidad entidad3 = new Rival("Entidad 3", 100, personajesAnimados[3]);
 

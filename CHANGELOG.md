@@ -139,3 +139,6 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 30) -- Septiembre 03 2025 -- Modificamos el codigo de la pantalla de juego para que ahora tenga una resolucion escalable a cualquier monitor. Antes, solo se podia ver completamente el juego si es que se jugaba en una resolucion de 1080 x 1200. Ahora, el juego es jugable en cualquie monnitor con resolucion diferente a la antes mencionada.
 
 31) -- Septiembre 6 2025 -- Agregamos la resolucion de pantalla para todas las computadoras a la pantalla de carga y al menu princpial para que ya no se vean de una manera errada en resoluciones de monitores que sean diferentes a una de 1080 x 1200. El juego ya es adaptable a cualquier resolcion de monitor.
+
+
+32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias 

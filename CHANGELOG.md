@@ -141,4 +141,6 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 31) -- Septiembre 6 2025 -- Agregamos la resolucion de pantalla para todas las computadoras a la pantalla de carga y al menu princpial para que ya no se vean de una manera errada en resoluciones de monitores que sean diferentes a una de 1080 x 1200. El juego ya es adaptable a cualquier resolcion de monitor.
 
 
-32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias 
+32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias
+
+33) -- Septiembre 19 2025 -- cambie los datos que se toma como centro en personajes para que se centre segun la camara y agrege el tipo de carta, normal , mala y especial para futuras implementaciones con efectos de cartas donde se busca si la carta es buena o mala

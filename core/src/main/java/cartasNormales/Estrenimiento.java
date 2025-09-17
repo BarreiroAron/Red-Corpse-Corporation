@@ -4,6 +4,7 @@ import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class Estrenimiento extends Carta {
 
@@ -21,7 +22,7 @@ modificar los puntos. Roba dos cartas del mazo, esas cartas robadas si o si son 
 				"Cuando es tirada esta carta, el rival (en su turno) es obligado a tirar una carta que si o si "
 				+ "modifique de alguna manera tus puntos o los de el (Shaco no cuenta),"
 				+ " de no poder tirar nada o no poder modificar los puntos."
-				+ " Roba dos cartas del mazo, esas cartas robadas si o si son malas.");
+				+ " Roba dos cartas del mazo, esas cartas robadas si o si son malas.",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

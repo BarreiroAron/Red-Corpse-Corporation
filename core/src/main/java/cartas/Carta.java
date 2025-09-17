@@ -14,6 +14,7 @@ public abstract class Carta {
 		private int puntosAumentadosRival;
 		private int puntosDisminuidos;
 		private boolean porcentual;
+		private TipoDeCarta tipo;
 		private Habilidad habilidad;
 		private Imagen imagenCarta;
 		private Imagen imagenEspalda= new Imagen(Recursos.CARTA_ESPALDA);
@@ -24,7 +25,7 @@ public abstract class Carta {
 		
 		
 		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y, String descripcion) {
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y, String descripcion,TipoDeCarta tipo) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
 			this.habilidad = habilidad;
@@ -33,6 +34,7 @@ public abstract class Carta {
 			this.x = x;
 			this.y = y;
 			this.descripcion = descripcion;
+			this.tipo = tipo;
 		}
 		
 		@Override

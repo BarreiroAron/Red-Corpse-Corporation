@@ -4,6 +4,7 @@ import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class Inanicion extends Carta {
 	//Carta de Inscrypthion inanicion
@@ -19,6 +20,6 @@ public class Inanicion extends Carta {
 				+ "Si tu personaje se queda sin cartas en la mano, aparece esta carta llamada “inaniciòn”. "
 				+ "Al tener esta carta en la mano, según vayan pasando los turnos,"
 				+ " tus puntos van a ir aumentando (esto va a ser progresivamente, el primer turno x1, "
-				+ "el segundo x2, el tercero x3 y así susecivamente).\r\n");
+				+ "el segundo x2, el tercero x3 y así susecivamente).\r\n",TipoDeCarta.ESPECIAL);
 	}
 }

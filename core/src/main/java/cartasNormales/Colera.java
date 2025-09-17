@@ -4,6 +4,7 @@ import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class Colera extends Carta {
 
@@ -19,7 +20,7 @@ Al jugar esta carta, te ves obligado
 	public Colera() {
 		super(0, 15, Habilidad.ROBAR_CARTA , new Imagen(Recursos.COLERA), true , 0,0, 
 				"Al jugar esta carta, te ves obligado en los siguientes 3 turnos a solo robar del mazo."
-				+ " Si en las 3 robadas no sale ninguna carta mala: Tus puntos se reducen en 15%.");
+				+ " Si en las 3 robadas no sale ninguna carta mala: Tus puntos se reducen en 15%.",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package menues;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
@@ -15,23 +16,31 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
+import Utiles.Render;
 import sonidos.SonidoManager;
 
 public class MenuOpciones implements Screen {
 
-    /* ------------- referencias ------------- */
     private final Game   game;
     private final Screen pantallaAnterior;
 
-    /* ------------- UI ------------- */
+
     private Stage  stage;
     private Slider ambientSlider, sfxSlider;
     private ImageButton btnVolver;
 
     private Texture texBar, texKnob;
     private Texture texBackUp, texBackDn;
+    
+    private OrthographicCamera camera;
+    private Viewport viewport;
+    
+    private static final float VIRTUAL_WIDTH  = 1920f;
+    private static final float VIRTUAL_HEIGHT = 1080f;
 
     public MenuOpciones(Game game, Screen pantallaAnterior) {
         this.game             = game;
@@ -46,10 +55,12 @@ public class MenuOpciones implements Screen {
         texBackUp  = new Texture(Gdx.files.internal("opcionesBoton.png"));
         texBackDn  = new Texture(Gdx.files.internal("opcionesBoton.png"));
 
-      
-        stage = new Stage(new ScreenViewport());
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
+        camera.position.set(VIRTUAL_WIDTH / 2f, VIRTUAL_HEIGHT / 2f, 0);
+        
+        stage = new Stage(viewport, Render.batch);
         Gdx.input.setInputProcessor(stage);
-
         
         SliderStyle sliderStyle = new SliderStyle();
         sliderStyle.background = new TextureRegionDrawable(texBar);
@@ -83,8 +94,8 @@ public class MenuOpciones implements Screen {
         btnVolver = new ImageButton(backStyle);
         btnVolver.addListener(new ChangeListener() {
             @Override public void changed(ChangeEvent event, Actor actor) {
-                game.setScreen(pantallaAnterior); // vuelve al menu principal
-                dispose();                        // liberamos recursos
+                game.setScreen(pantallaAnterior); 
+                dispose();                       
             }
         });
 
@@ -114,7 +125,7 @@ public class MenuOpciones implements Screen {
 
     @Override
     public void dispose() {
-        /* liberar UI + texturas */
+     
         stage.dispose();
         texBar.dispose();
         texKnob.dispose();

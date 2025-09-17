@@ -4,6 +4,7 @@ import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class Snake extends Carta {
 
@@ -15,7 +16,7 @@ public class Snake extends Carta {
 
 	public Snake() {
 		super(0, 8, Habilidad.VER_PUNTOS_RIVAL, new Imagen(Recursos.SNAKE), false, 0, 0, 
-				"Permite ver los puntos del rival durante un turno. Baja 8% puntos de tu contador");
+				"Permite ver los puntos del rival durante un turno. Baja 8% puntos de tu contador",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

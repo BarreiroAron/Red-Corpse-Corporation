@@ -26,6 +26,7 @@ import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
 import menues.MenuFinPartida;
 import menues.MenuOpciones;
+import menues.MenuPrincipal;
 import sonidos.SonidoManager;
 
 public class JuegoPantalla implements Screen {
@@ -102,6 +103,8 @@ public class JuegoPantalla implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
+        
+        this.menuPausaActivo = false;
 
         if (juego.isPartidaFinalizada()) return;
 
@@ -140,6 +143,12 @@ public class JuegoPantalla implements Screen {
     }
 
     private void update(float delta) {
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+	        if (!menuPausaActivo) {
+	            game.setScreen(new MenuOpciones(game, this));
+	            menuPausaActivo = true;
+	        }
+	    }
         if (juego.isPartidaFinalizada()) {
             game.setScreen(new MenuFinPartida(game));
             return;
@@ -163,7 +172,7 @@ public class JuegoPantalla implements Screen {
 
 	    if (visibles <= 0) return;
 	    
-	    float paso        = (float) Gdx.graphics.getWidth() / (visibles + 1);
+	    float paso        = (float) camera.viewportWidth / (visibles + 1);
 	    float alturaBase  = 550f;
 	    float delta       = Gdx.graphics.getDeltaTime();   
 
@@ -178,7 +187,7 @@ public class JuegoPantalla implements Screen {
 
 
 	        jugador.getCuerpo().draw(batch,                         //se dibuja por frames
-	                     x, y,
+	                     (x), (camera.viewportHeight -y),
 	                     LARGO_PERSONAJE, ANCHO_PERSONAJE,
 	                     delta);
 	        

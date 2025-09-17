@@ -4,6 +4,7 @@ import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class Mimico extends Carta {
 	
@@ -22,7 +23,7 @@ public class Mimico extends Carta {
 		super(50, 30, Habilidad.MIMICO, new Imagen(Recursos.MIMICO), false, 0, 0, 
 				"Al ser jugada esta carta, en tu siguiente turno tenes que robar una carta del mazo si o si. "
 				+ "Si esta carta resulta ser otra mímica. Entonces tus puntos se reducen en 30% y los puntos del rival aumentan en 50%."
-				+ " Si no es un mímico, los puntos del rival son reducidos en 30% y tus puntos son aumentados en 70%\r\n");
+				+ " Si no es un mímico, los puntos del rival son reducidos en 30% y tus puntos son aumentados en 70%\r\n",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

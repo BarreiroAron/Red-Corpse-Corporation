@@ -18,7 +18,7 @@ public class KingDice extends Carta {
 	 */
 
 	public KingDice() {
-		super(4, 7, Habilidad.ROBAR_CARTA, new Imagen(Recursos.KING_DICE), true, 0, 0, 
+		super(4, 7, Habilidad.MEZCLAR_MAZO, new Imagen(Recursos.KING_DICE), true, 0, 0, 
 				"Al jugar esta carta, todo el mazo es barajado y mezclado"
 				+ " (las cartas con efectos negativos son puestas nuevamente en el mazo)."
 				+ " Tu contador pierde 7% de sus puntos y el de tu rival gana 4% de sus puntos.",TipoDeCarta.NORMAL);

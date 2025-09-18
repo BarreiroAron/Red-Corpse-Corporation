@@ -67,10 +67,14 @@ public enum Habilidad {
     },
     
     MEZCLAR_MAZO() { //Sirve para efectos de King Dice
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-            
+            if (controlador instanceof Juego juego) {
+                juego.mezclarMazo();
+            }
         }
     },
+
     
     
     

@@ -200,6 +200,16 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		mesa.clear();
 		cartasDisponiblesMazo=true;
 	}
+	
+	public void mezclarMazo() {
+	    if (mazo == null || mazo.isEmpty()) {
+	        System.out.println("No hay cartas en el mazo para mezclar");
+	        return;
+	    }
+
+	    Collections.shuffle(mazo);
+	    System.out.println("El mazo ha sido mezclado");
+	}
 
 
 	public void marcarReinicio() {

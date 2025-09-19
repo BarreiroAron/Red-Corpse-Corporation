@@ -238,7 +238,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 			LiscaCartas2.add(ListaCartas1.get(i));
 		}
 	}
-	
 
 
 	public void marcarReinicio() {

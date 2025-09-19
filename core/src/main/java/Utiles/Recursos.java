@@ -14,11 +14,11 @@ public class Recursos {
 	public static final String MAZO_CARTAS = "MazoCartas.png";
 	
 	// Cartas normales
-	public static final String CAMBIO_DE_RONDA = "cambioDeRondaBETA.jpg";//
-	public static final String CHESTER = "shacoBETA.jfif";//
+	public static final String CAMBIO_DE_RONDA = "cambioDeRonda.png";//
+	public static final String CHESTER = "ChesterRemastered.png";//
 	public static final String COLERA = "coleraBETA.jfif";//
 	public static final String COMPANY = "Company.png";
-	public static final String ESTRENIMIENTO = "estrenimientoBETA.jfif";//
+	public static final String ESTRENIMIENTO = "Estrenimientoo.png";//
 	public static final String HAMBRE_CONTENIDA = "briarBETA.jfif"; //
 	
 	public static final String KING_DICE_CARTA = "King dice.png";

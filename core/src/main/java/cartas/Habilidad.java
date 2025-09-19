@@ -67,6 +67,7 @@ public enum Habilidad {
     },
     
     MEZCLAR_MAZO() { //Sirve para efectos de King Dice
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
         	ArrayList<Carta> cartasMalas= controlador.getListaPorTipoCartas(TipoDeCarta.MALA,controlador.getMesa());
         	if(cartasMalas.size()>1) {
@@ -77,6 +78,7 @@ public enum Habilidad {
         	controlador.mezclarMazo();
         }
     },
+
     
     
     

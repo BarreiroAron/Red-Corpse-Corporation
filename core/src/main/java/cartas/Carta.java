@@ -119,5 +119,9 @@ public abstract class Carta {
 		public boolean getPorcentual() {
 			return porcentual;
 		}
+
+		public TipoDeCarta getTipo() {
+			return this.tipo;
+		}
 		
 	}

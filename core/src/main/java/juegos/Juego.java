@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import Entidades.Entidad;
 import cartas.Carta;
+import cartas.TipoDeCarta;
 import cartasEspeciales.IMHERE;
 import cartasEspeciales.Inanicion;
 import cartasMalas.PecadoDeLaCodicia;
@@ -70,23 +71,34 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		mazo = new ArrayList<>();
 		
 		// Cartas normales
-		mazo.add(new CambioDeRonda());
-		mazo.add(new Chester());
-		mazo.add(new Colera());
-		mazo.add(new Company());
-		mazo.add(new Estrenimiento());
-		mazo.add(new HambreContenida());
+
 		mazo.add(new KingDice());
-		mazo.add(new Mimico());
-		mazo.add(new NotToday());
-		mazo.add(new OjoQueTodoLoVe());
-		mazo.add(new Redento());
-		mazo.add(new Saltamontes());
-		mazo.add(new Snake());
-		mazo.add(new ThanksForPlaying());
+		
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+		mazo.add(new KingDice());
+	
 		
 
 		// Cartas malas
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		mazo.add(new PecadoDeLaCodicia());
+		mazo.add(new Sonambulo());
+		
 		mazo.add(new PecadoDeLaCodicia());
 		mazo.add(new Sonambulo());
 
@@ -200,6 +212,33 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		mesa.clear();
 		cartasDisponiblesMazo=true;
 	}
+	
+	public void mezclarMazo() {
+		Collections.shuffle(mazo);
+		System.out.println("se mezcla mazo");
+	}
+	
+	public ArrayList<Carta> getListaPorTipoCartas(TipoDeCarta tipo, ArrayList<Carta> ListaCartas1) {
+		
+		ArrayList<Carta> cartas = new ArrayList();
+		
+		for(int i=0; i<ListaCartas1.size(); i++ ) {
+			if(ListaCartas1.get(i).getTipo()== tipo) {
+				System.out.println("se agrego la carta  = " + ListaCartas1.get(i).getDescripcion());
+				cartas.add(ListaCartas1.get(i));
+			}
+		}
+		
+		return cartas;
+	}
+	
+	public void pasarCartas(ArrayList<Carta> ListaCartas1 , ArrayList<Carta> LiscaCartas2) {
+		
+		for(int i=0;i<ListaCartas1.size();i++) {
+			LiscaCartas2.add(ListaCartas1.get(i));
+		}
+	}
+	
 
 
 	public void marcarReinicio() {
@@ -213,6 +252,19 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    }
 	}
 
+	public void eliminarPorListaCartas(ArrayList<Carta> ListaCartas1 , ArrayList<Carta> LiscaCartas2) {
+		boolean encontrado= false;
+		for(int i=0;i<ListaCartas1.size();i++) {
+			int n=0;
+			while(n<LiscaCartas2.size()|| encontrado) {
+				if(LiscaCartas2.get(n).getTipo()==ListaCartas1.get(i).getTipo()) {
+					System.out.println("carta eliminada = " + LiscaCartas2.get(n).getDescripcion());
+					LiscaCartas2.remove(n);
+				}
+				n++;
+			}
+		}
+	}
 	
 	public void reiniciarPartida() {
 		for(Entidad jugador : jugadores) {
@@ -314,7 +366,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public int getIndiceMesa() {
 		return indiceMesa;
 	}
-
+	
 	public int getDireccionRonda() {
 		return direccionRonda;
 	}

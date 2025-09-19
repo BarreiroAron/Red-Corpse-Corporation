@@ -71,40 +71,29 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		mazo = new ArrayList<>();
 		
 		// Cartas normales
+				mazo.add(new CambioDeRonda());
+				mazo.add(new Chester());
+				mazo.add(new Colera());
+				mazo.add(new Company());
+				mazo.add(new Estrenimiento());
+				mazo.add(new HambreContenida());
+				mazo.add(new KingDice());
+				mazo.add(new Mimico());
+				mazo.add(new NotToday());
+				mazo.add(new OjoQueTodoLoVe());
+				mazo.add(new Redento());
+				mazo.add(new Saltamontes());
+				mazo.add(new Snake());
+				mazo.add(new ThanksForPlaying());
+				
 
-		mazo.add(new KingDice());
-		
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-		mazo.add(new KingDice());
-	
-		
+				// Cartas malas
+				mazo.add(new PecadoDeLaCodicia());
+				mazo.add(new Sonambulo());
 
-		// Cartas malas
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-		
-		mazo.add(new PecadoDeLaCodicia());
-		mazo.add(new Sonambulo());
-
-		// Cartas especiales
-		mazo.add(new IMHERE());
-		mazo.add(new Inanicion());
+				// Cartas especiales
+				mazo.add(new IMHERE());
+				mazo.add(new Inanicion());
 		
 		cantidadCartasMazo = mazo.size();
 		

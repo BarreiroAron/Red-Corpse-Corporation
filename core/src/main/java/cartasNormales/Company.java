@@ -17,9 +17,9 @@ public class Company extends Carta {
 	 */
 
 	public Company() {
-		super(0, 10, Habilidad.REINICIAR_PARTIDA, new Imagen(Recursos.COMPANY), false, 0, 0, 
-				"Reinicia por completo la partida a excepción de los puntos de cada jugador y el tiempo de la partida. "
-				+ "Aumenta 10% puntos al rival",TipoDeCarta.NORMAL);
+		super(10, 0, Habilidad.REINICIAR_PARTIDA, new Imagen(Recursos.COMPANY), false, 0, 0, 
+				"Reinicia por completo la partida a excepción de los puntos de cada jugador y el tiempo de la partida. \n"
+				+ "Aumenta 10 puntos al rival",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

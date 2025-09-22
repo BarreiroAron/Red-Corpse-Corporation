@@ -247,8 +247,8 @@ public class JuegoPantalla implements Screen {
 
     private void dibujarPuntos(Entidad jugador) {
         if (jugador == null) return;
-        float posX = camera.viewportWidth - 150f;
-        float posY = camera.viewportHeight - 50f;
+        float posX = camera.viewportWidth - 260f;
+        float posY = camera.viewportHeight - 250f;
         bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
     }
 

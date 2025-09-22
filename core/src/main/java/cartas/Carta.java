@@ -43,7 +43,15 @@ public abstract class Carta {
 					+ ", puntosDisminuidos=" + puntosDisminuidos + ", texturaCarta="
 					+ imagenCarta + ", texturaCartaEspalda=" + imagenEspalda + "]";
 		}
+		
+		public EnemigoDeterminado getEnemigoDeterminadoEnum() {
+	        return enemigoDeterminado;
+	    }
 
+	    public void setEnemigoDeterminado(EnemigoDeterminado ed) {
+	        this.enemigoDeterminado = ed;
+	    }
+		
 		public int getPuntosAumentadosRival() {
 			return puntosAumentadosRival;
 		}

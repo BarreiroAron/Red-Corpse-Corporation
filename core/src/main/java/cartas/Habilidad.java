@@ -25,7 +25,17 @@ public enum Habilidad {
     BLOQUEAR_ROBO { //Para efectos generales (seguramente "Not today" va a usarla si o si) y redento
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-           // jugador.bloquearRobo();
+        	if (controlador instanceof Juego) {
+                Juego juego = (Juego) controlador;
+
+                if (carta.getEnemigoDeterminadoEnum() == cartas.EnemigoDeterminado.GLOBAL) {
+                    juego.activarBloqueoRobarGlobal(4, "Redento: no puedes robar del mazo");
+                } else {
+                    juego.activarBloqueoRobar(rival, 4, "Redento: no puedes robar del mazo");
+                }
+
+                jugador.modificarPuntos(-8, false); // “Tu contador pierde 8 puntos”
+            }
         }
     },
     
@@ -115,7 +125,9 @@ public enum Habilidad {
     
     ROBAR_CARTA() { //Esta carta esta hecha para el pecado de la codicia
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-    		
+    		if (controlador instanceof Juego juego) {
+                juego.robarCartaMazo(jugador, true); // ignora bloqueos de robo (excepción)
+            }
     	}
     },
     

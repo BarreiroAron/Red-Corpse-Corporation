@@ -146,3 +146,6 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 33) -- Septiembre 19 2025 -- cambie los datos que se toma como centro en personajes para que se centre segun la camara y agrege el tipo de carta, normal , mala y especial para futuras implementaciones con efectos de cartas donde se busca si la carta es buena o mala
 
 34) -- Septiembre 19 2025 -- se agrego kingdice y ademas agrege el tipo de carta de mala,normal y especial
+
+
+35) -- Septiembre 22 2025 -- Se agrego tipo de enemigo determinado global y se implemento el tema de habilidades activas a lo largo de la partida, tambien se agrego la carta de redento con funcion de bloquear agarrar mas cartas

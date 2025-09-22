@@ -20,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import Utiles.Recursos;
 import Utiles.Render;
 import sonidos.SonidoManager;
 
@@ -52,8 +53,8 @@ public class MenuOpciones implements Screen {
 
     	texBar     = new Texture(Gdx.files.internal("BarraReguladora.png"));
         texKnob    = new Texture(Gdx.files.internal("BotonRegulador.png"));
-        texBackUp  = new Texture(Gdx.files.internal("opcionesBoton.png"));
-        texBackDn  = new Texture(Gdx.files.internal("opcionesBoton.png"));
+        texBackUp  = new Texture(Gdx.files.internal(Recursos.BOTON_VOLVER_MENU));
+        texBackDn  = new Texture(Gdx.files.internal(Recursos.BOTON_VOLVER_MENU));
 
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);

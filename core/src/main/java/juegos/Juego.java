@@ -30,7 +30,6 @@ import sonidos.SonidoManager;
 public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private int direccionRonda = 1;
-	private int turno;
 	private int cantidadCartasMazo;
 	
 	private ArrayList<Carta> mazo;
@@ -38,7 +37,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private ArrayList<Entidad> jugadores;
 	
 	private int indiceMesa=0;
-	private int indiceMazo=0;
 	private int indiceJugadorActual=0;
 	private float tiempo =0.5f;
 	private int rondas=0;
@@ -53,6 +51,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private boolean cartasDisponiblesMazo= true;
 
+	private final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
+	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
 	public Juego( ArrayList<Entidad> Jugadores){
@@ -105,6 +105,49 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		actualizarJugadorPerdedor();
 		comprobarPartidaTerminada();
 		actualizarCartasDisponiblesMazo();
+	}
+	
+	public void activarBloqueoRobar(Entidad objetivo, int turnos, String descripcion) {
+	    habilidadesActivas.add(HabilidadActiva.bloqueoRobarA(objetivo, turnos, descripcion));
+	}
+	public void activarBloqueoRobarGlobal(int turnos, String descripcion) {
+	    habilidadesActivas.add(HabilidadActiva.bloqueoRobarGlobal(turnos, descripcion));
+	}
+	
+	private boolean estaBloqueadoRobar(Entidad jugador) {
+	    for (HabilidadActiva ha : habilidadesActivas) {
+	        if (ha.getTipo() == HabilidadActiva.Tipo.BLOQUEAR_ROBAR && ha.getTurnosRestantes() > 0) {
+	            if (ha.isGlobal()) return true;
+	            if (ha.getObjetivo() == jugador) return true;
+	        }
+	    }
+	    return false;
+	}
+	
+	//bloquea a todos excepto a el tirador
+	public void activarBloqueoRobarATodosExcepto(Entidad caster, int turnos, String descripcion) {
+	    for (Entidad e : jugadores) {
+	        if (e != caster) {
+	            activarBloqueoRobar(e, turnos, descripcion);
+	        }
+	    }
+	}
+	
+	private void tickHabilidadesActivasPara(Entidad jugadorQueTermino) {
+	    for (int i = habilidadesActivas.size() - 1; i >= 0; i--) {
+	        HabilidadActiva ha = habilidadesActivas.get(i);
+	        if (ha.getObjetivo() == jugadorQueTermino) {
+	            if (ha.tick()) habilidadesActivas.remove(i);
+	        }
+	    }
+	}
+	
+	private void tickHabilidadesActivasMixto(Entidad jugadorQueTermino) {
+	    for (int i = habilidadesActivas.size() - 1; i >= 0; i--) {
+	        HabilidadActiva ha = habilidadesActivas.get(i);
+	        boolean debeTickear = ha.isGlobal() || ha.getObjetivo() == jugadorQueTermino;
+	        if (debeTickear && ha.tick()) habilidadesActivas.remove(i);
+	    }
 	}
 	
 	private void actualizarCartasDisponiblesMazo() {
@@ -187,14 +230,22 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 	
 	public void robarCartaMazo(Entidad jugador) {
-		if(mazo.size()==0) {
-			cartasDisponiblesMazo=false;
-			actualizarCartasDisponiblesMazo();
-		}
-		Carta carta = mazo.remove(0);
-		jugador.agregarCarta(carta);
+		robarCartaMazo(jugador, false);
 	}
 	
+	public void robarCartaMazo(Entidad jugador, boolean ignorarBloqueosDeRobo) {
+	    if (!ignorarBloqueosDeRobo && estaBloqueadoRobar(jugador)) {
+	        System.out.println("Bloqueado: " + jugador.getNombre() + " no puede robar del mazo.");
+	        return;
+	    }
+	    if (mazo.size() == 0) {
+	        cartasDisponiblesMazo = false;
+	        actualizarCartasDisponiblesMazo();
+	        return;
+	    }
+	    Carta carta = mazo.remove(0);
+	    jugador.agregarCarta(carta);
+	}
 
 	private void rebarajearMesa(){
 		mazo.addAll(mesa);
@@ -277,6 +328,9 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 	
 	public void siguienteJugador() {
+		 Entidad saliente = jugadores.get(indiceJugadorActual);
+		 tickHabilidadesActivasMixto(saliente); //baja un tick a cada habilidad 
+
 	    int cantidadJugadores = jugadores.size();
 	    indiceJugadorActual = (indiceJugadorActual + direccionRonda + cantidadJugadores) % cantidadJugadores;
 	}

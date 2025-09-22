@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener.ChangeEvent;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import Pantallas.PantallaCarga;
+import Utiles.Recursos;
 
 public class MenuFinPartida implements Screen{
 
@@ -37,11 +38,11 @@ public class MenuFinPartida implements Screen{
 		 stage = new Stage(new ScreenViewport());
 	     Gdx.input.setInputProcessor(stage);
 	     
-	     texMenuUp = new Texture(Gdx.files.internal("opcionesBoton.png"));
-	     texMenuDn = new Texture(Gdx.files.internal("opcionesBoton.png"));
+	     texMenuUp = new Texture(Gdx.files.internal(Recursos.BOTON_VOLVER_MENU));
+	     texMenuDn = new Texture(Gdx.files.internal(Recursos.BOTON_VOLVER_MENU));
 	     
-	     texJugarOtraVezUp = new Texture(Gdx.files.internal("opcionesBoton.png"));
-	     texJugarOtraVezDn = new Texture(Gdx.files.internal("opcionesBoton.png"));
+	     texJugarOtraVezUp = new Texture(Gdx.files.internal(Recursos.BOTON_REINICIAR));
+	     texJugarOtraVezDn = new Texture(Gdx.files.internal(Recursos.BOTON_REINICIAR));
 	     
 	     ImageButtonStyle backStyle = new ImageButtonStyle();
 	        backStyle.up   = new TextureRegionDrawable(texMenuUp);
@@ -71,7 +72,7 @@ public class MenuFinPartida implements Screen{
 	     root.setFillParent(true);
 	     root.defaults().pad(15);
 	        
-	     root.add(btnMenu).padTop(40).size(220, 80);
+	     root.add(btnMenu).padTop(80).size(220, 80);
 	     
 	     root.add(btnJugarOtraVez).padTop(80).size(220, 80);
 	     

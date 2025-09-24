@@ -149,3 +149,5 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 
 
 35) -- Septiembre 22 2025 -- Se agrego tipo de enemigo determinado global y se implemento el tema de habilidades activas a lo largo de la partida, tambien se agrego la carta de redento con funcion de bloquear agarrar mas cartas
+
+36) -- Septiembre 24 2025 -- Se agrego la habilidad de snake de ver pos puntos de los demas

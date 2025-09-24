@@ -472,4 +472,16 @@ public class Juego implements ControladorDeJuego, TiempoListener {
     		asignarJugadorPerdedor();
     }
 
+
+	public void activarVerPuntos() {
+		habilidadesActivas.add(HabilidadActiva.verPuntos());
+	}
+	
+	public boolean isHabilidadActiva(HabilidadActiva.Tipo tipo) {
+	    for (HabilidadActiva ha : habilidadesActivas) {
+	        if (ha.getTipo() == tipo) return true;
+	    }
+	    return false;
+	}
+
 }

@@ -33,8 +33,6 @@ public enum Habilidad {
                 } else {
                     juego.activarBloqueoRobar(rival, 4, "Redento: no puedes robar del mazo");
                 }
-
-                jugador.modificarPuntos(-8, false); // “Tu contador pierde 8 puntos”
             }
         }
     },
@@ -150,6 +148,9 @@ public enum Habilidad {
     
     VER_PUNTOS_RIVAL() {
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+    		if (controlador instanceof Juego juego) {
+    			juego.activarVerPuntos();
+    		}
     		
     	}
     }

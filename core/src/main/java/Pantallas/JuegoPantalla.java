@@ -193,10 +193,18 @@ public class JuegoPantalla implements Screen {
 	        
 	        indiceVisible++;
 
-
+	        if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_PUNTOS)) {
+	            // pequeña etiqueta arriba del enemigo
+	            float etiquetaY = (camera.viewportHeight - y) + ANCHO_PERSONAJE + 20f; // ajustá el +20f si querés
+	            bitmapFont.draw(
+	                batch,
+	                jugador.getNombre() + ": " + jugador.getPuntos(),
+	                x, 
+	                etiquetaY
+	            );
+	            System.out.println(jugador.getNombre() + ": " + jugador.getPuntos()+" Habilidad de invisible activada");
+	        }
 	    }
-
-
 	}
 
     private void dibujarMazo(SpriteBatch batch, Entidad jugador, float delta) {

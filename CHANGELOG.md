@@ -30,6 +30,8 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 - SonidoManager incorporado para controlar audio dinámicamente. -- 2025-07-20 --
 - Sistema de pausa implementado mediante tecla `Esc`. -- 2025-08-01 --
 - Nuevos assets: reemplazo del `Mímico` provisorio y música ambiental provisoria. -- 2025-08-01 --
+- Nuevas funciones de cartas: Añadidos Redento, Snake, King Dice -- 2025-09-24 --
+- - Nuevas funciones de cartas: Añadidos Chester, Sonambulo -- 2025-09-25 --
 
 ### Cambios
 - FPS limitados a 60 para estabilidad general del juego. -- 2025-07-10 --
@@ -141,13 +143,15 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 31) -- Septiembre 6 2025 -- Agregamos la resolucion de pantalla para todas las computadoras a la pantalla de carga y al menu princpial para que ya no se vean de una manera errada en resoluciones de monitores que sean diferentes a una de 1080 x 1200. El juego ya es adaptable a cualquier resolcion de monitor.
 
 
-32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias
+32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias.
 
-33) -- Septiembre 19 2025 -- cambie los datos que se toma como centro en personajes para que se centre segun la camara y agrege el tipo de carta, normal , mala y especial para futuras implementaciones con efectos de cartas donde se busca si la carta es buena o mala
+33) -- Septiembre 19 2025 -- cambie los datos que se toma como centro en personajes para que se centre segun la camara y agrege el tipo de carta, normal , mala y especial para futuras implementaciones con efectos de cartas donde se busca si la carta es buena o mala.
 
-34) -- Septiembre 19 2025 -- se agrego kingdice y ademas agrege el tipo de carta de mala,normal y especial
+34) -- Septiembre 19 2025 -- se agrego kingdice y ademas agrege el tipo de carta de mala,normal y especial.
 
 
-35) -- Septiembre 22 2025 -- Se agrego tipo de enemigo determinado global y se implemento el tema de habilidades activas a lo largo de la partida, tambien se agrego la carta de redento con funcion de bloquear agarrar mas cartas
+35) -- Septiembre 22 2025 -- Se agrego tipo de enemigo determinado global y se implemento el tema de habilidades activas a lo largo de la partida, tambien se agrego la carta de redento con funcion de bloquear agarrar mas cartas.
 
-36) -- Septiembre 24 2025 -- Se agrego la habilidad de snake de ver pos puntos de los demas
+36) -- Septiembre 24 2025 -- Se agrego la habilidad de snake de ver pos puntos de los demas.
+
+37) -- Septiembre 25 2025 -- Se agrego la carta Chester que sirve para intercambiarl os putnos con el rival siguiente de la ronda y se añadio tambien la carta de "Pecado de la codicia" Carta la cual hace perder 4 cartas de tu mano y esta carta, permanecer en ella. Esta carta cuando es tirada desde tu mano te resta 5 puntos y le suma 1 punto al rival.

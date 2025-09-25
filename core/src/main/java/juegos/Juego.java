@@ -243,9 +243,34 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        actualizarCartasDisponiblesMazo();
 	        return;
 	    }
+
+	    // --- se roba carta del mazo ---
 	    Carta carta = mazo.remove(0);
+	    /*
+	    //sonambulo no funciona aun
+	    if (carta instanceof Sonambulo) {
+	        // activamos efecto Sonámbulo 3 turnos
+	        habilidadesActivas.add(HabilidadActiva.sonambulo(jugador, 3,
+	                "Debe jugar cartas aleatorias por 3 turnos (Sonámbulo)"));
+	        System.out.println(jugador.getNombre() + " robó SONÁMBULO → activado efecto por 3 turnos");
+	        // si NO querés que quede en la mano, no agregarla al jugador
+	        // si querés que quede, entonces:
+	        jugador.agregarCarta(carta);
+	        return;
+	    } */
+
+	    //pecado de la codicia
+	    if (carta instanceof PecadoDeLaCodicia) {
+	        for (int i = 0; i < 4 && !jugador.getMano().isEmpty(); i++) {
+	            Carta removida = jugador.getMano().remove(0);
+	            System.out.println("Se destruyó carta por Pecado de la Codicia: " + removida.getDescripcion());
+	        }
+	        jugador.agregarCarta(carta);
+	        return;
+	    }
 	    jugador.agregarCarta(carta);
 	}
+
 
 	private void rebarajearMesa(){
 		mazo.addAll(mesa);
@@ -342,6 +367,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public void aumentarIndiceMesa() {
 		indiceMesa++;
 	}
+
 	
 	@Override
 	public void mostrarCartasSiguientes(int cantidad) {
@@ -356,7 +382,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        System.out.println("- " + c.getClass().getSimpleName());
 	    }
 	}
-	
+
 	private void asignarJugadorPerdedor() {
 	    if (jugadores.isEmpty()) return;
 
@@ -482,6 +508,16 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        if (ha.getTipo() == tipo) return true;
 	    }
 	    return false;
+	}
+
+
+	@Override
+	public void intercambiarPuntos(Entidad jugador, Entidad rival) {
+	    int puntosJugador = jugador.getPuntos();
+	    int puntosRival   = rival.getPuntos();
+
+	    jugador.puntos = puntosRival;
+	    rival.puntos   = puntosJugador;
 	}
 
 }

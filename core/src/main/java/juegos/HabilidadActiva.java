@@ -5,7 +5,8 @@ import Entidades.Entidad;
 public class HabilidadActiva {
     public enum Tipo {
         BLOQUEAR_ROBAR,
-        MOSTRAR_PUNTOS
+        MOSTRAR_PUNTOS,
+        SONAMBULO
     }
 
     private final Tipo tipo;
@@ -42,5 +43,8 @@ public class HabilidadActiva {
 		return new HabilidadActiva(Tipo.MOSTRAR_PUNTOS, null, 2, "Ver puntos", true);
 	}
     
+	public static HabilidadActiva sonambulo(Entidad objetivo, int turnos, String desc) {
+		return new HabilidadActiva(Tipo.SONAMBULO, objetivo, turnos, desc, false);
+	}
     
 }

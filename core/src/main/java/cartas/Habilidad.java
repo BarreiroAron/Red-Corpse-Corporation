@@ -105,6 +105,8 @@ public enum Habilidad {
     
     INTERCAMBIO_PUNTOS() { //sirve para efectos de Chester
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+            controlador.intercambiarPuntos(jugador, rival);
+            System.out.println("Cambiamos puntos con el de adelante");
             
         }
     },
@@ -155,7 +157,6 @@ public enum Habilidad {
     	}
     }
     ;
-	
 	
     public abstract void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador);
 

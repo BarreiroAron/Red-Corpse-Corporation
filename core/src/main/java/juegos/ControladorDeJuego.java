@@ -14,6 +14,7 @@ public interface ControladorDeJuego {
 	    void robarCarta(Entidad jugador);
 	    void mostrarCartasSiguientes(int cantidad);
 	    void mezclarMazo();
+	    void intercambiarPuntos(Entidad jugador, Entidad rival);
 		ArrayList<Carta> getListaPorTipoCartas(TipoDeCarta mala, ArrayList<Carta> ListaCartas1);
 		ArrayList<Carta> getMazo();
 		void pasarCartas(ArrayList<Carta> ListaCartas1, ArrayList<Carta> ListaCartas2);

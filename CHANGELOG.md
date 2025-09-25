@@ -31,7 +31,7 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 - Sistema de pausa implementado mediante tecla `Esc`. -- 2025-08-01 --
 - Nuevos assets: reemplazo del `Mímico` provisorio y música ambiental provisoria. -- 2025-08-01 --
 - Nuevas funciones de cartas: Añadidos Redento, Snake, King Dice -- 2025-09-24 --
-- - Nuevas funciones de cartas: Añadidos Chester, Sonambulo -- 2025-09-25 --
+- - Nuevas funciones de cartas: Añadidos Chester, Pecado de la codicia -- 2025-09-25 --
 
 ### Cambios
 - FPS limitados a 60 para estabilidad general del juego. -- 2025-07-10 --

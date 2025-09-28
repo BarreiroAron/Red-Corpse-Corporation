@@ -195,7 +195,7 @@ public class JuegoPantalla implements Screen {
 
 	        if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_PUNTOS)) {
 	            // pequeña etiqueta arriba del enemigo
-	            float etiquetaY = (camera.viewportHeight - y) + ANCHO_PERSONAJE + 20f; // ajustá el +20f si querés
+	            float etiquetaY = (camera.viewportHeight - y) + ANCHO_PERSONAJE + 20f;
 	            bitmapFont.draw(
 	                batch,
 	                jugador.getNombre() + ": " + jugador.getPuntos(),
@@ -271,7 +271,8 @@ public class JuegoPantalla implements Screen {
 
     public void dibujarMano(SpriteBatch batch, Entidad jugador, float delta) {
         ArrayList<Carta> mano = jugador.getMano();
-
+        if(mano.size()>1) {
+        	
         float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
         float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;
         float inicioX = (camera.viewportWidth - total) / 2f;
@@ -279,54 +280,91 @@ public class JuegoPantalla implements Screen {
         boolean clicProcesado = false;
 
         int indice = 0;
-        for (Carta carta : mano) {
+        if (juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.SONAMBULO, jugador)
+        		&& TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
+        		&& !clicProcesado) {
+        	
+        	Carta carta = jugador.getMano().get((int)(Math.random() * mano.size()));
+        	
+        	 float destinoX = this.CENTRODEMESAX;
+             float destinoY = this.CENTRODEMESAY;
 
-            float x = inicioX + indice * (anchoCarta + esp);
-            float y = 150f;
+             float x = inicioX + indice * (anchoCarta + esp);
+             float y = 150f;
+             
+             Animaciones.iniciarMovimiento(
+                     carta.getImagenCarta(),
+                     x, y,
+                     destinoX, destinoY,
+                     anchoCarta, alturaCarta,
+                     0.25f,
+                     new Runnable() {
+                         @Override
+                         public void run() {
+                             sonidoCartaTirada();
+                             juego.jugarCarta(carta, jugador);
+                             juego.agregarCartaMesa(carta);
+                             juego.sumarRonda();
+                             jugador.removerCarta(carta);
+                         }
+                     });
+             ultimoClickTime = TimeUtils.millis();
+             clicProcesado = true;
 
-            boolean hovered = Animaciones.animarHover(
-                    batch, carta.getImagenCarta(),
-                    x, y,
-                    anchoCarta, alturaCarta,
-                    mouseX, mouseY,
-                    1.2f,
-                    8f,
-                    delta);
+         indice++;
+        }
+        else 
+        {
+        	 for (Carta carta : mano) {
 
-            if (hovered) {
-                bitmapFont.draw(batch, carta.getDescripcion(), 20f, camera.viewportHeight - 20f);
-            }
+                 float x = inicioX + indice * (anchoCarta + esp);
+                 float y = 150f;
 
-            if (!clicProcesado
-                    && hovered
-                    && Gdx.input.justTouched()
-                    && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
+                 boolean hovered = Animaciones.animarHover(
+                         batch, carta.getImagenCarta(),
+                         x, y,
+                         anchoCarta, alturaCarta,
+                         mouseX, mouseY,
+                         1.2f,
+                         8f,
+                         delta);
 
-                float destinoX = this.CENTRODEMESAX;
-                float destinoY = this.CENTRODEMESAY;
+                 if (hovered) {
+                     bitmapFont.draw(batch, carta.getDescripcion(), 20f, camera.viewportHeight - 20f);
+                 }
+                 
+                 if (!clicProcesado
+                         && hovered
+                         && Gdx.input.justTouched()
+                         && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
 
-                Animaciones.iniciarMovimiento(
-                        carta.getImagenCarta(),
-                        x, y,
-                        destinoX, destinoY,
-                        anchoCarta, alturaCarta,
-                        0.25f,
-                        new Runnable() {
-                            @Override
-                            public void run() {
-                                sonidoCartaTirada();
-                                juego.jugarCarta(carta, jugador);
-                                juego.agregarCartaMesa(carta);
-                                juego.sumarRonda();
-                                jugador.removerCarta(carta);
-                            }
-                        });
+                     float destinoX = this.CENTRODEMESAX;
+                     float destinoY = this.CENTRODEMESAY;
 
-                ultimoClickTime = TimeUtils.millis();
-                clicProcesado = true;
-            }
+                     Animaciones.iniciarMovimiento(
+                             carta.getImagenCarta(),
+                             x, y,
+                             destinoX, destinoY,
+                             anchoCarta, alturaCarta,
+                             0.25f,
+                             new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     sonidoCartaTirada();
+                                     juego.jugarCarta(carta, jugador);
+                                     juego.agregarCartaMesa(carta);
+                                     juego.sumarRonda();
+                                     jugador.removerCarta(carta);
+                                 }
+                             });
 
-            indice++;
+                     ultimoClickTime = TimeUtils.millis();
+                     clicProcesado = true;
+                 	}
+
+                 indice++;
+        	 	}
+        	}
         }
     }
 

@@ -114,6 +114,10 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    habilidadesActivas.add(HabilidadActiva.bloqueoRobarGlobal(turnos, descripcion));
 	}
 	
+	public void activarJugarCartaAleatorea(Entidad objetivo,int turnos, String descripcion) {
+	    habilidadesActivas.add(HabilidadActiva.jugarCartaAleatorea(objetivo,turnos, descripcion));
+	}
+	
 	private boolean estaBloqueadoRobar(Entidad jugador) {
 	    for (HabilidadActiva ha : habilidadesActivas) {
 	        if (ha.getTipo() == HabilidadActiva.Tipo.BLOQUEAR_ROBAR && ha.getTurnosRestantes() > 0) {
@@ -506,6 +510,15 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public boolean isHabilidadActiva(HabilidadActiva.Tipo tipo) {
 	    for (HabilidadActiva ha : habilidadesActivas) {
 	        if (ha.getTipo() == tipo) return true;
+	    }
+	    return false;
+	}
+	
+	public boolean isHabilidadActivaEnJugador(HabilidadActiva.Tipo tipo,Entidad jugador) {
+		for (HabilidadActiva ha : habilidadesActivas) {
+	        if (ha.getTipo() == tipo && ha.getTurnosRestantes() > 0) {
+	            if (ha.getObjetivo() == jugador) return true;
+	        }
 	    }
 	    return false;
 	}

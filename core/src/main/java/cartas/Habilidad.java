@@ -155,6 +155,15 @@ public enum Habilidad {
     		}
     		
     	}
+    },
+    TIRAR_CARTA_ALEATOREA { //modifica puntos en general
+        public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+        	if (controlador instanceof Juego) {
+        		Juego juego = (Juego) controlador;
+        		
+        		juego.activarJugarCartaAleatorea(jugador,3, "Redento: no puedes robar del mazo");
+        	}
+        }
     }
     ;
 	

@@ -155,3 +155,5 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 36) -- Septiembre 24 2025 -- Se agrego la habilidad de snake de ver pos puntos de los demas.
 
 37) -- Septiembre 25 2025 -- Se agrego la carta Chester que sirve para intercambiarl os putnos con el rival siguiente de la ronda y se añadio tambien la carta de "Pecado de la codicia" Carta la cual hace perder 4 cartas de tu mano y esta carta, permanecer en ella. Esta carta cuando es tirada desde tu mano te resta 5 puntos y le suma 1 punto al rival.
+
+38) -- Septiembre 28 2025 -- Se agrego la habilidad de la carta sonanbulo, juega las cartas de manera aleatorea 

@@ -42,8 +42,8 @@ public class HabilidadActiva {
 	public static HabilidadActiva verPuntos() {
 		return new HabilidadActiva(Tipo.MOSTRAR_PUNTOS, null, 2, "Ver puntos", true);
 	}
-    
-	public static HabilidadActiva sonambulo(Entidad objetivo, int turnos, String desc) {
+
+	public static HabilidadActiva jugarCartaAleatorea(Entidad objetivo, int turnos, String desc) {
 		return new HabilidadActiva(Tipo.SONAMBULO, objetivo, turnos, desc, false);
 	}
     

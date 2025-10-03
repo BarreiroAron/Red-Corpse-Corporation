@@ -13,9 +13,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Pantallas.PantallaCarga;
 import Utiles.Animaciones;
+import Utiles.Imagen;
 import Utiles.Render;
-import cartas.Imagen;
-import sonidos.SonidoMenuPrincipalHilo;
+import sonidos.SonidoMenuPrincipal;
 
 public class MenuPrincipal implements Screen {
 
@@ -30,7 +30,7 @@ public class MenuPrincipal implements Screen {
     private float xBoton, yBotonJugar, yBotonOpciones, yBotonSalir;
     private float anchoBoton = 309, altoBoton = 115;
 
-    SonidoMenuPrincipalHilo sonidoMenuPrincipalHilo;
+    SonidoMenuPrincipal sonidoMenuPrincipalHilo;
     
     private Screen pantallaAnterior;
     private boolean pausa = false;
@@ -69,7 +69,7 @@ public class MenuPrincipal implements Screen {
 
         startAudio();
 
-        this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipalHilo();
+        this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipal();
         this.sonidoMenuPrincipalHilo.start();
 
         // inicializar cámara

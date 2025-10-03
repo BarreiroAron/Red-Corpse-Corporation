@@ -6,7 +6,8 @@ public class HabilidadActiva {
     public enum Tipo {
         BLOQUEAR_ROBAR,
         MOSTRAR_PUNTOS,
-        SONAMBULO
+        SONAMBULO,
+        MOSTRAR_CARTAS_SIGUIENTES
     }
 
     private final Tipo tipo;
@@ -46,5 +47,12 @@ public class HabilidadActiva {
 	public static HabilidadActiva jugarCartaAleatorea(Entidad objetivo, int turnos, String desc) {
 		return new HabilidadActiva(Tipo.SONAMBULO, objetivo, turnos, desc, false);
 	}
-    
+	
+	public static HabilidadActiva verSiguientesCartas(int turnos, String desc) {
+	    return new HabilidadActiva(Tipo.MOSTRAR_CARTAS_SIGUIENTES, null, turnos, desc, true);
+	}
+
+	public static HabilidadActiva verCartas() {
+	    return new HabilidadActiva(Tipo.MOSTRAR_CARTAS_SIGUIENTES, null, 1, "Ver próximas cartas", true);
+	}
 }

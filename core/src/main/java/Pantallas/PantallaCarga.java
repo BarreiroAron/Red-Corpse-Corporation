@@ -12,9 +12,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import Entidades.Entidad;
 import Entidades.Jugador;
 import Entidades.Rival;
+import Utiles.Imagen;
 import Utiles.Recursos;
 import Utiles.Render;
-import cartas.Imagen;
 import juegos.Juego;
 
 import Entidades.CuerpoAnimado;

@@ -1,9 +1,9 @@
 package cartasNormales;
 
+import Utiles.Imagen;
 import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
-import cartas.Imagen;
 import cartas.TipoDeCarta;
 
 public class Colera extends Carta {

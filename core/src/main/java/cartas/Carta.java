@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 
 import Entidades.Entidad;
+import Utiles.Imagen;
 import Utiles.Recursos;
 import juegos.ControladorDeJuego;
 import juegos.Juego;

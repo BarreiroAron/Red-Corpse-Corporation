@@ -1,6 +1,6 @@
 package Entidades;
 
-import cartas.Imagen;
+import Utiles.Imagen;
 
 public class Rival extends Entidad {
 

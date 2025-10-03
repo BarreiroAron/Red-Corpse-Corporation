@@ -19,9 +19,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import Entidades.Entidad;
 import cartas.Carta;
 import Utiles.Animaciones;
+import Utiles.Imagen;
 import Utiles.Recursos;
 import Utiles.Render;
-import cartas.Imagen;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
 import menues.MenuFinPartida;
@@ -103,14 +103,12 @@ public class JuegoPantalla implements Screen {
     @Override
     public void render(float delta) {
         update(delta);
-        
-        this.menuPausaActivo = false;
 
+        this.menuPausaActivo = false;
         if (juego.isPartidaFinalizada()) return;
 
         Render.limpiarPantalla();
 
-        // muy importante: la cámara debe actualizarse en cada frame
         camera.update();
         Render.batch.setProjectionMatrix(camera.combined);
 
@@ -120,20 +118,14 @@ public class JuegoPantalla implements Screen {
         this.Cartel.dibujar();
 
         dibujarPuntos(juego.getJugadorActual());
-
         dibujarInterfazJugador(Render.batch, juego.getJugadorActual(), delta);
-
         dibujarMazo(Render.batch, juego.getJugadorActual(), delta);
-        
         dibujarJugadores(Render.batch);
-
         dibujarMesaCartas(Render.batch);
-
         dibujarBarraTiempo();
-        
-        
-        
-        // actualiza animaciones
+
+        dibujarCartasSiguientes();
+
         Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
 
         Render.batch.end();
@@ -141,6 +133,7 @@ public class JuegoPantalla implements Screen {
         this.juego.actualizar();
         actualizarMouse();
     }
+
 
     private void update(float delta) {
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
@@ -367,6 +360,32 @@ public class JuegoPantalla implements Screen {
         	}
         }
     }
+    
+    private void dibujarCartasSiguientes() {
+        // Asegurate de usar el mismo Tipo que definiste en HabilidadActiva
+        if (!juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)) return;
+
+        ArrayList<Carta> mazo = juego.getMazo();
+        int limite = Math.min(3, mazo.size());
+
+        float x = camera.viewportWidth / 2f - 150f; // ajustar si hace falta
+        float y = camera.viewportHeight / 2f + 60f;
+
+        // Usamos la fuente local si existe (bitmapFont), si no, la global Render.font
+        BitmapFont fontToUse = (this.bitmapFont != null) ? this.bitmapFont : Render.font;
+
+        for (int i = 0; i < limite; i++) {
+            Carta c = mazo.get(i);
+            // Nombre seguro: nombre de la clase como fallback
+            String nombre = c.getClass().getSimpleName();
+            // si tenés getNombre() en Carta, podés cambiar a: c.getNombre()
+            String texto = "PRÓXIMA " + (i + 1) + ": " + nombre.toUpperCase();
+            fontToUse.draw(Render.batch, texto, x, y - i * 28f);
+        }
+    }
+
+
+
 
     public void sonidoCartaTirada() {
         SonidoManager.i().playSfx(this.CartaTirada);

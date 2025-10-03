@@ -24,7 +24,7 @@ import cartasNormales.Redento;
 import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
-import sonidos.SonidoAmbientalHilo;
+import sonidos.SonidoAmbiental;
 import sonidos.SonidoManager;
 
 public class Juego implements ControladorDeJuego, TiempoListener {
@@ -51,7 +51,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private boolean cartasDisponiblesMazo= true;
 
-	private final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
+	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
 	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
@@ -62,7 +62,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.hiloDeTiempo = new HiloTiempoPartida(this);
 		this.hiloDeTiempo.setMinutos(tiempo);
 		this.hiloDeTiempo.start();
-		SonidoAmbientalHilo VentiladorHilo = new SonidoAmbientalHilo();
+		SonidoAmbiental VentiladorHilo = new SonidoAmbiental();
 	}
 
 
@@ -92,7 +92,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 				mazo.add(new Sonambulo());
 
 				// Cartas especiales
-				mazo.add(new IMHERE());
+				//mazo.add(new IMHERE());
 				mazo.add(new Inanicion());
 		
 		cantidadCartasMazo = mazo.size();
@@ -128,6 +128,10 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    return false;
 	}
 	
+	public void activarVerCartas() {
+	    habilidadesActivas.add(HabilidadActiva.verCartas());
+	}
+
 	//bloquea a todos excepto a el tirador
 	public void activarBloqueoRobarATodosExcepto(Entidad caster, int turnos, String descripcion) {
 	    for (Entidad e : jugadores) {

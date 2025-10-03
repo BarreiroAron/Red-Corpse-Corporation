@@ -11,6 +11,7 @@ import Entidades.Jugador;
 import Pantallas.JuegoPantalla;
 import Utiles.Render;
 import juegos.ControladorDeJuego;
+import juegos.HabilidadActiva;
 import juegos.Juego;
 
 public enum Habilidad {
@@ -50,27 +51,12 @@ public enum Habilidad {
         }
     },
     
-    VER_CARTAS_SIGUIENTES() { //sirve para efectos de Ojo que todo lo ve
+    VER_CARTAS_SIGUIENTES {
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-        	   if (controlador instanceof Juego juego) {
-                   ArrayList<Carta> mazo = juego.getMazo();
-                   ArrayList<Carta> cartaMostrada = new ArrayList<>();
-
-                   for (int i = 0; i < 3 && i < mazo.size(); i++) {
-                       cartaMostrada.add(mazo.get(i));
-                   }
-
-                   juego.setCartasMostradas(cartaMostrada);
-
-                   System.out.println("Cartas reveladas: ");
-                   for (Carta c : cartaMostrada) {
-                       System.out.println("- " + c.getClass().getSimpleName());
-                       JOptionPane.showMessageDialog(null, //Esta parte del codigo va a ser muy primitiva por ahora
-                               " " + c.getClass().getSimpleName(),
-                               "Carta numero " + (mazo.indexOf(c)+1),
-                               JOptionPane.INFORMATION_MESSAGE);
-                   }
-               }
+            if (controlador instanceof Juego juego) {
+                juego.activarVerCartas();
+            }
         }
     },
     
@@ -117,11 +103,43 @@ public enum Habilidad {
         }
     },
     
-    APARICION_ALEATORIA() { //sirve para efectos de IM HERE
+    APARICION_ALEATORIA() { //EN PROCESO
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-            
+            if (!(controlador instanceof Juego juego)) return;
+
+            int chance = (int)(Math.random() * 100) + 1;
+            if (chance <= 5) {
+                System.out.println("¡¡APARECIÓ IMHERE!!");
+
+                jugador.removerCarta(carta);
+                Carta imhere = new cartasEspeciales.IMHERE();
+                jugador.agregarCarta(imhere);
+
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    mostrarVentana("IMSCARED.png", 400, 300);
+                    mostrarVentana("IMSCAREDDOS.webp", 600, 450);
+                    mostrarVentana("IMSCAREDTRES.webp", 250, 250);
+                });
+            }
+        }
+
+        private void mostrarVentana(String archivo, int ancho, int alto) {
+            javax.swing.JFrame frame = new javax.swing.JFrame("IM HERE!");
+            frame.setSize(ancho, alto);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+
+            javax.swing.ImageIcon icono = new javax.swing.ImageIcon("imagenes/" + archivo);
+
+            javax.swing.JLabel label = new javax.swing.JLabel(icono);
+            frame.add(label);
+
+            frame.setVisible(true);
         }
     },
+
+
     
     ROBAR_CARTA() { //Esta carta esta hecha para el pecado de la codicia
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
@@ -156,6 +174,7 @@ public enum Habilidad {
     		
     	}
     },
+    
     TIRAR_CARTA_ALEATOREA { //modifica puntos en general
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
         	if (controlador instanceof Juego) {

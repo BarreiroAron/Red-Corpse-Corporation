@@ -30,7 +30,7 @@ public class Recursos {
 	
 	public static final String MIMICO = "Mimico.png"; 
 	public static final String NOT_TODAY = "notTodayBETA.jfif"; //
-	public static final String OJO_QUE_TODO_LO_VE = "billClaveBETA.jfif"; //
+	public static final String OJO_QUE_TODO_LO_VE = "BillClave.png"; //
 	public static final String REDENTO = "redento.png"; //
 	public static final String SALTAMONTES = "saltamontesBETA.jfif"; //
 	public static final String SNAKE = "snake.png"; //

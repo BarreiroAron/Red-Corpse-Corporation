@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import Utiles.Imagen;
 import cartas.Carta;
-import cartas.Imagen;
 import juegos.Juego;
 
 public abstract class Entidad {

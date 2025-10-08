@@ -124,7 +124,7 @@ public class JuegoPantalla implements Screen {
         dibujarMesaCartas(Render.batch);
         dibujarBarraTiempo();
 
-        dibujarCartasSiguientes();
+        dibujarCartasSiguientes(Render.batch);
 
         Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
 
@@ -361,26 +361,23 @@ public class JuegoPantalla implements Screen {
         }
     }
     
-    private void dibujarCartasSiguientes() {
+    private void dibujarCartasSiguientes(SpriteBatch batch) {
+    	
         // Asegurate de usar el mismo Tipo que definiste en HabilidadActiva
-        if (!juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)) return;
+        if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)){
 
+        float anchoCarta = 150f, alturaCarta = 250f;
+        
         ArrayList<Carta> mazo = juego.getMazo();
-        int limite = Math.min(3, mazo.size());
-
+        //prevenir quedarse sin cartas
+        Carta cartas[] = { mazo.get(0), mazo.get(1), mazo.get(2) };
+        
         float x = camera.viewportWidth / 2f - 150f; // ajustar si hace falta
         float y = camera.viewportHeight / 2f + 60f;
-
-        // Usamos la fuente local si existe (bitmapFont), si no, la global Render.font
-        BitmapFont fontToUse = (this.bitmapFont != null) ? this.bitmapFont : Render.font;
-
-        for (int i = 0; i < limite; i++) {
-            Carta c = mazo.get(i);
-            // Nombre seguro: nombre de la clase como fallback
-            String nombre = c.getClass().getSimpleName();
-            // si tenés getNombre() en Carta, podés cambiar a: c.getNombre()
-            String texto = "PRÓXIMA " + (i + 1) + ": " + nombre.toUpperCase();
-            fontToUse.draw(Render.batch, texto, x, y - i * 28f);
+        System.out.println("Se entro a dibujar de bill ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
+        for(int i=0;i<cartas.length ;i++) {
+        	cartas[i].getImagenCarta().dibujar(batch, ((anchoCarta +30)*i)+x, y, anchoCarta, alturaCarta);;
+        }
         }
     }
 

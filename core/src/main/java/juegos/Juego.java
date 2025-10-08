@@ -129,7 +129,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 	
 	public void activarVerCartas() {
-	    habilidadesActivas.add(HabilidadActiva.verCartas());
+	    habilidadesActivas.add(HabilidadActiva.verSiguientesCartas(2, "habilidad de bill de ver cartas"));
 	}
 
 	//bloquea a todos excepto a el tirador

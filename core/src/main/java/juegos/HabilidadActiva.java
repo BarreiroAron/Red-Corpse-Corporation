@@ -53,6 +53,7 @@ public class HabilidadActiva {
 	}
 
 	public static HabilidadActiva verCartas() {
+		System.out.println("Se activo el bill");
 	    return new HabilidadActiva(Tipo.MOSTRAR_CARTAS_SIGUIENTES, null, 1, "Ver próximas cartas", true);
 	}
 }

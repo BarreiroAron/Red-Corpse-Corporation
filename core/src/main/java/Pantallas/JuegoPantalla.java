@@ -366,17 +366,24 @@ public class JuegoPantalla implements Screen {
         // Asegurate de usar el mismo Tipo que definiste en HabilidadActiva
         if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)){
 
-        float anchoCarta = 150f, alturaCarta = 250f;
-        
+        float anchoCarta = 150f, alturaCarta = 250f, esp = 50f;
+        juego.rebarajearMesa();
         ArrayList<Carta> mazo = juego.getMazo();
         //prevenir quedarse sin cartas
-        Carta cartas[] = { mazo.get(0), mazo.get(1), mazo.get(2) };
+        int camtidadCartas=mazo.size();
+        Carta cartas[]=  new Carta[camtidadCartas>3? 3:camtidadCartas];
         
-        float x = camera.viewportWidth / 2f - 150f; // ajustar si hace falta
+        float total = cartas.length * anchoCarta + (cartas.length - 1) * esp;
+        float inicioX = (camera.viewportWidth - total) / 2f;
+        
+        for(int n=0;n<3 && n<camtidadCartas;n++) {
+        	cartas[n]= mazo.get(n);
+        }
+        
+        float x = camera.viewportWidth / 2f; // ajustar si hace falta
         float y = camera.viewportHeight / 2f + 60f;
-        System.out.println("Se entro a dibujar de bill ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
         for(int i=0;i<cartas.length ;i++) {
-        	cartas[i].getImagenCarta().dibujar(batch, ((anchoCarta +30)*i)+x, y, anchoCarta, alturaCarta);;
+        	cartas[i].getImagenCarta().dibujar(batch, inicioX + i * (anchoCarta + esp), y, anchoCarta, alturaCarta);;
         }
         }
     }

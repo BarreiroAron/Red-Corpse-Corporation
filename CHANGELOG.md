@@ -157,3 +157,5 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 37) -- Septiembre 25 2025 -- Se agrego la carta Chester que sirve para intercambiarl os putnos con el rival siguiente de la ronda y se añadio tambien la carta de "Pecado de la codicia" Carta la cual hace perder 4 cartas de tu mano y esta carta, permanecer en ella. Esta carta cuando es tirada desde tu mano te resta 5 puntos y le suma 1 punto al rival.
 
 38) -- Septiembre 28 2025 -- Se agrego la habilidad de la carta sonanbulo, juega las cartas de manera aleatorea 
+
+39) -- Octubre 9 2025 -- Se  agrego la habilidad de ver cartas futuras de bill, usa una condicion agregada a habilidad de , vert siguientes cartas, duraa unaa ronda, se impide de quew sea menos de 3 cartas rebarajeando cartas de la mesa pero aun asi busca no extenderse mas de 3 cartas , se centran el el medio de mejor manera 

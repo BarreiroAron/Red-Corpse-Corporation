@@ -254,18 +254,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	    // --- se roba carta del mazo ---
 	    Carta carta = mazo.remove(0);
-	    /*
-	    //sonambulo no funciona aun
-	    if (carta instanceof Sonambulo) {
-	        // activamos efecto Sonámbulo 3 turnos
-	        habilidadesActivas.add(HabilidadActiva.sonambulo(jugador, 3,
-	                "Debe jugar cartas aleatorias por 3 turnos (Sonámbulo)"));
-	        System.out.println(jugador.getNombre() + " robó SONÁMBULO → activado efecto por 3 turnos");
-	        // si NO querés que quede en la mano, no agregarla al jugador
-	        // si querés que quede, entonces:
-	        jugador.agregarCarta(carta);
-	        return;
-	    } */
 
 	    //pecado de la codicia
 	    if (carta instanceof PecadoDeLaCodicia) {
@@ -280,7 +268,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 
 
-	private void rebarajearMesa(){
+	public void rebarajearMesa(){
 		mazo.addAll(mesa);
 		mesa.clear();
 		cartasDisponiblesMazo=true;

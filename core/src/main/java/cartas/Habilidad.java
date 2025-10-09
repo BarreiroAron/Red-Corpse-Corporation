@@ -156,7 +156,8 @@ public enum Habilidad {
     
     HAMBRE() { //Carta que se va a usar para la carta de HAMBRE CONTENIDA
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-    		
+    		controlador.modificarPuntosGlobal(jugador,-30, false);
+    		controlador.activarRobarMazoAEleccion(jugador);
     	}
     }, 
     

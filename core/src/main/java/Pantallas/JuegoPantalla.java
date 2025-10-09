@@ -125,6 +125,8 @@ public class JuegoPantalla implements Screen {
         dibujarBarraTiempo();
 
         dibujarCartasSiguientes(Render.batch);
+        
+        dibujarCartasParaRobarAEleccion(Render.batch);
 
         Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
 
@@ -135,7 +137,17 @@ public class JuegoPantalla implements Screen {
     }
 
 
-    private void update(float delta) {
+    private void dibujarCartasParaRobarAEleccion(SpriteBatch batch) {
+		if(juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION)) {
+			ArrayList<Carta> mazo = juego.getMazo();
+			int cantidadCartas = mazo.size();
+			
+			
+			
+		}
+	}
+
+	private void update(float delta) {
     	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
 	        if (!menuPausaActivo) {
 	            game.setScreen(new MenuOpciones(game, this));

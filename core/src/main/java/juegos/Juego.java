@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import Entidades.Entidad;
+import Entidades.Jugador;
 import cartas.Carta;
 import cartas.TipoDeCarta;
 import cartasEspeciales.IMHERE;
@@ -117,6 +118,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public void activarJugarCartaAleatorea(Entidad objetivo,int turnos, String descripcion) {
 	    habilidadesActivas.add(HabilidadActiva.jugarCartaAleatorea(objetivo,turnos, descripcion));
 	}
+
+	@Override
+	public void activarRobarMazoAEleccion(Entidad jugador) {
+		habilidadesActivas.add(HabilidadActiva.robarDelMazoCartaAEleccion(jugador,1, "disminuye a los enemigos 30 pero te permite robar 2 cartas a eleccion"));
+    }
 	
 	private boolean estaBloqueadoRobar(Entidad jugador) {
 	    for (HabilidadActiva ha : habilidadesActivas) {
@@ -482,6 +488,15 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	@Override
     public void modificarPuntos(Entidad objetivo, int puntos, boolean esPorcentual) {
         objetivo.modificarPuntos(puntos, esPorcentual);
+    }
+	
+	@Override
+	public void modificarPuntosGlobal(Entidad jugadorEjecutador, int puntos, boolean esPorcentual) {
+		for(Entidad jugador: jugadores) {
+			if(jugador!=jugadorEjecutador) {
+			jugador.modificarPuntos(puntos, esPorcentual);
+			}
+		}
     }
 
 

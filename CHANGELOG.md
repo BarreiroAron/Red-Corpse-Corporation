@@ -30,6 +30,8 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 - SonidoManager incorporado para controlar audio dinámicamente. -- 2025-07-20 --
 - Sistema de pausa implementado mediante tecla `Esc`. -- 2025-08-01 --
 - Nuevos assets: reemplazo del `Mímico` provisorio y música ambiental provisoria. -- 2025-08-01 --
+- Nuevas funciones de cartas: Añadidos Redento, Snake, King Dice -- 2025-09-24 --
+- - Nuevas funciones de cartas: Añadidos Chester, Pecado de la codicia -- 2025-09-25 --
 
 ### Cambios
 - FPS limitados a 60 para estabilidad general del juego. -- 2025-07-10 --
@@ -50,6 +52,8 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 - Bug del sonido ambiental (ventilador) que seguía activo al cerrar el juego fue solucionado. -- 2025-07-30 --
 - Correcciones menores visuales y de lógica durante la transición entre pantallas. -- 2025-07-22 --
 - Se optimizó el uso de hilos para evitar errores al finalizar partidas. -- 2025-07-22 --
+- Se reparo el error de resolucion para que sea adaptable a diferentes pantallas -- 2025-08-03 --
+- Error de resolucion persistente, finalmente arreglado completamente en todas las pantallas -- 2025-9-06 --
 
 
 
@@ -133,3 +137,25 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
                                                  Se agregaron nuevos assets, modfificando asi el asset provisorio de "Mimico", sustituyendolo por el asset final y tambien se                               agrego un asset de musica provisoria.   -- Alpha 0.1 --
 
 29) -- Agosto 2 2025 -- Implementamos animaciones por frames con TextureRegion, creamops las clases para que los personajes los tenga por cuenta propia;
+
+30) -- Septiembre 03 2025 -- Modificamos el codigo de la pantalla de juego para que ahora tenga una resolucion escalable a cualquier monitor. Antes, solo se podia ver completamente el juego si es que se jugaba en una resolucion de 1080 x 1200. Ahora, el juego es jugable en cualquie monnitor con resolucion diferente a la antes mencionada.
+
+31) -- Septiembre 6 2025 -- Agregamos la resolucion de pantalla para todas las computadoras a la pantalla de carga y al menu princpial para que ya no se vean de una manera errada en resoluciones de monitores que sean diferentes a una de 1080 x 1200. El juego ya es adaptable a cualquier resolcion de monitor.
+
+
+32) -- Septiembre 10 2025 -- Se agrega pantalla de fin de juego solo al ganar un jugador, solo con botones para reiniciar partida y volver al menu con imagenes provisorias.
+
+33) -- Septiembre 19 2025 -- cambie los datos que se toma como centro en personajes para que se centre segun la camara y agrege el tipo de carta, normal , mala y especial para futuras implementaciones con efectos de cartas donde se busca si la carta es buena o mala.
+
+34) -- Septiembre 19 2025 -- se agrego kingdice y ademas agrege el tipo de carta de mala,normal y especial.
+
+
+35) -- Septiembre 22 2025 -- Se agrego tipo de enemigo determinado global y se implemento el tema de habilidades activas a lo largo de la partida, tambien se agrego la carta de redento con funcion de bloquear agarrar mas cartas.
+
+36) -- Septiembre 24 2025 -- Se agrego la habilidad de snake de ver pos puntos de los demas.
+
+37) -- Septiembre 25 2025 -- Se agrego la carta Chester que sirve para intercambiarl os putnos con el rival siguiente de la ronda y se añadio tambien la carta de "Pecado de la codicia" Carta la cual hace perder 4 cartas de tu mano y esta carta, permanecer en ella. Esta carta cuando es tirada desde tu mano te resta 5 puntos y le suma 1 punto al rival.
+
+38) -- Septiembre 28 2025 -- Se agrego la habilidad de la carta sonanbulo, juega las cartas de manera aleatorea 
+
+39) -- Octubre 9 2025 -- Se  agrego la habilidad de ver cartas futuras de bill, usa una condicion agregada a habilidad de , vert siguientes cartas, duraa unaa ronda, se impide de quew sea menos de 3 cartas rebarajeando cartas de la mesa pero aun asi busca no extenderse mas de 3 cartas , se centran el el medio de mejor manera 

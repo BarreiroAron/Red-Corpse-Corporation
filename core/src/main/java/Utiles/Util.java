@@ -3,7 +3,6 @@ package Utiles;
 import com.badlogic.gdx.Gdx;
 
 import Entidades.CuerpoAnimado;
-import cartas.Imagen;
 
 import java.util.Random;
 

@@ -7,136 +7,201 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 import Entidades.Entidad;
 import cartas.Carta;
 import Utiles.Animaciones;
+import Utiles.Imagen;
 import Utiles.Recursos;
 import Utiles.Render;
-import cartas.Imagen;
-import cartasEspeciales.IMHERE;
-import cartasMalas.PecadoDeLaCodicia;
-import cartasNormales.KingDice;
-import cartasNormales.Redento;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
-
-import juegos.HiloTiempoPartida;
-import juegos.TiempoListener;
+import menues.MenuFinPartida;
+import menues.MenuOpciones;
 import menues.MenuPrincipal;
 import sonidos.SonidoManager;
 
-import Entidades.CuerpoAnimado;
+public class JuegoPantalla implements Screen {
 
+    private BitmapFont bitmapFont;
 
-public class JuegoPantalla implements Screen{
+    private Imagen Mesa;
+    private Imagen Cartel;
+    private Imagen Enemigo;
+    private Imagen cartaEspalda;
 
-	private BitmapFont bitmapFont;
-	
-	private Imagen Mesa;
-	private Imagen Cartel;
-	private Imagen Enemigo;
-	private Imagen cartaEspalda;
-	
-	private Texture BarraDeTiempo;
-	
-	private Carta tfp;
-	
-	private long cooldownMs = 500; 
-	private long ultimoClickTime = 0;
-	
-	private final Game game; // para cambiar pantalla
-	private final Juego juego; // tu lógica
-	
-	//variables para detectar el mouse
-	float mouseX = Gdx.input.getX();
-	float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+    private Texture BarraDeTiempo;
 
-	private float ANCHO_PERSONAJE=450f;
+    private Carta tfp;
+
+    private long cooldownMs = 500;
+    private long ultimoClickTime = 0;
+
+    private final Game game;   // para cambiar pantalla
+    private final Juego juego; // tu lógica
+
+    // Cámara y viewport
+    private OrthographicCamera camera;
+    private Viewport viewport;
+
+    // variables para detectar el mouse (en coords virtuales)
+    float mouseX;
+    float mouseY;
+
+    private Sound CartaTirada;
+
+    final float ANCHOCARTA = 150f;
+    final float LARGOCARTA = 250.f;
+
+    private float ANCHO_PERSONAJE=450f;
 	private float LARGO_PERSONAJE=700f;
-	
-	 private Sound CartaTirada;
-	 
-	 final float ANCHOCARTA= 150f;
-	 final float LARGOCARTA = 250f;
-	 
-	 final float CENTRODEMESAX =  (Gdx.graphics.getWidth()/2.f)-ANCHOCARTA/2;
-	 final float CENTRODEMESAY = (Gdx.graphics.getHeight()/2.f) -80;
-	 
-	 private boolean menuPausaActivo = false;
-	 
-	 public JuegoPantalla(Game game, Juego juego) {
-		    this.game = game;
-		    this.juego = juego;
+    
+    final float CENTRODEMESAX;
+    final float CENTRODEMESAY;
+
+    private boolean menuPausaActivo = false;
+
+    public JuegoPantalla(Game game, Juego juego) {
+        this.game = game;
+        this.juego = juego;
+
+        // inicializamos la cámara y el viewport con 1920x1080 (virtual)
+        camera = new OrthographicCamera();
+        viewport = new FitViewport(1920, 1080, camera);
+        camera.position.set(1920 / 2f, 1080 / 2f, 0);
+
+        // centro de la mesa según la resolución virtual
+        CENTRODEMESAX = (1920 / 2f) - ANCHOCARTA / 2;
+        CENTRODEMESAY = 1080 / 2f;
+    }
+
+    @Override
+    public void show() {
+        this.bitmapFont = new BitmapFont();
+
+        this.Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
+        this.Cartel = new Imagen(Recursos.CARTEL);
+        this.Enemigo = new Imagen(Recursos.RIVAL1);
+
+        this.BarraDeTiempo = new Texture(Recursos.TEXTURA_BARRA);
+
+        this.CartaTirada = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
+
+        this.cartaEspalda = new Imagen(Recursos.MAZO_CARTAS);
+
+        this.tfp = new ThanksForPlaying();
+    }
+
+    @Override
+    public void render(float delta) {
+        update(delta);
+
+        this.menuPausaActivo = false;
+        if (juego.isPartidaFinalizada()) return;
+
+        Render.limpiarPantalla();
+
+        camera.update();
+        Render.batch.setProjectionMatrix(camera.combined);
+
+        Render.batch.begin();
+
+        this.Mesa.dibujar();
+        this.Cartel.dibujar();
+
+        dibujarPuntos(juego.getJugadorActual());
+        dibujarInterfazJugador(Render.batch, juego.getJugadorActual(), delta);
+        dibujarMazo(Render.batch, juego.getJugadorActual(), delta);
+        dibujarJugadores(Render.batch);
+        dibujarMesaCartas(Render.batch);
+        dibujarBarraTiempo();
+
+        dibujarCartasSiguientes(Render.batch);
+        
+        dibujarCartasParaRobarAEleccion(Render.batch,delta);
+
+        Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
+
+        Render.batch.end();
+
+        this.juego.actualizar();
+        actualizarMouse();
+    }
+
+
+    private void dibujarCartasParaRobarAEleccion(SpriteBatch batch, float delta) {
+		if(juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION)) {
+			System.out.println("BRIAR ACTIVADAAAAAAAAA");
+			ArrayList<Carta> mazo = juego.getMazo();
+			int cantidadCartas = mazo.size();
+			
+			int indice= 0;
+				Carta cartaActual =mazo.get(indice);
+				boolean hovered = Animaciones.animarHover(
+		                batch,
+		                cartaActual.getImagenCarta(),
+		                1650f, 350f,
+		                ANCHOCARTA, LARGOCARTA,
+		                mouseX, mouseY,
+		                1.2f,
+		                8f,
+		                delta);
+
+		        if (hovered && Gdx.input.isTouched()) {
+		            long tiempoActual = TimeUtils.millis();
+		            if (tiempoActual - ultimoClickTime >= cooldownMs) {
+		                juego.agregarCartaAJugador(cartaActual,juego.getHabilidad(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION).getObjetivo());
+		                mazo.remove(cartaActual);
+		                ultimoClickTime = tiempoActual;
+		                juego.restarcantidadDeCartasASacar();
+		            }
+		        }
+		   if(juego.getcantidadDeCartasASacar()<=0){
+			   System.out.println("Se elimina la carta");
+			   juego.removeHabilidadActiva(juego.getHabilidad(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION));
+		   }
+		}
 	}
-	
-	@Override
-	public void show() {
-		this.bitmapFont = new BitmapFont();
-		
-		this.Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
-		this.Cartel = new Imagen(Recursos.CARTEL);
-		this.Enemigo = new Imagen(Recursos.RIVAL1);
-		
-		this.BarraDeTiempo =  new Texture(Recursos.TEXTURA_BARRA);
-		
-		this.CartaTirada = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
-		
-		this.cartaEspalda = new Imagen(Recursos.CARTA_ESPALDA);
-		
-		this.tfp = new ThanksForPlaying();
-		
-	}
-	
-	@Override
-	public void render(float delta) {
-		this.menuPausaActivo = false;
-		
-		 update(delta);
-		 
-		 if (juego.isPartidaFinalizada()) return;
-		
-		Render.limpiarPantalla();
-		
-		Render.batch.begin();
-		
-		this.Mesa.dibujar();
-		this.Cartel.dibujar();
-		
-		dibujarPuntos(juego.getJugadorActual());
-		
-		dibujarInterfazJugador(Render.batch,juego.getJugadorActual(),delta);
-		
-		dibujarMazo(Render.batch,juego.getJugadorActual(),delta);
-		
-		dibujarJugadores(Render.batch);
-		
-		dibujarMesaCartas(Render.batch);
-		
-		dibujarBarraTiempo();
-		
-		//actaliza animacion
-		Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
-		
-		Render.batch.end();
-		
-		
-		this.juego.actualizar();
-		actualizarMouse();
-	}
-	
-	private void dibujarJugadores(SpriteBatch batch) {
+
+	private void update(float delta) {
+    	if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+	        if (!menuPausaActivo) {
+	            game.setScreen(new MenuOpciones(game, this));
+	            menuPausaActivo = true;
+	        }
+	    }
+        if (juego.isPartidaFinalizada()) {
+            game.setScreen(new MenuFinPartida(game));
+            return;
+        }
+    }
+
+    private void actualizarMouse() {
+        Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+        viewport.unproject(mouse); // convierte a coords virtuales
+        mouseX = mouse.x;
+        mouseY = mouse.y;
+    }
+    
+    private void dibujarJugadores(SpriteBatch batch) {
 
 	    Entidad jugadorActual = juego.getJugadorActual();   // puede ser null
-	    int total    = juego.getJugadores().size();
-	    int visibles = (jugadorActual == null) ? total : total - 1;
-	    if (visibles <= 0) return;
 
-	    float paso        = (float) Gdx.graphics.getWidth() / (visibles + 1);
+	    int total    = juego.getJugadores().size();
+
+	    int visibles = (jugadorActual == null) ? total : total - 1;
+
+	    if (visibles <= 0) return;
+	    
+	    float paso        = (float) camera.viewportWidth / (visibles + 1);
 	    float alturaBase  = 550f;
 	    float delta       = Gdx.graphics.getDeltaTime();   
 
@@ -149,194 +214,230 @@ public class JuegoPantalla implements Screen{
 	        float x = paso * (indiceVisible + 1) - LARGO_PERSONAJE / 2f;
 	        float y = alturaBase + (((indiceVisible % 2 == 0)&& total>3 )? 75f : 0f);
 
+
 	        jugador.getCuerpo().draw(batch,                         //se dibuja por frames
-	                     x, y,
+	                     (x), (camera.viewportHeight -y),
 	                     LARGO_PERSONAJE, ANCHO_PERSONAJE,
 	                     delta);
-
+	        
 	        indiceVisible++;
-	    }
-	}
 
-
-	private void update(float delta) {
-	    if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
-	        if (!menuPausaActivo) {
-	            game.setScreen(new MenuPrincipal(game, this));
-	            menuPausaActivo = true;
+	        if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_PUNTOS)) {
+	            // pequeña etiqueta arriba del enemigo
+	            float etiquetaY = (camera.viewportHeight - y) + ANCHO_PERSONAJE + 20f;
+	            bitmapFont.draw(
+	                batch,
+	                jugador.getNombre() + ": " + jugador.getPuntos(),
+	                x, 
+	                etiquetaY
+	            );
+	            System.out.println(jugador.getNombre() + ": " + jugador.getPuntos()+" Habilidad de invisible activada");
 	        }
 	    }
-
-	    if (juego.isPartidaFinalizada()) {
-	        game.setScreen(new PantallaCarga(game));
-	        return;
-	    }
 	}
 
-	//despues ver de generalizar metodos de aumento y click para dibujar mazo y dibujar mano
-	private void dibujarMazo(SpriteBatch batch,Entidad jugador,float delta) {
-		float y = 150.f;
-		float x = 1650.f;
-		float anchoCarta = 150.f;
-	    float alturaCarta = 250.f;
-		
+    private void dibujarMazo(SpriteBatch batch, Entidad jugador, float delta) {
+        float y = 150f;
+        float x = 1650f;
+        float anchoCarta = 150f;
+        float alturaCarta = 250f;
+
         boolean hovered = Animaciones.animarHover(
-                batch,					//batch
-                this.cartaEspalda,			 //imagen de la carta
-                x, y,					//ubicacion de carta 
-                anchoCarta, alturaCarta, //tamaños de carta 
-                mouseX, mouseY,		 //ubiacion de mouse
-                1.2f,          	// escala maxima
-                8f,            	// rapidez
+                batch,
+                this.cartaEspalda,
+                x, y,
+                anchoCarta, alturaCarta,
+                mouseX, mouseY,
+                1.2f,
+                8f,
                 delta);
-        
-            if (hovered && Gdx.input.isTouched()) {
-    			long tiempoActual = TimeUtils.millis();
-                if (tiempoActual - ultimoClickTime >= cooldownMs) {
-                	juego.robarCartaMazo(jugador);
-                    ultimoClickTime = tiempoActual; // actualiza cooldown
-                }
+
+        if (hovered && Gdx.input.isTouched()) {
+            long tiempoActual = TimeUtils.millis();
+            if (tiempoActual - ultimoClickTime >= cooldownMs) {
+                juego.robarCartaMazo(jugador);
+                juego.siguienteJugador();
+                ultimoClickTime = tiempoActual;
             }
-	}
-	
-	private void dibujarBarraTiempo() {
-	    float progreso = juego.getProgresoTiempo(); // de 1.0 a 0.0
-	    float anchoMax = 400;
-	    float altoBarra = 20;
+        }
+    }
 
-	    float anchoActual = anchoMax * progreso;
+    private void dibujarBarraTiempo() {
+        float progreso = juego.getProgresoTiempo(); // de 1.0 a 0.0
+        float anchoMax = 400;
+        float altoBarra = 20;
 
-	    float centroX = Gdx.graphics.getWidth() / 2f;
-	    float y = 50;
+        float anchoActual = anchoMax * progreso;
 
-	    float x = centroX - (anchoActual / 2f);
+        float centroX = camera.viewportWidth / 2f;
+        float y = 50;
 
-	    Render.batch.draw(BarraDeTiempo, x, y, anchoActual, altoBarra);
-	}
+        float x = centroX - (anchoActual / 2f);
 
-	private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual,float delta) {
-		dibujarMano(Render.batch,juego.getJugadorActual(),delta);
-		dibujarPuntos(jugadorActual);
-	}
+        Render.batch.draw(BarraDeTiempo, x, y, anchoActual, altoBarra);
+    }
 
-	private void dibujarPuntos(Entidad jugador) {
-		 if (jugador == null) return;
-		   float posX = Gdx.graphics.getWidth() - 150f;
-		    float posY = Gdx.graphics.getHeight() - 50f;
-		    bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
-	}
+    private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual, float delta) {
+        dibujarMano(Render.batch, juego.getJugadorActual(), delta);
+        dibujarPuntos(jugadorActual);
+    }
 
-	private void dibujarMesaCartas(SpriteBatch batch) {
-		float anchoCarta = 150f, alturaCarta = 250f;
-		
+    private void dibujarPuntos(Entidad jugador) {
+        if (jugador == null) return;
+        float posX = camera.viewportWidth - 260f;
+        float posY = camera.viewportHeight - 250f;
+        bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
+    }
+
+    private void dibujarMesaCartas(SpriteBatch batch) {
+        float anchoCarta = 150f, alturaCarta = 250f;
+
         if (!juego.getMesa().isEmpty()) {
             Carta cartaSuperior = juego.getMesa().get(juego.getMesa().size() - 1);
             cartaSuperior.getTexturaCarta().dibujar(batch, this.CENTRODEMESAX, this.CENTRODEMESAY, anchoCarta, alturaCarta);
         }
-	}
+    }
 
-	public void dibujarMano(SpriteBatch batch, Entidad jugador,float delta) {
+    public void dibujarMano(SpriteBatch batch, Entidad jugador, float delta) {
+        ArrayList<Carta> mano = jugador.getMano();
+        if(mano.size()>1) {
+        	
+        float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
+        float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;
+        float inicioX = (camera.viewportWidth - total) / 2f;
 
-	    ArrayList<Carta> mano = jugador.getMano();
+        boolean clicProcesado = false;
 
-	    float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
-	    float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;
-	    float inicioX = (Gdx.graphics.getWidth() - total) / 2f;
-	    
-	    
-	    boolean clicProcesado = false;   // determina fin del proceso
+        int indice = 0;
+        if (juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.SONAMBULO, jugador)
+        		&& TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
+        		&& !clicProcesado) {
+        	
+        	Carta carta = jugador.getMano().get((int)(Math.random() * mano.size()));
+        	
+        	 float destinoX = this.CENTRODEMESAX;
+             float destinoY = this.CENTRODEMESAY;
 
-	    int indice = 0;
-	    for (Carta carta : mano) {
+             float x = inicioX + indice * (anchoCarta + esp);
+             float y = 150f;
+             
+             Animaciones.iniciarMovimiento(
+                     carta.getImagenCarta(),
+                     x, y,
+                     destinoX, destinoY,
+                     anchoCarta, alturaCarta,
+                     0.25f,
+                     new Runnable() {
+                         @Override
+                         public void run() {
+                             sonidoCartaTirada();
+                             juego.jugarCarta(carta, jugador);
+                             juego.agregarCartaMesa(carta);
+                             juego.sumarRonda();
+                             jugador.removerCarta(carta);
+                         }
+                     });
+             ultimoClickTime = TimeUtils.millis();
+             clicProcesado = true;
 
-	        float x = inicioX + indice * (anchoCarta + esp);
-	        float y = 150f;
+         indice++;
+        }
+        else 
+        {
+        	 for (Carta carta : mano) {
 
-	        boolean hovered = Animaciones.animarHover(
-	                batch, carta.getImagenCarta(),
-	                x, y,
-	                anchoCarta, alturaCarta,
-	                mouseX, mouseY,
-	                1.2f,          // escala maxima
-	                8f,            // rapidez
-	                delta);  
-	        
-	        //se dibuja las descripciones
-	        if (hovered) {
-	            bitmapFont.draw(batch, carta.getDescripcion(),20f, Gdx.graphics.getHeight() - 20f);
-	        }
+                 float x = inicioX + indice * (anchoCarta + esp);
+                 float y = 150f;
 
-	        //logica del click
-	        if (!clicProcesado                      
-	            && hovered
-	            && Gdx.input.justTouched()
-	            && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
+                 boolean hovered = Animaciones.animarHover(
+                         batch, carta.getImagenCarta(),
+                         x, y,
+                         anchoCarta, alturaCarta,
+                         mouseX, mouseY,
+                         1.2f,
+                         8f,
+                         delta);
 
-	            float destinoX = this.CENTRODEMESAX;
-	            float destinoY = this.CENTRODEMESAY;
+                 if (hovered) {
+                     bitmapFont.draw(batch, carta.getDescripcion(), 20f, camera.viewportHeight - 20f);
+                 }
+                 
+                 if (!clicProcesado
+                         && hovered
+                         && Gdx.input.justTouched()
+                         && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
 
-	            Animaciones.iniciarMovimiento(
-	                    carta.getImagenCarta(),
-	                    x, y,
-	                    destinoX, destinoY,
-	                    anchoCarta, alturaCarta,
-	                    0.25f,
-	                    () -> {
-	                        sonidoCartaTirada();
-	                        juego.jugarCarta(carta, jugador);
-	                        juego.agregarCartaMesa(carta);
-	                        juego.sumarRonda();
-	                        jugador.removerCarta(carta);
-	                    });
+                     float destinoX = this.CENTRODEMESAX;
+                     float destinoY = this.CENTRODEMESAY;
 
-	            ultimoClickTime = TimeUtils.millis();
-	            clicProcesado   = true;            
-	        }
+                     Animaciones.iniciarMovimiento(
+                             carta.getImagenCarta(),
+                             x, y,
+                             destinoX, destinoY,
+                             anchoCarta, alturaCarta,
+                             0.25f,
+                             new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     sonidoCartaTirada();
+                                     juego.jugarCarta(carta, jugador);
+                                     juego.agregarCartaMesa(carta);
+                                     juego.sumarRonda();
+                                     jugador.removerCarta(carta);
+                                 }
+                             });
 
-	        indice++;
-	    }
-	}
+                     ultimoClickTime = TimeUtils.millis();
+                     clicProcesado = true;
+                 	}
 
-	
-	
-	private void actualizarMouse() {
-		mouseX = Gdx.input.getX();
-		mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
-	}
-	
-	public void sonidoCartaTirada() {
-		SonidoManager.i().playSfx(this.CartaTirada);
-	}
-	
-	@Override
-	public void resize(int width, int height) {
-		// TODO Auto-generated method stub
-		
-	}
+                 indice++;
+        	 	}
+        	}
+        }
+    }
+    
+    private void dibujarCartasSiguientes(SpriteBatch batch) {
+    	
+        // Asegurate de usar el mismo Tipo que definiste en HabilidadActiva
+        if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)){
 
-	@Override
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
+        float anchoCarta = 150f, alturaCarta = 250f, esp = 50f;
+        juego.rebarajearMesa();
+        ArrayList<Carta> mazo = juego.getMazo();
+        //prevenir quedarse sin cartas
+        int camtidadCartas=mazo.size();
+        Carta cartas[]=  new Carta[camtidadCartas>3? 3:camtidadCartas];
+        
+        float total = cartas.length * anchoCarta + (cartas.length - 1) * esp;
+        float inicioX = (camera.viewportWidth - total) / 2f;
+        
+        for(int n=0;n<3 && n<camtidadCartas;n++) {
+        	cartas[n]= mazo.get(n);
+        }
+        
+        float x = camera.viewportWidth / 2f; // ajustar si hace falta
+        float y = camera.viewportHeight / 2f + 60f;
+        for(int i=0;i<cartas.length ;i++) {
+        	cartas[i].getImagenCarta().dibujar(batch, inicioX + i * (anchoCarta + esp), y, anchoCarta, alturaCarta);;
+        }
+        }
+    }
 
-	@Override
-	public void resume() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
-	
 
+    public void sonidoCartaTirada() {
+        SonidoManager.i().playSfx(this.CartaTirada);
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height); // ajusta la vista cuando cambia la pantalla
+    }
+
+    @Override public void pause() {}
+    @Override public void resume() {}
+    @Override public void hide() {}
+    @Override public void dispose() {}
 }

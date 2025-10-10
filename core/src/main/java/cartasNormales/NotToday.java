@@ -1,9 +1,10 @@
 package cartasNormales;
 
+import Utiles.Imagen;
 import Utiles.Recursos;
 import cartas.Carta;
 import cartas.Habilidad;
-import cartas.Imagen;
+import cartas.TipoDeCarta;
 
 public class NotToday extends Carta {
 
@@ -15,7 +16,7 @@ public class NotToday extends Carta {
 
 	public NotToday() {
 		super(0, 0, Habilidad.BLOQUEAR_EFECTO, new Imagen(Recursos.NOT_TODAY), false, 0, 0, 
-				"Bloquea el efecto de la carta del rival jugada en este momento.");
+				"Bloquea el efecto de la carta del rival jugada en este momento.",TipoDeCarta.NORMAL);
 	}
 	
 	@Override

@@ -11,6 +11,7 @@ import Entidades.Jugador;
 import Pantallas.JuegoPantalla;
 import Utiles.Render;
 import juegos.ControladorDeJuego;
+import juegos.HabilidadActiva;
 import juegos.Juego;
 
 public enum Habilidad {
@@ -25,7 +26,15 @@ public enum Habilidad {
     BLOQUEAR_ROBO { //Para efectos generales (seguramente "Not today" va a usarla si o si) y redento
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-           // jugador.bloquearRobo();
+        	if (controlador instanceof Juego) {
+                Juego juego = (Juego) controlador;
+
+                if (carta.getEnemigoDeterminadoEnum() == cartas.EnemigoDeterminado.GLOBAL) {
+                    juego.activarBloqueoRobarGlobal(4, "Redento: no puedes robar del mazo");
+                } else {
+                    juego.activarBloqueoRobar(rival, 4, "Redento: no puedes robar del mazo");
+                }
+            }
         }
     },
     
@@ -42,35 +51,28 @@ public enum Habilidad {
         }
     },
     
-    VER_CARTAS_SIGUIENTES() { //sirve para efectos de Ojo que todo lo ve
+    VER_CARTAS_SIGUIENTES {
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-        	   if (controlador instanceof Juego juego) {
-                   ArrayList<Carta> mazo = juego.getMazo();
-                   ArrayList<Carta> cartaMostrada = new ArrayList<>();
-
-                   for (int i = 0; i < 3 && i < mazo.size(); i++) {
-                       cartaMostrada.add(mazo.get(i));
-                   }
-
-                   juego.setCartasMostradas(cartaMostrada);
-
-                   System.out.println("Cartas reveladas: ");
-                   for (Carta c : cartaMostrada) {
-                       System.out.println("- " + c.getClass().getSimpleName());
-                       JOptionPane.showMessageDialog(null, //Esta parte del codigo va a ser muy primitiva por ahora
-                               " " + c.getClass().getSimpleName(),
-                               "Carta numero " + (mazo.indexOf(c)+1),
-                               JOptionPane.INFORMATION_MESSAGE);
-                   }
-               }
+            if (controlador instanceof Juego juego) {
+                juego.activarVerCartas();
+            }
         }
     },
     
     MEZCLAR_MAZO() { //Sirve para efectos de King Dice
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-            
+        	ArrayList<Carta> cartasMalas= controlador.getListaPorTipoCartas(TipoDeCarta.MALA,controlador.getMesa());
+        	if(cartasMalas.size()>1) {
+        		controlador.pasarCartas(cartasMalas, controlador.getMazo());
+        		System.out.println("Se salio de pasar cartas a eliminar por lista cartas");
+        		controlador.getMesa().removeAll(cartasMalas);
+        	}
+        	controlador.mezclarMazo();
         }
     },
+
     
     
     
@@ -89,6 +91,8 @@ public enum Habilidad {
     
     INTERCAMBIO_PUNTOS() { //sirve para efectos de Chester
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+            controlador.intercambiarPuntos(jugador, rival);
+            System.out.println("Cambiamos puntos con el de adelante");
             
         }
     },
@@ -99,15 +103,49 @@ public enum Habilidad {
         }
     },
     
-    APARICION_ALEATORIA() { //sirve para efectos de IM HERE
+    APARICION_ALEATORIA() { //EN PROCESO
+        @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-            
+            if (!(controlador instanceof Juego juego)) return;
+
+            int chance = (int)(Math.random() * 100) + 1;
+            if (chance <= 5) {
+                System.out.println("¡¡APARECIÓ IMHERE!!");
+
+                jugador.removerCarta(carta);
+                Carta imhere = new cartasEspeciales.IMHERE();
+                jugador.agregarCarta(imhere);
+
+                javax.swing.SwingUtilities.invokeLater(() -> {
+                    mostrarVentana("IMSCARED.png", 400, 300);
+                    mostrarVentana("IMSCAREDDOS.webp", 600, 450);
+                    mostrarVentana("IMSCAREDTRES.webp", 250, 250);
+                });
+            }
+        }
+
+        private void mostrarVentana(String archivo, int ancho, int alto) {
+            javax.swing.JFrame frame = new javax.swing.JFrame("IM HERE!");
+            frame.setSize(ancho, alto);
+            frame.setLocationRelativeTo(null);
+            frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
+
+            javax.swing.ImageIcon icono = new javax.swing.ImageIcon("imagenes/" + archivo);
+
+            javax.swing.JLabel label = new javax.swing.JLabel(icono);
+            frame.add(label);
+
+            frame.setVisible(true);
         }
     },
+
+
     
     ROBAR_CARTA() { //Esta carta esta hecha para el pecado de la codicia
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-    		
+    		if (controlador instanceof Juego juego) {
+                juego.robarCartaMazo(jugador, true); // ignora bloqueos de robo (excepción)
+            }
     	}
     },
     
@@ -118,7 +156,8 @@ public enum Habilidad {
     
     HAMBRE() { //Carta que se va a usar para la carta de HAMBRE CONTENIDA
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-    		
+    		controlador.modificarPuntosGlobal(jugador,-30, false);
+    		controlador.activarRobarMazoAEleccion(jugador);
     	}
     }, 
     
@@ -130,11 +169,23 @@ public enum Habilidad {
     
     VER_PUNTOS_RIVAL() {
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+    		if (controlador instanceof Juego juego) {
+    			juego.activarVerPuntos();
+    		}
     		
     	}
+    },
+    
+    TIRAR_CARTA_ALEATOREA { //modifica puntos en general
+        public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+        	if (controlador instanceof Juego) {
+        		Juego juego = (Juego) controlador;
+        		
+        		juego.activarJugarCartaAleatorea(jugador,3, "Redento: no puedes robar del mazo");
+        	}
+        }
     }
     ;
-	
 	
     public abstract void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador);
 

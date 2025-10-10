@@ -28,6 +28,12 @@ public enum EnemigoDeterminado {
 			// TODO Auto-generated method stub
 			return null;
 			}
-		};	
+		},GLOBAL() {
+	        @Override
+	        public Entidad devolverEnemigo(ArrayList<Entidad> jugadores, Entidad entidadJugada) {
+	            // Global no elige un enemigo puntual; se maneja aparte
+	            return null;
+	        }
+	    },;	
 	public abstract Entidad devolverEnemigo(ArrayList<Entidad> jugadores, Entidad entidadJugada);
 }

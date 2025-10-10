@@ -8,16 +8,21 @@ public class Recursos {
 	public final static  String MESA_PRINCIPAL= "MesaPrincipal.png" ;  
 	public final static  String CARTEL= "CartelDos1920-1080.png" ;  
 	
+	public final static  String BOTON_OPCIONES= "opcionesBoton.png" ;
+	public final static  String BOTON_VOLVER_MENU= "BotonVolverAlMenu.jpg" ;
+	public final static  String BOTON_REINICIAR= "BotonReiniciar.jpg" ;
+	
 	public final static  String RIVAL1= "PersonaRivalDos1920-1080.png" ;
 	
 	public static final String CARTA_ESPALDA ="FondoDeLaCarta.png"; 
+	public static final String MAZO_CARTAS = "MazoCartas.png";
 	
 	// Cartas normales
-	public static final String CAMBIO_DE_RONDA = "cambioDeRondaBETA.jpg";//
-	public static final String CHESTER = "shacoBETA.jfif";//
+	public static final String CAMBIO_DE_RONDA = "cambioDeRonda.png";//
+	public static final String CHESTER = "ChesterRemastered.png";//
 	public static final String COLERA = "coleraBETA.jfif";//
 	public static final String COMPANY = "Company.png";
-	public static final String ESTRENIMIENTO = "estrenimientoBETA.jfif";//
+	public static final String ESTRENIMIENTO = "Estrenimientoo.png";//
 	public static final String HAMBRE_CONTENIDA = "briarBETA.jfif"; //
 	
 	public static final String KING_DICE_CARTA = "King dice.png";
@@ -25,7 +30,7 @@ public class Recursos {
 	
 	public static final String MIMICO = "Mimico.png"; 
 	public static final String NOT_TODAY = "notTodayBETA.jfif"; //
-	public static final String OJO_QUE_TODO_LO_VE = "billClaveBETA.jfif"; //
+	public static final String OJO_QUE_TODO_LO_VE = "BillClave.png"; //
 	public static final String REDENTO = "redento.png"; //
 	public static final String SALTAMONTES = "saltamontesBETA.jfif"; //
 	public static final String SNAKE = "snake.png"; //

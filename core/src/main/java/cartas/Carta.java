@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.Texture;
 
 import Entidades.Entidad;
+import Utiles.Imagen;
 import Utiles.Recursos;
 import juegos.ControladorDeJuego;
 import juegos.Juego;
@@ -14,6 +15,7 @@ public abstract class Carta {
 		private int puntosAumentadosRival;
 		private int puntosDisminuidos;
 		private boolean porcentual;
+		private TipoDeCarta tipo;
 		private Habilidad habilidad;
 		private Imagen imagenCarta;
 		private Imagen imagenEspalda= new Imagen(Recursos.CARTA_ESPALDA);
@@ -24,7 +26,7 @@ public abstract class Carta {
 		
 		
 		
-		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y, String descripcion) {
+		public Carta(int puntosAumentadosRival, int puntosDisminuidos, Habilidad habilidad,Imagen texturaCarta, boolean porcentual, int x, int y, String descripcion,TipoDeCarta tipo) {
 			this.puntosAumentadosRival = puntosAumentadosRival;
 			this.puntosDisminuidos = puntosDisminuidos;
 			this.habilidad = habilidad;
@@ -33,6 +35,7 @@ public abstract class Carta {
 			this.x = x;
 			this.y = y;
 			this.descripcion = descripcion;
+			this.tipo = tipo;
 		}
 		
 		@Override
@@ -41,7 +44,15 @@ public abstract class Carta {
 					+ ", puntosDisminuidos=" + puntosDisminuidos + ", texturaCarta="
 					+ imagenCarta + ", texturaCartaEspalda=" + imagenEspalda + "]";
 		}
+		
+		public EnemigoDeterminado getEnemigoDeterminadoEnum() {
+	        return enemigoDeterminado;
+	    }
 
+	    public void setEnemigoDeterminado(EnemigoDeterminado ed) {
+	        this.enemigoDeterminado = ed;
+	    }
+		
 		public int getPuntosAumentadosRival() {
 			return puntosAumentadosRival;
 		}
@@ -116,6 +127,10 @@ public abstract class Carta {
 
 		public boolean getPorcentual() {
 			return porcentual;
+		}
+
+		public TipoDeCarta getTipo() {
+			return this.tipo;
 		}
 		
 	}

@@ -2,10 +2,11 @@ package Utiles;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
+
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import cartas.Imagen;
+
 import com.badlogic.gdx.math.Interpolation;
 
 import java.util.HashMap;

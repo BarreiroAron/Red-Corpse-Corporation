@@ -1,10 +1,8 @@
-package cartas;
+package Utiles;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import Utiles.Render;
 
 public class Imagen {
 	//clase para cargar las imagenes y dibujarlas

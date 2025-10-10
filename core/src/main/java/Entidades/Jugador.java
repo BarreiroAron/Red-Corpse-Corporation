@@ -2,8 +2,8 @@ package Entidades;
 
 import java.util.ArrayList;
 
+import Utiles.Imagen;
 import cartas.Carta;
-import cartas.Imagen;
 
 public class Jugador extends Entidad {
 	

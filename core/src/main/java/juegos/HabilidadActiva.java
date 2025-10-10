@@ -8,7 +8,8 @@ public class HabilidadActiva {
         MOSTRAR_PUNTOS,
         SONAMBULO,
         MOSTRAR_CARTAS_SIGUIENTES,
-        ROBAR_CARTAS_A_ELECCION
+        ROBAR_CARTAS_A_ELECCION;
+
     }
 
     private final Tipo tipo;
@@ -25,6 +26,7 @@ public class HabilidadActiva {
         this.global = global;
     }
 
+    
     public Tipo getTipo() { return tipo; }
     public Entidad getObjetivo() { return objetivo; }
     public boolean isGlobal() { return global; }
@@ -60,6 +62,6 @@ public class HabilidadActiva {
 
 	public static HabilidadActiva robarDelMazoCartaAEleccion(Entidad jugador, int turnos, String descripcion2) {
 		System.out.println("Se activo el hambre");
-		return new HabilidadActiva(Tipo.ROBAR_CARTAS_A_ELECCION, null, 1, "Podes robar la carta a eleccion del mazo", true);
+		return new HabilidadActiva(Tipo.ROBAR_CARTAS_A_ELECCION, jugador, 2, "Podes robar la carta a eleccion del mazo", true);
 	}
 }

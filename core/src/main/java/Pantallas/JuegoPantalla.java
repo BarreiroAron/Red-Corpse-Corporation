@@ -126,7 +126,7 @@ public class JuegoPantalla implements Screen {
 
         dibujarCartasSiguientes(Render.batch);
         
-        dibujarCartasParaRobarAEleccion(Render.batch);
+        dibujarCartasParaRobarAEleccion(Render.batch,delta);
 
         Animaciones.actualizarYDibujarMovimientos(Render.batch, delta);
 
@@ -137,13 +137,37 @@ public class JuegoPantalla implements Screen {
     }
 
 
-    private void dibujarCartasParaRobarAEleccion(SpriteBatch batch) {
+    private void dibujarCartasParaRobarAEleccion(SpriteBatch batch, float delta) {
 		if(juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION)) {
+			System.out.println("BRIAR ACTIVADAAAAAAAAA");
 			ArrayList<Carta> mazo = juego.getMazo();
 			int cantidadCartas = mazo.size();
 			
-			
-			
+			int indice= 0;
+				Carta cartaActual =mazo.get(indice);
+				boolean hovered = Animaciones.animarHover(
+		                batch,
+		                cartaActual.getImagenCarta(),
+		                1650f, 350f,
+		                ANCHOCARTA, LARGOCARTA,
+		                mouseX, mouseY,
+		                1.2f,
+		                8f,
+		                delta);
+
+		        if (hovered && Gdx.input.isTouched()) {
+		            long tiempoActual = TimeUtils.millis();
+		            if (tiempoActual - ultimoClickTime >= cooldownMs) {
+		                juego.agregarCartaAJugador(cartaActual,juego.getHabilidad(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION).getObjetivo());
+		                mazo.remove(cartaActual);
+		                ultimoClickTime = tiempoActual;
+		                juego.restarcantidadDeCartasASacar();
+		            }
+		        }
+		   if(juego.getcantidadDeCartasASacar()<=0){
+			   System.out.println("Se elimina la carta");
+			   juego.removeHabilidadActiva(juego.getHabilidad(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION));
+		   }
 		}
 	}
 

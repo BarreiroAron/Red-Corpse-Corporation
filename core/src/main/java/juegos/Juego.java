@@ -53,6 +53,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private boolean cartasDisponiblesMazo= true;
 
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
+	//intentar despues evitar esta variable
+	int cantidadDeCartasASacar= 0;
 	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
@@ -108,6 +110,15 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		actualizarCartasDisponiblesMazo();
 	}
 	
+	public HabilidadActiva getHabilidad( HabilidadActiva.Tipo TipoHabilidad ) {
+		for (HabilidadActiva habilidad : habilidadesActivas) {
+		      if (habilidad.getTipo() == TipoHabilidad) {
+		            return habilidad;
+		      }
+		}
+		return null;
+	}
+	
 	public void activarBloqueoRobar(Entidad objetivo, int turnos, String descripcion) {
 	    habilidadesActivas.add(HabilidadActiva.bloqueoRobarA(objetivo, turnos, descripcion));
 	}
@@ -122,7 +133,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	@Override
 	public void activarRobarMazoAEleccion(Entidad jugador) {
 		habilidadesActivas.add(HabilidadActiva.robarDelMazoCartaAEleccion(jugador,1, "disminuye a los enemigos 30 pero te permite robar 2 cartas a eleccion"));
-    }
+		cantidadDeCartasASacar=2;
+	}
 	
 	private boolean estaBloqueadoRobar(Entidad jugador) {
 	    for (HabilidadActiva ha : habilidadesActivas) {
@@ -146,6 +158,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        }
 	    }
 	}
+	
+	public void agregarCartaAJugador(Carta carta, Entidad jugador) {
+		jugador.getMano().add(carta);
+	}
+	
 	
 	private void tickHabilidadesActivasPara(Entidad jugadorQueTermino) {
 	    for (int i = habilidadesActivas.size() - 1; i >= 0; i--) {
@@ -538,6 +555,21 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	    jugador.puntos = puntosRival;
 	    rival.puntos   = puntosJugador;
+	}
+
+
+	public void removeHabilidadActiva(HabilidadActiva habilidad) {
+		habilidadesActivas.remove(habilidad);
+	}
+
+
+	public int getcantidadDeCartasASacar() {
+		return this.cantidadDeCartasASacar;
+	}
+
+
+	public void restarcantidadDeCartasASacar() {
+		this.cantidadDeCartasASacar--;
 	}
 
 }

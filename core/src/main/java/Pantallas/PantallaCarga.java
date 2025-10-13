@@ -57,7 +57,6 @@ public class PantallaCarga implements Screen {
 		
 		jugadores.add(entidad1);
 		jugadores.add(entidad2);
-		jugadores.add(entidad3);
 
 		// inicializar cámara y viewport
 		camera = new OrthographicCamera();

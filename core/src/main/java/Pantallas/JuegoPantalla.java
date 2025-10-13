@@ -143,12 +143,14 @@ public class JuegoPantalla implements Screen {
 			ArrayList<Carta> mazo = juego.getMazo();
 			int cantidadCartas = mazo.size();
 			
+			float x=1650f,y=350f;
+			
 			int indice= 0;
 				Carta cartaActual =mazo.get(indice);
 				boolean hovered = Animaciones.animarHover(
 		                batch,
 		                cartaActual.getImagenCarta(),
-		                1650f, 350f,
+		                x, y,
 		                ANCHOCARTA, LARGOCARTA,
 		                mouseX, mouseY,
 		                1.2f,
@@ -256,7 +258,7 @@ public class JuegoPantalla implements Screen {
             long tiempoActual = TimeUtils.millis();
             if (tiempoActual - ultimoClickTime >= cooldownMs) {
                 juego.robarCartaMazo(jugador);
-                juego.siguienteJugador();
+                juego.sumarRonda();
                 ultimoClickTime = tiempoActual;
             }
         }
@@ -300,7 +302,7 @@ public class JuegoPantalla implements Screen {
 
     public void dibujarMano(SpriteBatch batch, Entidad jugador, float delta) {
         ArrayList<Carta> mano = jugador.getMano();
-        if(mano.size()>1) {
+        if(mano.size()>=1) {
         	
         float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
         float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;

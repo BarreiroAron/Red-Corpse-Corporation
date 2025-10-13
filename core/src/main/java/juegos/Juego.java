@@ -25,6 +25,7 @@ import cartasNormales.Redento;
 import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
+import juegos.HabilidadActiva.Tipo;
 import sonidos.SonidoAmbiental;
 import sonidos.SonidoManager;
 
@@ -55,6 +56,9 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
 	//intentar despues evitar esta variable
 	int cantidadDeCartasASacar= 0;
+	
+	private long ultimoCambioDeRonda = 0;
+    private final long COOLDOWN_RONDA_MS = 3000;
 	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
@@ -96,7 +100,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 				// Cartas especiales
 				//mazo.add(new IMHERE());
-				mazo.add(new Inanicion());
+				
 		
 		cantidadCartasMazo = mazo.size();
 		
@@ -108,8 +112,23 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		actualizarJugadorPerdedor();
 		comprobarPartidaTerminada();
 		actualizarCartasDisponiblesMazo();
+		comprobarCondicionParaInanicion();
 	}
 	
+	private void comprobarCondicionParaInanicion() {
+		for(int i=0; i< jugadores.size();i++) {
+			Entidad jugadorActual = jugadores.get(i);
+			if(jugadores.get(i).getMano().size()<=0) {
+				habilidadesActivas.add(HabilidadActiva.inanicion(jugadorActual, 100, "Por cantidad de rondas con esta carta se multiplican tus puntos"));
+				jugadorActual.agregarCarta(new Inanicion());
+			}
+			if(isHabilidadActivaEnJugador(HabilidadActiva.Tipo.INANICION, jugadorActual)&& jugadorActual.getMano().size()>=2) {
+				jugadorActual.getMano().remove(new Inanicion());
+			}
+		}
+	}
+
+
 	public HabilidadActiva getHabilidad( HabilidadActiva.Tipo TipoHabilidad ) {
 		for (HabilidadActiva habilidad : habilidadesActivas) {
 		      if (habilidad.getTipo() == TipoHabilidad) {
@@ -366,8 +385,23 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	}
 	
 	public void sumarRonda() {
+		
+		/* codigo para que ronda no se ejecute al instante;
+		 *  long tiempoActual = System.currentTimeMillis();
+	        // Si el tiempo actual menos el último cambio es menor al cooldown, no se ejecuta la ronda.
+	        if (tiempoActual - ultimoCambioDeRonda < COOLDOWN_RONDA_MS) {
+	            System.out.println("Esperando cooldown (" + COOLDOWN_RONDA_MS / 1000 + "s) para sumar otra ronda...");
+	            return; // Sale del método sin ejecutar la lógica de la ronda
+	        }
+	        
+	        // Si el cooldown ha expirado, se actualiza el tiempo y se ejecuta la acción.
+	        ultimoCambioDeRonda = tiempoActual;
+	       */ 
 		this.rondas++;
 		System.out.println("Se sumo una ronda");
+		if (isHabilidadActivaEnJugador(HabilidadActiva.Tipo.INANICION, getJugadorActual())){
+			getJugadorActual().modificarPuntos(getJugadorActual().getPuntos(), false);
+		}
 		siguienteJugador();
 	}
 	

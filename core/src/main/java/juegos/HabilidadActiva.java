@@ -8,8 +8,8 @@ public class HabilidadActiva {
         MOSTRAR_PUNTOS,
         SONAMBULO,
         MOSTRAR_CARTAS_SIGUIENTES,
-        ROBAR_CARTAS_A_ELECCION;
-
+        ROBAR_CARTAS_A_ELECCION,
+    	INANICION;
     }
 
     private final Tipo tipo;
@@ -63,5 +63,10 @@ public class HabilidadActiva {
 	public static HabilidadActiva robarDelMazoCartaAEleccion(Entidad jugador, int turnos, String descripcion2) {
 		System.out.println("Se activo el hambre");
 		return new HabilidadActiva(Tipo.ROBAR_CARTAS_A_ELECCION, jugador, 2, "Podes robar la carta a eleccion del mazo", true);
+	}
+
+
+	public static HabilidadActiva inanicion(Entidad jugador, int i, String string) {
+		return new HabilidadActiva(Tipo.INANICION, jugador, i, string, false);
 	}
 }

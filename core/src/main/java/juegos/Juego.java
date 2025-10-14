@@ -55,6 +55,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
 	//intentar despues evitar esta variable
 	int cantidadDeCartasASacar= 0;
+	int indiceCartasASacar;
 	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
@@ -133,7 +134,9 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	@Override
 	public void activarRobarMazoAEleccion(Entidad jugador) {
 		habilidadesActivas.add(HabilidadActiva.robarDelMazoCartaAEleccion(jugador,1, "disminuye a los enemigos 30 pero te permite robar 2 cartas a eleccion"));
+		rebarajearMesa();
 		cantidadDeCartasASacar=2;
+		indiceCartasASacar=0;
 	}
 	
 	private boolean estaBloqueadoRobar(Entidad jugador) {
@@ -565,6 +568,14 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	public int getcantidadDeCartasASacar() {
 		return this.cantidadDeCartasASacar;
+	}
+	
+	public int getIndiceDeCartasASacar() {
+		return this.indiceCartasASacar;
+	}
+	public void modificarIndiceDeCartasASacar(int numeroCambiado) {
+		
+		this.indiceCartasASacar=numeroCambiado;;
 	}
 
 

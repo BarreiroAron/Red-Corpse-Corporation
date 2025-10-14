@@ -12,6 +12,9 @@ public class Recursos {
 	public final static  String BOTON_VOLVER_MENU= "BotonVolverAlMenu.jpg" ;
 	public final static  String BOTON_REINICIAR= "BotonReiniciar.jpg" ;
 	
+	public final static  String BOTON_IZQUIERDA= "botonIzquierda.png" ;
+	public final static  String BOTON_DERECHA= "botonDerecha.png" ;
+	
 	public final static  String RIVAL1= "PersonaRivalDos1920-1080.png" ;
 	
 	public static final String CARTA_ESPALDA ="FondoDeLaCarta.png"; 

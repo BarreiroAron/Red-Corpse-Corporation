@@ -37,6 +37,9 @@ public class JuegoPantalla implements Screen {
     private Imagen Cartel;
     private Imagen Enemigo;
     private Imagen cartaEspalda;
+    
+    private Imagen botonIzquierda;
+    private Imagen botonDerecha;
 
     private Texture BarraDeTiempo;
 
@@ -90,6 +93,9 @@ public class JuegoPantalla implements Screen {
         this.Mesa = new Imagen(Recursos.MESA_PRINCIPAL);
         this.Cartel = new Imagen(Recursos.CARTEL);
         this.Enemigo = new Imagen(Recursos.RIVAL1);
+        
+        this.botonIzquierda = new Imagen(Recursos.BOTON_IZQUIERDA);
+        this.botonDerecha = new Imagen(Recursos.BOTON_DERECHA);
 
         this.BarraDeTiempo = new Texture(Recursos.TEXTURA_BARRA);
 
@@ -139,12 +145,49 @@ public class JuegoPantalla implements Screen {
 
     private void dibujarCartasParaRobarAEleccion(SpriteBatch batch, float delta) {
 		if(juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.ROBAR_CARTAS_A_ELECCION)) {
-			System.out.println("BRIAR ACTIVADAAAAAAAAA");
+	
 			ArrayList<Carta> mazo = juego.getMazo();
 			int cantidadCartas = mazo.size();
+
+			boolean hoveredIzqBoton = Animaciones.animarHover(
+	                batch,
+	                botonIzquierda,
+	                (1650f ), LARGOCARTA*2+100f,
+	                60f, 60f,
+	                mouseX, mouseY,
+	                1.2f,
+	                8f,
+	                delta);
 			
-			int indice= 0;
-				Carta cartaActual =mazo.get(indice);
+			if (hoveredIzqBoton && Gdx.input.isTouched()) {
+	            long tiempoActual = TimeUtils.millis();
+	            if (tiempoActual - ultimoClickTime >= cooldownMs) {
+	                if(juego.getIndiceDeCartasASacar()<=0) {
+	                	juego.modificarIndiceDeCartasASacar(cantidadCartas-1);
+	                }else { juego.modificarIndiceDeCartasASacar(juego.getIndiceDeCartasASacar() -1);}
+	                ultimoClickTime = tiempoActual;
+	            }
+	        }
+			
+			boolean hoveredDerBoton = Animaciones.animarHover(
+	                batch,
+	                botonDerecha,
+	                1650f+(ANCHOCARTA/2), LARGOCARTA*2+100f,
+	                60f, 60f,
+	                mouseX, mouseY,
+	                1.2f,
+	                8f,
+	                delta);
+			if (hoveredDerBoton && Gdx.input.isTouched()) {
+	            long tiempoActual = TimeUtils.millis();
+	            if (tiempoActual - ultimoClickTime >= cooldownMs) {
+	                if(juego.getIndiceDeCartasASacar()>=cantidadCartas-1) {
+	                	juego.modificarIndiceDeCartasASacar(0);
+	                }else { juego.modificarIndiceDeCartasASacar(juego.getIndiceDeCartasASacar() +1);}
+	                ultimoClickTime = tiempoActual;
+	            }
+	        }
+				Carta cartaActual =mazo.get(juego.getIndiceDeCartasASacar());
 				boolean hovered = Animaciones.animarHover(
 		                batch,
 		                cartaActual.getImagenCarta(),

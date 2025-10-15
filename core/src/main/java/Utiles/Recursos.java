@@ -21,22 +21,22 @@ public class Recursos {
 	public static final String MAZO_CARTAS = "MazoCartas.png";
 	
 	// Cartas normales
-	public static final String CAMBIO_DE_RONDA = "cambioDeRonda.png";//
-	public static final String CHESTER = "ChesterRemastered.png";//
+	public static final String CAMBIO_DE_RONDA = "cambioDeRonda.png";
+	public static final String CHESTER = "ChesterRemastered.png";
 	public static final String COLERA = "coleraBETA.jfif";//
 	public static final String COMPANY = "Company.png";
-	public static final String ESTRENIMIENTO = "Estrenimientoo.png";//
+	public static final String ESTRENIMIENTO = "Estrenimientoo.png"; 
 	public static final String HAMBRE_CONTENIDA = "briarBETA.jfif"; //
 	
 	public static final String KING_DICE_CARTA = "King dice.png";
 	public static final String KING_DICE = "KingDice.png";
 	
 	public static final String MIMICO = "Mimico.png"; 
-	public static final String NOT_TODAY = "notTodayBETA.jfif"; //
-	public static final String OJO_QUE_TODO_LO_VE = "BillClave.png"; //
-	public static final String REDENTO = "redento.png"; //
-	public static final String SALTAMONTES = "saltamontesBETA.jfif"; //
-	public static final String SNAKE = "snake.png"; //
+	public static final String NOT_TODAY = "notTodayBETA.jfif";
+	public static final String OJO_QUE_TODO_LO_VE = "BillClave.png"; 
+	public static final String REDENTO = "redento.png"; 
+	public static final String SALTAMONTES = "Saltamontes.png"; 
+	public static final String SNAKE = "snake.png"; 
 	public final static String THX_FOR_PLAYING_CARTA= "ThxForPlaying.jpg"; //
 	
 	//Personajes

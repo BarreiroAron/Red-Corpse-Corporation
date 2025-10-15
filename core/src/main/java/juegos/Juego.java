@@ -264,6 +264,26 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	public void jugarCarta(Carta carta, Entidad jugador) {
 		Entidad enemigo = carta.getEnemigoDeterminado(jugadores,jugador);
+		
+	    obtenerRival(jugador);
+	    if(carta.getHabilidad() != null) {
+	    	carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
+	    }
+
+	    int chance = (int) (Math.random() * 100) + 1;
+	    if(chance <= 5) {
+	    	System.out.println("IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE");
+	    	if(!getMesa().isEmpty()) {
+	    		Carta cartaTirada = getMesa().get(getMesa().size() - 1);
+	    		getMesa().remove(cartaTirada);
+	    		Carta imHere = new IMHERE();
+	    		getMesa().add(imHere);
+	    		if(imHere.getHabilidad() != null) {
+	    			imHere.getHabilidad().ejecutar(imHere, jugador, enemigo, this);
+	    		}
+	    	}
+	    }
+
 		jugador.modificarPuntos(carta.getPuntosDisminuidos(), carta.getPorcentual());
 		enemigo.modificarPuntos(carta.getPuntosAumentadosRival(), carta.getPorcentual());
 	    carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
@@ -615,6 +635,15 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	public void restarcantidadDeCartasASacar() {
 		this.cantidadDeCartasASacar--;
+	}
+
+	private Entidad obtenerRival(Entidad jugador) {
+	    for (Entidad e : jugadores) {
+	        if (!e.equals(jugador)) {
+	            return e;
+	        }
+	    }
+	    return null;
 	}
 
 }

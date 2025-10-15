@@ -103,40 +103,34 @@ public enum Habilidad {
         }
     },
     
-    APARICION_ALEATORIA() { //EN PROCESO
+    APARICION_ALEATORIA() {
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
             if (!(controlador instanceof Juego juego)) return;
-
-            int chance = (int)(Math.random() * 100) + 1;
-            if (chance <= 5) {
-                System.out.println("¡¡APARECIÓ IMHERE!!");
-
-                jugador.removerCarta(carta);
-                Carta imhere = new cartasEspeciales.IMHERE();
-                jugador.agregarCarta(imhere);
-
-                javax.swing.SwingUtilities.invokeLater(() -> {
-                    mostrarVentana("IMSCARED.png", 400, 300);
-                    mostrarVentana("IMSCAREDDOS.webp", 600, 450);
-                    mostrarVentana("IMSCAREDTRES.webp", 250, 250);
-                });
-            }
+            
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+            	@Override
+            	public void run() {
+            	mostrarVentana("IMSCARED.png", 400, 300, 100, 100);	
+            	mostrarVentana("IMSCAREDDOS.png", 500, 400, 250, 200);
+            	mostrarVentana("IMSCAREDTRES.png", 600, 700, 300, 300);
+            	} 
+            });
         }
 
-        private void mostrarVentana(String archivo, int ancho, int alto) {
+        private void mostrarVentana(String archivo, int ancho, int alto, int x, int y) {
             javax.swing.JFrame frame = new javax.swing.JFrame("IM HERE!");
             frame.setSize(ancho, alto);
-            frame.setLocationRelativeTo(null);
+            frame.setLocation(x, y);
+            frame.setAlwaysOnTop(true);
             frame.setDefaultCloseOperation(javax.swing.JFrame.DISPOSE_ON_CLOSE);
-
-            javax.swing.ImageIcon icono = new javax.swing.ImageIcon("imagenes/" + archivo);
-
+            java.net.URL url = getClass().getResource("/" + archivo);
+            javax.swing.ImageIcon icono = new javax.swing.ImageIcon(url);
             javax.swing.JLabel label = new javax.swing.JLabel(icono);
             frame.add(label);
-
             frame.setVisible(true);
         }
+
     },
 
 

@@ -175,7 +175,7 @@ public enum Habilidad {
         	if (controlador instanceof Juego) {
         		Juego juego = (Juego) controlador;
         		
-        		juego.activarJugarCartaAleatorea(jugador,3, "Redento: no puedes robar del mazo");
+        		juego.activarJugarCartaAleatorea(rival,3, "Redento: no puedes robar del mazo");
         	}
         }
     }

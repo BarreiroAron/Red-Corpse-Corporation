@@ -420,6 +420,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        // Si el cooldown ha expirado, se actualiza el tiempo y se ejecuta la acción.
 	        ultimoCambioDeRonda = tiempoActual;
 	       */ 
+		
 		this.rondas++;
 		System.out.println("Se sumo una ronda");
 		if (isHabilidadActivaEnJugador(HabilidadActiva.Tipo.INANICION, getJugadorActual())){

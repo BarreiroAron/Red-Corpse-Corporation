@@ -6,6 +6,7 @@ import java.util.Collections;
 import Entidades.Entidad;
 import Entidades.Jugador;
 import cartas.Carta;
+import cartas.Habilidad;
 import cartas.TipoDeCarta;
 import cartasEspeciales.IMHERE;
 import cartasEspeciales.Inanicion;
@@ -119,14 +120,30 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private void comprobarCondicionParaInanicion() {
 		for(int i=0; i< jugadores.size();i++) {
 			Entidad jugadorActual = jugadores.get(i);
-			if(jugadores.get(i).getMano().size()<=0) {
+			if(jugadorActual.getMano().size()<=0) {
 				habilidadesActivas.add(HabilidadActiva.inanicion(jugadorActual, 100, "Por cantidad de rondas con esta carta se multiplican tus puntos"));
 				jugadorActual.agregarCarta(new Inanicion());
 			}
 			if(isHabilidadActivaEnJugador(HabilidadActiva.Tipo.INANICION, jugadorActual)&& jugadorActual.getMano().size()>=2) {
-				jugadorActual.getMano().remove(new Inanicion());
-			}
+				System.out.println("Se termino el efecto inanicion" );
+				habilidadesActivas.remove(buscarHabilidadActiva(HabilidadActiva.Tipo.INANICION));
+				}
 		}
+	}
+	
+	private void limpiarInanicionSiCorresponde(Entidad jugador) {
+	    if (jugador.getMano() == null || jugador.getMano().size() <= 1) return;
+	    jugador.getMano().removeIf(c -> c instanceof Inanicion);
+	}
+
+
+	private Carta buscarCartaPorHabilidad(ArrayList<Carta> lista, Habilidad tipoHabilidad) {
+	    for (Carta c : lista) {
+	        if (c.getHabilidad() == tipoHabilidad) {
+	            return c;
+	        }
+	    }
+	    return null;
 	}
 
 
@@ -304,6 +321,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	public void robarCartaMazo(Entidad jugador) {
 		robarCartaMazo(jugador, false);
+		limpiarInanicionSiCorresponde(jugador);
 	}
 	
 	public void robarCartaMazo(Entidad jugador, boolean ignorarBloqueosDeRobo) {
@@ -424,6 +442,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		this.rondas++;
 		System.out.println("Se sumo una ronda");
 		if (isHabilidadActivaEnJugador(HabilidadActiva.Tipo.INANICION, getJugadorActual())){
+			
 			getJugadorActual().modificarPuntos(getJugadorActual().getPuntos(), false);
 		}
 		siguienteJugador();
@@ -603,6 +622,15 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        }
 	    }
 	    return false;
+	}
+	
+	public HabilidadActiva buscarHabilidadActiva (HabilidadActiva.Tipo tipo) {
+		for (HabilidadActiva ha : habilidadesActivas) {
+	        if (ha.getTipo() == tipo && ha.getTurnosRestantes() > 0) {
+	            return ha;
+	        }
+	    }
+	    return null;
 	}
 
 

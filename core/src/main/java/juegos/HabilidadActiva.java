@@ -9,7 +9,8 @@ public class HabilidadActiva {
         SONAMBULO,
         MOSTRAR_CARTAS_SIGUIENTES,
         ROBAR_CARTAS_A_ELECCION,
-    	INANICION;
+    	INANICION,
+    	COLERA;
     }
 
     private final Tipo tipo;
@@ -63,6 +64,11 @@ public class HabilidadActiva {
 	public static HabilidadActiva robarDelMazoCartaAEleccion(Entidad jugador, int turnos, String descripcion2) {
 		System.out.println("Se activo el hambre");
 		return new HabilidadActiva(Tipo.ROBAR_CARTAS_A_ELECCION, jugador, 2, "Podes robar la carta a eleccion del mazo", true);
+	}
+	
+	public static HabilidadActiva colera(Entidad jugador, int turnos, String descripcion2) {
+		System.out.println("Se activo el hambre");
+		return new HabilidadActiva(Tipo.COLERA, jugador, turnos, "Te obliga a robar 3 cartas y si ninguna carta es mala por 3 turnos disminuye 20", false);
 	}
 
 

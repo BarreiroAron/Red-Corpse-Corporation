@@ -156,6 +156,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		return null;
 	}
 	
+	public void activarColera(Entidad jugador) {
+	    habilidadesActivas.add(HabilidadActiva.colera(jugador, 3, "Sos obligado a robar cartas por 3 turnos, si no te sale ninguna carta mala reduces 20 puntos"));
+	    
+	}
+	
 	public void activarBloqueoRobar(Entidad objetivo, int turnos, String descripcion) {
 	    habilidadesActivas.add(HabilidadActiva.bloqueoRobarA(objetivo, turnos, descripcion));
 	}

@@ -94,7 +94,6 @@ public class PantallaCarga implements Screen {
 				f -= 0.01f;
 				if (f < 0) {
 					f = 0;
-					juego = new Juego(jugadores);
 					game.setScreen(new JuegoPantalla(game, new Juego(jugadores)));
 				}
 			}

@@ -22,4 +22,5 @@ public interface ControladorDeJuego {
 		ArrayList<Carta> getMesa();
 		void eliminarPorListaCartas(ArrayList<Carta> ListaCartas1, ArrayList<Carta> ListaCartas2);
 		void activarRobarMazoAEleccion(Entidad jugador);
+		void activarColera(Entidad jugador);
 }

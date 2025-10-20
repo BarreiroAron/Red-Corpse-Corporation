@@ -417,7 +417,8 @@ public class JuegoPantalla implements Screen {
                  if (!clicProcesado
                          && hovered
                          && Gdx.input.justTouched()
-                         && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs) {
+                         && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
+                         && !juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.COLERA, jugador)) {
 
                      float destinoX = this.CENTRODEMESAX;
                      float destinoY = this.CENTRODEMESAY;

@@ -103,6 +103,14 @@ public enum Habilidad {
         }
     },
     
+    COLERA() { //sirve para efectos de COLERA
+        public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+            controlador.activarColera(jugador);
+            System.out.println("Se activo colera a "+ jugador.getNombre());
+            jugador.modificarPuntos(-100, false);
+        }
+    },
+    
     APARICION_ALEATORIA() {
         @Override
         public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {

@@ -51,7 +51,7 @@ public class Recursos {
 	public static final String IM_SCARED = "imScaerdBETA.png";
 	
 	// Cartas malas
-	public static final String PECADO_CODICIA = "PecadoDeLaCodiciaBETA.png";
+	public static final String PECADO_CODICIA = "Codicia.png";
 	
 	public static final String TEXTURA_BARRA = "barra.png";
 	

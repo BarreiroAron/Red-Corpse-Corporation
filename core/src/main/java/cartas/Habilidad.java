@@ -152,7 +152,12 @@ public enum Habilidad {
     },
     
     ESTRENIMIENTO() { //Carta para estrenimiento
+
     	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+    		//controlador.robarCartasMalas(rival);
+    		if(controlador instanceof Juego juego) {
+    			juego.activarEstrenimiento(rival);
+    		}
     	}
     },
     

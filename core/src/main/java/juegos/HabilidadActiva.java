@@ -10,7 +10,8 @@ public class HabilidadActiva {
         MOSTRAR_CARTAS_SIGUIENTES,
         ROBAR_CARTAS_A_ELECCION,
     	INANICION,
-    	COLERA;
+    	COLERA,
+    	ESTRENIMIENTO;
     }
 
     private final Tipo tipo;
@@ -74,5 +75,9 @@ public class HabilidadActiva {
 
 	public static HabilidadActiva inanicion(Entidad jugador, int i, String string) {
 		return new HabilidadActiva(Tipo.INANICION, jugador, i, string, false);
+	}
+	
+	public static HabilidadActiva estrenimiento(Entidad objetivo, int turnos, String desc) {
+	    return new HabilidadActiva(Tipo.ESTRENIMIENTO, objetivo, turnos, desc, false);
 	}
 }

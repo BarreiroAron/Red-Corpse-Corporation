@@ -37,7 +37,7 @@ public class Recursos {
 	public static final String REDENTO = "redento.png"; 
 	public static final String SALTAMONTES = "Saltamontes.png"; 
 	public static final String SNAKE = "snake.png"; 
-	public final static String THX_FOR_PLAYING_CARTA= "ThxForPlaying.jpg"; //
+	public final static String THX_FOR_PLAYING_CARTA= "ThanksForPlaying.png"; //
 	
 	//Personajes
 	public final static String PERSONAJE_VIOLETA = "PersonajeVioletaSprite.png";

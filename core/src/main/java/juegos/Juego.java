@@ -3,6 +3,8 @@ package juegos;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import com.badlogic.gdx.audio.Sound;
+
 import Entidades.Entidad;
 import Entidades.Jugador;
 import cartas.Carta;
@@ -64,6 +66,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
+    private Sound CartaTirada;
+	
 	public Juego( ArrayList<Entidad> Jugadores){
 		this.jugadores= Jugadores;
 		iniciarMazo();
@@ -78,35 +82,36 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private void iniciarMazo() {
 		System.out.println("Se creo mazo");
 		mazo = new ArrayList<>();
-		
-		// Cartas normales
-				mazo.add(new CambioDeRonda());
 				mazo.add(new Chester());
 				mazo.add(new Colera());
-				mazo.add(new Company());
-				mazo.add(new Estrenimiento());
-				mazo.add(new HambreContenida());
-				mazo.add(new KingDice());
 				mazo.add(new Mimico());
-				mazo.add(new NotToday());
-				mazo.add(new OjoQueTodoLoVe());
 				mazo.add(new Redento());
-				mazo.add(new Saltamontes());
+
+				for(int i = 0; i < 2; i++) {
+
+				mazo.add(new Company());
+				mazo.add(new HambreContenida());
+				mazo.add(new Estrenimiento());
 				mazo.add(new Snake());
-				mazo.add(new ThanksForPlaying());
-				
 
-				// Cartas malas
 				mazo.add(new PecadoDeLaCodicia());
-				mazo.add(new Sonambulo());
+				mazo.add(new Sonambulo());	
 
-				// Cartas especiales
-				//mazo.add(new IMHERE());
+				}
+				for(int i = 0; i < 4; i++) {
+
+					mazo.add(new CambioDeRonda());
+					mazo.add(new NotToday());
+					mazo.add(new ThanksForPlaying());
+					mazo.add(new KingDice());
+					mazo.add(new OjoQueTodoLoVe());
+					mazo.add(new Saltamontes());
+				}
 				
-		
 		cantidadCartasMazo = mazo.size();
-		
+
 	    Collections.shuffle(mazo);
+
 	}
 	
 	public void actualizar(){
@@ -286,29 +291,68 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	public void jugarCarta(Carta carta, Entidad jugador) {
 		Entidad enemigo = carta.getEnemigoDeterminado(jugadores,jugador);
-		
 	    obtenerRival(jugador);
 	    if(carta.getHabilidad() != null) {
 	    	carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
 	    }
-
+	    boolean tieneEstrenimiento = isHabilidadActivaEnJugador(HabilidadActiva.Tipo.ESTRENIMIENTO, jugador);
+	    int puntosTiradorAntes = 0; 
+	    int puntosRivalAntes = 0;  
+	    
+	    if (tieneEstrenimiento) {
+	        puntosTiradorAntes = enemigo.getPuntos();
+	        puntosRivalAntes = jugador.getPuntos();
+	    }
+	    
 	    int chance = (int) (Math.random() * 100) + 1;
+	    
 	    if(chance <= 5) {
 	    	System.out.println("IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE IMHERE");
+	    	
 	    	if(!getMesa().isEmpty()) {
 	    		Carta cartaTirada = getMesa().get(getMesa().size() - 1);
 	    		getMesa().remove(cartaTirada);
 	    		Carta imHere = new IMHERE();
 	    		getMesa().add(imHere);
+
 	    		if(imHere.getHabilidad() != null) {
 	    			imHere.getHabilidad().ejecutar(imHere, jugador, enemigo, this);
 	    		}
-	    	}
-	    }
 
-		jugador.modificarPuntos(carta.getPuntosDisminuidos(), carta.getPorcentual());
-		enemigo.modificarPuntos(carta.getPuntosAumentadosRival(), carta.getPorcentual());
+	    	}
+
+	    }
+	    
+	    jugador.modificarPuntos(carta.getPuntosDisminuidos(), carta.getPorcentual());
+	    enemigo.modificarPuntos(carta.getPuntosAumentadosRival(), carta.getPorcentual());
 	    carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
+	    
+	    if (carta.getHabilidad() != null) {
+	        carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
+	    }
+	    
+	    if (tieneEstrenimiento && carta.getHabilidad() != Habilidad.INTERCAMBIO_PUNTOS) {
+	        int puntosTiradorDespues = enemigo.getPuntos();
+	        int puntosRivalDespues = jugador.getPuntos();
+	        boolean modificoPuntos = (puntosTiradorDespues != puntosTiradorAntes) || (puntosRivalDespues != puntosRivalAntes);
+
+	        if (!modificoPuntos) {
+	        	System.out.println("EFECTO DE ESTREÑIMIENTO ACTIVADOOOOOOOOOOOOOOOOOOOOOOOO");
+	            robarCartasMalas(jugador);
+	            robarCartasMalas(jugador);
+	            HabilidadActiva ha = buscarHabilidadActiva(HabilidadActiva.Tipo.ESTRENIMIENTO);
+	            
+	            if (ha != null) {
+	                removeHabilidadActiva(ha);
+	            }
+	        } else {
+	            HabilidadActiva ha = buscarHabilidadActiva(HabilidadActiva.Tipo.ESTRENIMIENTO);
+
+	            if (ha != null) {
+	                removeHabilidadActiva(ha);
+	            }
+	        }
+	    }
 	}
 	
 	private void repartirCartas() {
@@ -637,7 +681,38 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    }
 	    return null;
 	}
-
+	
+	public void activarEstrenimiento(Entidad rival) {
+	    habilidadesActivas.add(HabilidadActiva.estrenimiento(rival, 1, "Obligado a tirar cartas que modifiquen puntos; si no, roba 2 cartas malas"));
+	    System.out.println("Se activó Estrenimiento para " + rival.getNombre());
+}
+	
+public void robarCartasMalas(Entidad jugador) {
+    // Buscar una carta mala en el mazo
+    Carta cartaMala = null;
+    for (Carta c : mazo) {
+        if (c.getTipo() == TipoDeCarta.MALA) {
+            cartaMala = c;
+            break;
+        }
+    }
+    if (cartaMala != null) {
+        // Robar la carta mala encontrada
+        mazo.remove(cartaMala);
+        jugador.agregarCarta(cartaMala);
+        System.out.println(jugador.getNombre() + " robó una carta mala: " + cartaMala.getClass().getSimpleName());
+    } else {
+        // Si no hay cartas malas, agregar nuevas al mazo y robar una
+        System.out.println("No hay cartas malas en el mazo. Agregando nuevas...");
+        mazo.add(new PecadoDeLaCodicia());
+        mazo.add(new Sonambulo());
+        Collections.shuffle(mazo);  // Mezclar para aleatoriedad
+        // Robar la primera carta mala agregada (PecadoDeLaCodicia)
+        Carta nuevaMala = mazo.remove(mazo.size() - 1);  // Remover la última agregada
+        jugador.agregarCarta(nuevaMala);
+        System.out.println(jugador.getNombre() + " robó una carta mala generada: " + nuevaMala.getClass().getSimpleName());
+    }
+}
 
 	@Override
 	public void intercambiarPuntos(Entidad jugador, Entidad rival) {

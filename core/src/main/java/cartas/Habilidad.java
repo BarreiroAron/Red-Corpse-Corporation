@@ -168,10 +168,13 @@ public enum Habilidad {
     	}
     }, 
     
-    MIMICO() { //Carta que se va a usar para mimico
-    	public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
-    		
-    	}
+    MIMICO() {
+        public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+            if (controlador instanceof Juego juego) {
+                juego.activarMimicoPendiente(jugador);
+                System.out.println("Mímico jugado: se activó efecto pendiente de próximo robo.");
+            }
+        }
     },
     
     VER_PUNTOS_RIVAL() {

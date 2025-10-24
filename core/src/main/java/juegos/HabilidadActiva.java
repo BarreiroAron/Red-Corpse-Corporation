@@ -11,7 +11,8 @@ public class HabilidadActiva {
         ROBAR_CARTAS_A_ELECCION,
     	INANICION,
     	COLERA,
-    	ESTRENIMIENTO;
+    	ESTRENIMIENTO,
+    	MIMICO_PENDIENTE,;
     }
 
     private final Tipo tipo;
@@ -80,4 +81,10 @@ public class HabilidadActiva {
 	public static HabilidadActiva estrenimiento(Entidad objetivo, int turnos, String desc) {
 	    return new HabilidadActiva(Tipo.ESTRENIMIENTO, objetivo, turnos, desc, false);
 	}
+	
+	public static HabilidadActiva mimicoPendiente(Entidad jugador) {
+		return new HabilidadActiva(Tipo.MIMICO_PENDIENTE, jugador, 9999,
+	            "Mímico pendiente: al próximo robo se evalúa el efecto", false);
+	}
+	
 }

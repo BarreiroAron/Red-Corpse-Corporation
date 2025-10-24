@@ -85,6 +85,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 				mazo.add(new Chester());
 				mazo.add(new Colera());
 				mazo.add(new Mimico());
+				mazo.add(new Mimico());
 				mazo.add(new Redento());
 
 				for(int i = 0; i < 2; i++) {
@@ -397,6 +398,31 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        return;
 	    }
 	    jugador.agregarCarta(carta);
+	    
+	    boolean teniaMimicoPendiente = false;
+	    for (HabilidadActiva ha : new ArrayList<>(habilidadesActivas)) {
+	        if (ha.getTipo() == HabilidadActiva.Tipo.MIMICO_PENDIENTE && ha.getObjetivo() == jugador) {
+	            teniaMimicoPendiente = true;
+	            break;
+	        }
+	    }
+
+	    if (teniaMimicoPendiente) {
+	        if (carta.getHabilidad() == cartas.Habilidad.MIMICO) {
+	            this.modificarPuntos(jugador, -30, false);
+	            this.modificarPuntosGlobal(jugador, +50, false);
+	            System.out.println("Mímico: robaste OTRO Mímico Vos -30 | Todos los demás +50");
+	        } else {
+	        	this.modificarPuntos(jugador, +70, false);
+	            this.modificarPuntosGlobal(jugador, -30, false);
+	            System.out.println("Mímico: robaste carta NO Mímico  Vos +70 | Todos los demás -30");
+	        }
+
+	        habilidadesActivas.removeIf(ha ->
+	            ha.getTipo() == HabilidadActiva.Tipo.MIMICO_PENDIENTE && ha.getObjetivo() == jugador
+	        );
+	    }
+
 	}
 
 
@@ -753,6 +779,16 @@ public void robarCartasMalas(Entidad jugador) {
 	        }
 	    }
 	    return null;
+	}
+
+
+	public void activarMimicoPendiente(Entidad jugador) {
+		for (HabilidadActiva ha : habilidadesActivas) {
+	        if (ha.getTipo() == HabilidadActiva.Tipo.MIMICO_PENDIENTE && ha.getObjetivo() == jugador) {
+	            return;
+	        }
+	    }
+	    habilidadesActivas.add(HabilidadActiva.mimicoPendiente(jugador));
 	}
 
 }

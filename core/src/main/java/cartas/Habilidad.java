@@ -194,8 +194,16 @@ public enum Habilidad {
         		juego.activarJugarCartaAleatorea(rival,3, "Redento: no puedes robar del mazo");
         	}
         }
-    }
-    ;
+    },
+    BLOQUEO() {
+        public void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador) {
+            if (controlador instanceof Juego juego) {
+                // activa un efecto temporal de bloqueo
+                juego.habilidadesActivas.add(HabilidadActiva.bloqueoActivo(jugador));
+                System.out.println("Carta BLOQUEO jugada → bloqueará el próximo efecto pendiente.");
+            }
+        }
+    };
 	
     public abstract void ejecutar(Carta carta, Entidad jugador, Entidad rival, ControladorDeJuego controlador);
 

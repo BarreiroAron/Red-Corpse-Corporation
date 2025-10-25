@@ -383,10 +383,19 @@ public class JuegoPantalla implements Screen {
                          @Override
                          public void run() {
                              sonidoCartaTirada();
-                             juego.jugarCarta(carta, jugador);
-                             juego.agregarCartaMesa(carta);
-                             juego.sumarRonda();
-                             jugador.removerCarta(carta);
+                             if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
+                         	    // Bloqueo debe ser inmediato (sin delay) si hay carta esperando resolución
+                         	    juego.activarBloqueoActivo(jugador);
+                         	    juego.agregarCartaMesa(carta);
+                         	    juego.sumarRonda();
+                         	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
+                         	} else {
+                         	    // el resto de las cartas usan delay
+                         	    juego.jugarCartaConDelay(carta, jugador);
+                         	    juego.agregarCartaMesa(carta);
+                         	    juego.sumarRonda();
+                         	    // (mantener tu removerCarta si lo hacías acá)
+                         	}
                          }
                      });
              ultimoClickTime = TimeUtils.millis();
@@ -433,10 +442,19 @@ public class JuegoPantalla implements Screen {
                                  @Override
                                  public void run() {
                                      sonidoCartaTirada();
-                                     juego.jugarCarta(carta, jugador);
-                                     juego.agregarCartaMesa(carta);
-                                     juego.sumarRonda();
-                                     jugador.removerCarta(carta);
+                                     if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
+                                    	    // Bloqueo debe ser inmediato (sin delay) si hay carta esperando resolución
+                                    	    juego.activarBloqueoActivo(jugador);
+                                    	    juego.agregarCartaMesa(carta);
+                                    	    juego.sumarRonda();
+                                    	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
+                                    	} else {
+                                    	    // el resto de las cartas usan delay
+                                    	    juego.jugarCartaConDelay(carta, jugador);
+                                    	    juego.agregarCartaMesa(carta);
+                                    	    juego.sumarRonda();
+                                    	    // (mantener tu removerCarta si lo hacías acá)
+                                    	}
                                  }
                              });
 

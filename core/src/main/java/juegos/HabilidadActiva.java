@@ -12,7 +12,7 @@ public class HabilidadActiva {
     	INANICION,
     	COLERA,
     	ESTRENIMIENTO,
-    	MIMICO_PENDIENTE,;
+    	MIMICO_PENDIENTE, BLOQUEO_ACTIVO,;
     }
 
     private final Tipo tipo;
@@ -85,6 +85,11 @@ public class HabilidadActiva {
 	public static HabilidadActiva mimicoPendiente(Entidad jugador) {
 		return new HabilidadActiva(Tipo.MIMICO_PENDIENTE, jugador, 9999,
 	            "Mímico pendiente: al próximo robo se evalúa el efecto", false);
+	}
+	
+	public static HabilidadActiva bloqueoActivo(Entidad jugador) {
+	    return new HabilidadActiva(Tipo.BLOQUEO_ACTIVO, jugador, 2,
+	        "Bloquea la próxima carta en resolución.", false);
 	}
 	
 }

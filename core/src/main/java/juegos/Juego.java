@@ -56,6 +56,13 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
 	private boolean cartasDisponiblesMazo= true;
 
+	//dislay para ejecucion de cartas
+	private Carta cartaPendiente = null;
+	private Entidad jugadorQueLaJugoPendiente = null;
+	private int ticksPendientes = 0;
+
+	
+	
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
 	//intentar despues evitar esta variable
 	int cantidadDeCartasASacar= 0;
@@ -121,6 +128,33 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		comprobarPartidaTerminada();
 		actualizarCartasDisponiblesMazo();
 		comprobarCondicionParaInanicion();
+		
+		tick();
+	}
+	
+	public void tick() {
+		if (cartaPendiente != null) {
+		    ticksPendientes--;
+		    if (ticksPendientes <= 0) {
+		        ejecutarCartaPendiente();
+		    }
+		}
+	}
+	
+	private void ejecutarCartaPendiente() {
+
+		// si bloque_activo no essta se ejecuta
+	    if (habilidadesActivas.stream().noneMatch(h -> h.getTipo() == HabilidadActiva.Tipo.BLOQUEO_ACTIVO)) {
+	    	jugarCarta(cartaPendiente,jugadorQueLaJugoPendiente);
+	    } else {
+	        System.out.println("Carta bloqueada por efecto de Bloqueo.");
+	    }
+
+	    // limpia general
+	    cartaPendiente = null;
+	    jugadorQueLaJugoPendiente = null;
+	    ticksPendientes = 0;
+	    habilidadesActivas.removeIf(h -> h.getTipo() == HabilidadActiva.Tipo.BLOQUEO_ACTIVO);
 	}
 	
 	private void comprobarCondicionParaInanicion() {
@@ -213,6 +247,16 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		jugador.getMano().add(carta);
 	}
 	
+	public void jugarCartaConDelay(Carta carta, Entidad jugador) {
+	    if (this.cartaPendiente != null) {
+	        System.out.println("Ya hay una carta en resolución. Esperá a que termine.");
+	        return;
+	    }
+	    this.cartaPendiente = carta;
+	    this.jugadorQueLaJugoPendiente = jugador;
+	    this.ticksPendientes = 45;
+	}
+
 	
 	private void tickHabilidadesActivasPara(Entidad jugadorQueTermino) {
 	    for (int i = habilidadesActivas.size() - 1; i >= 0; i--) {
@@ -293,9 +337,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	public void jugarCarta(Carta carta, Entidad jugador) {
 		Entidad enemigo = carta.getEnemigoDeterminado(jugadores,jugador);
 	    obtenerRival(jugador);
+	    
 	    if(carta.getHabilidad() != null) {
 	    	carta.getHabilidad().ejecutar(carta, jugador, enemigo, this);
 	    }
+	    
 	    boolean tieneEstrenimiento = isHabilidadActivaEnJugador(HabilidadActiva.Tipo.ESTRENIMIENTO, jugador);
 	    int puntosTiradorAntes = 0; 
 	    int puntosRivalAntes = 0;  
@@ -789,6 +835,16 @@ public void robarCartasMalas(Entidad jugador) {
 	        }
 	    }
 	    habilidadesActivas.add(HabilidadActiva.mimicoPendiente(jugador));
+	}
+
+
+	public void activarBloqueoActivo(Entidad jugador) {
+	    habilidadesActivas.add(HabilidadActiva.bloqueoActivo(jugador));
+	    System.out.println("Bloqueo ACTIVADO por " + jugador.getNombre());
+	}
+	
+	public boolean hayCartaPendiente() {
+	    return cartaPendiente != null;
 	}
 
 }

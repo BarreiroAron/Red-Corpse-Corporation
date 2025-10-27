@@ -158,4 +158,19 @@ Este archivo documenta los cambios importantes realizados en el proyecto **RED C
 
 38) -- Septiembre 28 2025 -- Se agrego la habilidad de la carta sonanbulo, juega las cartas de manera aleatorea 
 
-39) -- Octubre 9 2025 -- Se  agrego la habilidad de ver cartas futuras de bill, usa una condicion agregada a habilidad de , vert siguientes cartas, duraa unaa ronda, se impide de quew sea menos de 3 cartas rebarajeando cartas de la mesa pero aun asi busca no extenderse mas de 3 cartas , se centran el el medio de mejor manera 
+39) -- Octubre 9 2025 -- Se  agrego la habilidad de ver cartas futuras de bill, usa una condicion agregada a habilidad de , vert siguientes cartas, duraa unaa ronda, se impide de que sea menos de 3 cartas rebarajeando cartas de la mesa pero aun asi busca no extenderse mas de 3 cartas , se centran el el medio de mejor manera .
+
+40) -- Octubre 13 2025 -- Se creo un temporizador para la futura carta de "not today".
+
+41) -- Octubre 14 2025 -- Se crearon las flechas para la carta "HambreContenida".
+
+42) -- Octubre 15 2025 -- Se agrego sprites para saltamontes y se termino de crear la carta "IMHERE".
+
+43) -- Ocutbre 18 2025 -- Se arreglo un bug y se añadio la funcion final de inanicion para que funcione en el codigo.
+
+44) -- Ocutbre 20 2025 -- Se creo la habilidad de la carta de Colera.
+
+45) -- Octubre 23 2025 -- Añadimos sprites de pecado de la codicia y añadimos las funciones de la carta "estreñimiento" para tenerla ya en juego.
+    
+46) -- Octubre 25 2025 -- Se creo y agrego las funciones de la carta de Mimico. Se modifico el delay de la carta "Nottoday".
+    

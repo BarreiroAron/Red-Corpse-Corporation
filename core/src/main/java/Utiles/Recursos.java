@@ -23,7 +23,7 @@ public class Recursos {
 	// Cartas normales
 	public static final String CAMBIO_DE_RONDA = "cambioDeRonda.png";
 	public static final String CHESTER = "ChesterRemastered.png";
-	public static final String COLERA = "coleraBETA.jfif";//
+	public static final String COLERA = "Varatea.png";//
 	public static final String COMPANY = "Company.png";
 	public static final String ESTRENIMIENTO = "Estrenimientoo.png"; 
 	public static final String HAMBRE_CONTENIDA = "briarBETA.jfif"; //
@@ -32,7 +32,7 @@ public class Recursos {
 	public static final String KING_DICE = "KingDice.png";
 	
 	public static final String MIMICO = "Mimico.png"; 
-	public static final String NOT_TODAY = "notTodayBETA.jfif";
+	public static final String NOT_TODAY = "NotToday.png";
 	public static final String OJO_QUE_TODO_LO_VE = "BillClave.png"; 
 	public static final String REDENTO = "redento.png"; 
 	public static final String SALTAMONTES = "Saltamontes.png"; 

@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -15,12 +16,16 @@ import Pantallas.PantallaCarga;
 import Utiles.Animaciones;
 import Utiles.Imagen;
 import Utiles.Render;
+import red.HiloCliente;
 import sonidos.SonidoMenuPrincipal;
 
 public class MenuPrincipal implements Screen {
 
     private final Game game;
     private SpriteBatch batch;
+    static private boolean conectado=false;
+    
+    private BitmapFont bitmapFont;
 
     private Imagen fondo;
     private Imagen botonJugar;
@@ -31,6 +36,8 @@ public class MenuPrincipal implements Screen {
     private float anchoBoton = 309, altoBoton = 115;
 
     SonidoMenuPrincipal sonidoMenuPrincipalHilo;
+    
+    HiloCliente hiloCliente;
     
     private Screen pantallaAnterior;
     private boolean pausa = false;
@@ -57,10 +64,16 @@ public class MenuPrincipal implements Screen {
         this.pantallaAnterior = pantallaAnterior;
         this.pausa = true;
     }
-
+    
     @Override
     public void show() {
         batch = Render.batch;
+        
+        if (hiloCliente == null) {
+        	hiloCliente = new HiloCliente();
+        	hiloCliente.start();
+        }
+        this.bitmapFont = new BitmapFont();
 
         fondo = new Imagen("FondoCarga.jpg");
         botonJugar = new Imagen("jugarBoton.png");
@@ -69,6 +82,8 @@ public class MenuPrincipal implements Screen {
 
         startAudio();
 
+		
+        
         this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipal();
         this.sonidoMenuPrincipalHilo.start();
 
@@ -82,6 +97,7 @@ public class MenuPrincipal implements Screen {
         yBotonJugar = 600f;
         yBotonOpciones = 400f;
         yBotonSalir = 200f;
+        
     }
 
     @Override
@@ -105,6 +121,10 @@ public class MenuPrincipal implements Screen {
         boolean hoverOpciones = Animaciones.animarHover(batch, botonOpciones, xBoton, yBotonOpciones, anchoBoton, altoBoton, mouseX, mouseY, 1.1f, 10f, delta);
         boolean hoverSalir = Animaciones.animarHover(batch, botonSalir, xBoton, yBotonSalir, anchoBoton, altoBoton, mouseX, mouseY, 1.1f, 10f, delta);
 
+        if(conectado) {
+        	  bitmapFont.draw(batch, "Estas conectado al server", 20f, camera.viewportHeight - 20f);
+        }
+        
         batch.end();
 
         if (Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.LEFT)) {
@@ -117,9 +137,11 @@ public class MenuPrincipal implements Screen {
             } else if (hoverOpciones) {
                 game.setScreen(new MenuOpciones(game, this));
             } else if (hoverSalir) {
+            	hiloCliente.cerrarConexion();
                 Gdx.app.exit();
             }
         }
+ 
     }
 
     public void startAudio() {
@@ -145,4 +167,8 @@ public class MenuPrincipal implements Screen {
     @Override public void resume() {}
     @Override public void hide() { sonidoMenuPrincipalHilo.stop();}
     @Override public void dispose() { sonidoMenuPrincipalHilo.stop(); }
+    
+    public static void pasarAConectado() {
+    	conectado=true;
+    }
 }

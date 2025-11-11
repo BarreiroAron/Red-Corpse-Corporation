@@ -16,6 +16,8 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import com.badlogic.gdx.graphics.Color;
+
 import Entidades.Entidad;
 import cartas.Carta;
 import Utiles.Animaciones;
@@ -28,6 +30,9 @@ import menues.MenuFinPartida;
 import menues.MenuOpciones;
 import menues.MenuPrincipal;
 import sonidos.SonidoManager;
+
+import Utiles.PersonalizarTexto;
+
 
 public class JuegoPantalla implements Screen {
 
@@ -71,6 +76,8 @@ public class JuegoPantalla implements Screen {
     final float CENTRODEMESAY;
 
     private boolean menuPausaActivo = false;
+    
+    private BitmapFont fuenteCartas;
 
     public JuegoPantalla(Game game, Juego juego) {
         this.game = game;
@@ -104,6 +111,10 @@ public class JuegoPantalla implements Screen {
         this.cartaEspalda = new Imagen(Recursos.MAZO_CARTAS);
 
         this.tfp = new ThanksForPlaying();
+        
+        this.fuenteCartas = new BitmapFont(Gdx.files.internal("fuente.fnt"));
+        PersonalizarTexto.configurarFuente(fuenteCartas, 1.5f, Color.GOLD, Color.BLACK);
+
     }
 
     @Override
@@ -373,31 +384,28 @@ public class JuegoPantalla implements Screen {
              float x = inicioX + indice * (anchoCarta + esp);
              float y = 150f;
              
+             jugador.removerCarta(carta);
              Animaciones.iniciarMovimiento(
-                     carta.getImagenCarta(),
-                     x, y,
-                     destinoX, destinoY,
-                     anchoCarta, alturaCarta,
-                     0.25f,
-                     new Runnable() {
-                         @Override
-                         public void run() {
-                             sonidoCartaTirada();
-                             if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
-                         	    // Bloqueo debe ser inmediato (sin delay) si hay carta esperando resolución
-                         	    juego.activarBloqueoActivo(jugador);
-                         	    juego.agregarCartaMesa(carta);
-                         	    juego.sumarRonda();
-                         	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
-                         	} else {
-                         	    // el resto de las cartas usan delay
-                         	    juego.jugarCartaConDelay(carta, jugador);
-                         	    juego.agregarCartaMesa(carta);
-                         	    juego.sumarRonda();
-                         	    // (mantener tu removerCarta si lo hacías acá)
-                         	}
+                 carta.getImagenCarta(),
+                 x, y,
+                 destinoX, destinoY,
+                 anchoCarta, alturaCarta,
+                 0.25f,
+                 new Runnable() {
+                     @Override
+                     public void run() {
+                         sonidoCartaTirada();
+                         if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
+                             juego.activarBloqueoActivo(jugador);
+                         } else {
+                             juego.jugarCartaConDelay(carta, jugador);
                          }
-                     });
+                         juego.agregarCartaMesa(carta);
+                         juego.sumarRonda();
+                     }
+                 });
+
+
              ultimoClickTime = TimeUtils.millis();
              clicProcesado = true;
 

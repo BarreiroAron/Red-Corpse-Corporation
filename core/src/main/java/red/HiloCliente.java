@@ -72,6 +72,21 @@ public class HiloCliente extends Thread{
 	    } else if(msg.equals("Empieza")) {
 	        MenuPrincipal.pasarAConectado();
 	        System.out.println("Ya empezo el juego");
+	    }else if (msg.startsWith("INIT;")) {
+	        // Formato: INIT;playerIndex;nombreEntidad;HAB1,HAB2,HAB3,...
+	        String[] partes = msg.split(";");
+	        int playerIndex = Integer.parseInt(partes[1]);
+	        String nombreEntidad = partes[2];
+	        String cartasStr = partes[3];
+	        String[] cartasCodigos = cartasStr.split(",");
+
+	        // Guardamos en red.Cliente para usarlo después
+	        Cliente.setDatosInit(playerIndex, nombreEntidad, cartasCodigos);
+
+	        System.out.println("INIT recibido: playerIndex=" + playerIndex +
+	                ", entidad=" + nombreEntidad +
+	                ", mano=" + cartasStr);
+
 	    }
 	}
 	

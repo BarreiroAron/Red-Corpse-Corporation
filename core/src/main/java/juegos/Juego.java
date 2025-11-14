@@ -61,6 +61,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private Entidad jugadorQueLaJugoPendiente = null;
 	private int ticksPendientes = 0;
 
+	private boolean esServidor = true;
 	
 	
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
@@ -75,15 +76,25 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	
     private Sound CartaTirada;
 	
-	public Juego( ArrayList<Entidad> Jugadores){
-		this.jugadores= Jugadores;
-		iniciarMazo();
-		repartirCartas();
-		this.hiloDeTiempo = new HiloTiempoPartida(this);
-		this.hiloDeTiempo.setMinutos(tiempo);
-		this.hiloDeTiempo.start();
-		SonidoAmbiental VentiladorHilo = new SonidoAmbiental();
-	}
+    public Juego(ArrayList<Entidad> jugadores, boolean esServidor) {
+        this.jugadores = jugadores;
+        this.esServidor = esServidor;
+
+        if (esServidor) {
+            // SOLO en el servidor:
+            iniciarMazo();
+            repartirCartas();
+            this.hiloDeTiempo = new HiloTiempoPartida(this);
+            this.hiloDeTiempo.setMinutos(tiempo);
+            this.hiloDeTiempo.start();
+            SonidoAmbiental VentiladorHilo = new SonidoAmbiental();
+        } else {
+            // En cliente: NO creamos mazo ni repartimos
+            // El servidor nos va a mandar la mano con INIT y la vamos a poner después con setMano()
+            System.out.println("[CLIENTE] Juego creado en modo CLIENTE (sin mazo local).");
+        }
+    }
+
 
 
 	private void iniciarMazo() {
@@ -252,9 +263,11 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        System.out.println("Ya hay una carta en resolución. Esperá a que termine.");
 	        return;
 	    }
+	    jugador.getMano().remove(carta);
+	    
 	    this.cartaPendiente = carta;
 	    this.jugadorQueLaJugoPendiente = jugador;
-	    this.ticksPendientes = 45;
+	    this.ticksPendientes = 5;
 	}
 
 	

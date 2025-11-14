@@ -394,6 +394,7 @@ public class JuegoPantalla implements Screen {
                          	    juego.jugarCartaConDelay(carta, jugador);
                          	    juego.agregarCartaMesa(carta);
                          	    juego.sumarRonda();
+                         	   jugador.removerCarta(carta);
                          	    // (mantener tu removerCarta si lo hacías acá)
                          	}
                          }

@@ -82,13 +82,13 @@ public class HiloCliente extends Thread{
 
 	        // Guardamos en red.Cliente para usarlo después
 	        Cliente.setDatosInit(playerIndex, nombreEntidad, cartasCodigos);
-
 	        System.out.println("INIT recibido: playerIndex=" + playerIndex +
 	                ", entidad=" + nombreEntidad +
 	                ", mano=" + cartasStr);
 
+	    	}
 	    }
-	}
+	
 	
 	public void cerrarConexion() {
 	    if (conexion != null && !conexion.isClosed()) {

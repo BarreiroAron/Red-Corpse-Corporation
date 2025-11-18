@@ -29,6 +29,7 @@ import cartasNormales.Saltamontes;
 import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 import juegos.HabilidadActiva.Tipo;
+import red.Cliente;
 import sonidos.SonidoAmbiental;
 import sonidos.SonidoManager;
 
@@ -63,6 +64,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 	private boolean esServidor = true;
 	
+	private int indiceJugadorCliente= 0;
 	
 	public final ArrayList<HabilidadActiva> habilidadesActivas = new ArrayList<>();
 	//intentar despues evitar esta variable
@@ -640,7 +642,6 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	    if (indiceJugadorActual >= jugadores.size()) {
 	        indiceJugadorActual = 0;
 	    }
-
 	    return jugadores.get(indiceJugadorActual);
 	}
 
@@ -859,5 +860,10 @@ public void robarCartasMalas(Entidad jugador) {
 	public boolean hayCartaPendiente() {
 	    return cartaPendiente != null;
 	}
+
+	public Entidad getJugadorCliente() {
+		return this.jugadores.get(Cliente.getPlayerIndex());
+	}	
+	
 
 }

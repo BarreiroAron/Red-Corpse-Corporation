@@ -123,9 +123,9 @@ public class JuegoPantalla implements Screen {
         this.Mesa.dibujar();
         this.Cartel.dibujar();
 
-        dibujarPuntos(juego.getJugadorActual());
-        dibujarInterfazJugador(Render.batch, juego.getJugadorActual(), delta);
-        dibujarMazo(Render.batch, juego.getJugadorActual(), delta);
+        dibujarPuntos(juego.getJugadorCliente());
+        dibujarInterfazJugador(Render.batch, juego.getJugadorCliente(), delta);
+        dibujarMazo(Render.batch, juego.getJugadorCliente(), delta);
         dibujarJugadores(Render.batch);
         dibujarMesaCartas(Render.batch);
         dibujarBarraTiempo();
@@ -245,7 +245,7 @@ public class JuegoPantalla implements Screen {
     
     private void dibujarJugadores(SpriteBatch batch) {
 
-	    Entidad jugadorActual = juego.getJugadorActual();   // puede ser null
+	    Entidad jugadorActual = juego.getJugadorCliente();   // puede ser null
 
 	    int total    = juego.getJugadores().size();
 
@@ -330,7 +330,7 @@ public class JuegoPantalla implements Screen {
     }
 
     private void dibujarInterfazJugador(SpriteBatch batch, Entidad jugadorActual, float delta) {
-        dibujarMano(Render.batch, juego.getJugadorActual(), delta);
+        dibujarMano(Render.batch, jugadorActual, delta);
         dibujarPuntos(jugadorActual);
     }
 

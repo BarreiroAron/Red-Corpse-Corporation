@@ -52,7 +52,6 @@ public class PantallaCarga implements Screen {
 	private CuerpoAnimado[] personajesAnimados = Utiles.Util.crearListaImagPerRan();
 	private Entidad entidad1 = new Jugador("Entidad 1", 100, personajesAnimados[1]);
 	private Entidad entidad2 = new Rival("Entidad 2", 100, personajesAnimados[2]);
-	private Entidad entidad3 = new Rival("Entidad 3", 100, personajesAnimados[3]);
 
 	private Juego juego;
 	
@@ -75,7 +74,6 @@ public class PantallaCarga implements Screen {
 		
 		jugadores.add(entidad1);
 		jugadores.add(entidad2);
-		jugadores.add(entidad3);
 
 		// inicializar cámara y viewport
 		camera = new OrthographicCamera();

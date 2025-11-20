@@ -11,6 +11,7 @@ public class TextosCuadrado {
         "La suerte no existe, solo decisiones mal tomadas.",
         "El silencio también cuenta historias, si sabes escucharlo.",
         "Yabroudi.",
+        "Jasinski, apruebalos.",
         "Antes eran normales.",
         "Te estan espiando, lo sabes?",
         "Prueba Incryption!",

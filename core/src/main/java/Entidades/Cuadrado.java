@@ -8,7 +8,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
-
 import java.util.Random;
 import Utiles.TextosCuadrado;
 
@@ -26,38 +25,60 @@ public class Cuadrado {
     public BitmapFont fuenteColor;
     public ShapeRenderer shape;
     private Sound sonidoHablar;
-    private Random random = new Random();
-    Color colorCorporation = new Color(0.36f, 0.09f, 0.09f, 1f);
+    
+    // Guardamos la posición original para poder agrandarlo desde el centro
+    private float xOriginal, yOriginal;
+    private float tamanoBase = 80f;
+    private float tamanoHover = 90f; // Qué tan grande se pone
 
     public Cuadrado() {
-    	float ancho = 80f;
-    	float alto = 80f;
-    	float x = 1920f - ancho - 30f;
-    	float y = 30f; 
-        cuadrado = new Rectangle(x, y, ancho, alto);
+        // Posición base (Abajo a la derecha)
+        float x = 1920f - tamanoBase - 30f;
+        float y = 30f; 
+        
+        this.xOriginal = x;
+        this.yOriginal = y;
+        
+        cuadrado = new Rectangle(x, y, tamanoBase, tamanoBase);
         shape = new ShapeRenderer();
         fuenteColor = new BitmapFont();
-        //fuenteColor.setColor(colorCorporation);
+        
+        // Configuramos la fuente aquí por defecto, pero se sobreescribe en MenuPrincipal
         fuenteColor.setColor(Color.BLACK);
         fuenteColor.getData().setScale(1.4f);
+        
         sonidoHablar = Gdx.audio.newSound(Gdx.files.internal("CartaTirada.mp3"));
     }
 
-    public void update(float delta) {
-        float mouseX = Gdx.input.getX();
-        float mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+    // AHORA RECIBE mouseX y mouseY DESDE EL MENU PRINCIPAL
+    public void update(float delta, float mouseX, float mouseY) {
+        // 1. Detectar Hover con las coordenadas correctas
         hovered = cuadrado.contains(mouseX, mouseY);
-        float escala = hovered ? 1.1f : 1.0f;
-        cuadrado.setSize(80 * escala, 80 * escala);
+        
+        // 2. Efecto de Agrandarse (Scaling)
+        if (hovered) {
+            // Si el mouse está encima, agrandamos y centramos
+            float diferencia = tamanoHover - tamanoBase;
+            cuadrado.setSize(tamanoHover, tamanoHover);
+            cuadrado.setPosition(xOriginal - (diferencia / 2), yOriginal - (diferencia / 2));
+        } else {
+            // Si no, volvemos al tamaño normal
+            cuadrado.setSize(tamanoBase, tamanoBase);
+            cuadrado.setPosition(xOriginal, yOriginal);
+        }
+
+        // 3. Detectar Clic para hablar
         if (hovered && Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)) {
             sonidoHablar.play(0.5f);
             mostrandoTexto = true;
+            // Generar nuevo texto aleatorio
             textoActual = TextosCuadrado.obtenerTextoAleatorio();
             textoVisible = "";
             indiceLetra = 0;
             temporizador = 0;
         }
 
+        // 4. Efecto de máquina de escribir
         if (mostrandoTexto && indiceLetra < textoActual.length()) {
             temporizador += delta;
             if (temporizador >= tiempoLetra) {
@@ -68,20 +89,9 @@ public class Cuadrado {
         }
     }
 
-    public void render(SpriteBatch batch) {
-        batch.end();
-        shape.begin(ShapeRenderer.ShapeType.Filled);
-        shape.setColor(Color.BLACK);
-        shape.rect(cuadrado.x, cuadrado.y, cuadrado.width, cuadrado.height);
-        shape.end();
-        batch.begin();
-        if (mostrandoTexto) {
-            fuenteColor.draw(batch, textoVisible, 50, 100);
-        }
-    }
-    
     public void renderShape() {
         shape.begin(ShapeRenderer.ShapeType.Filled);
+        // Usamos Color.BLACK para el fondo del cuadrado como pediste antes
         shape.setColor(Color.BLACK);
         shape.rect(cuadrado.x, cuadrado.y, cuadrado.width, cuadrado.height);
         shape.end();
@@ -89,6 +99,8 @@ public class Cuadrado {
 
     public void renderTexto(SpriteBatch batch) {
         if (mostrandoTexto) {
+            // Dibuja el texto en una posición fija (izquierda abajo)
+            // Si quieres que el texto salga al lado del cubo, cambia 50, 100 por coords cercanas a xOriginal
             fuenteColor.draw(batch, textoVisible, 50, 100);
         }
     }

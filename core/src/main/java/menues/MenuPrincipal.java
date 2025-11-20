@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,7 +26,7 @@ public class MenuPrincipal implements Screen {
 
     private final Game game;
     private SpriteBatch batch;
-    static private boolean conectado=false;
+    static private boolean conectado = false;
     
     private BitmapFont bitmapFont;
 
@@ -47,17 +48,18 @@ public class MenuPrincipal implements Screen {
     private Sound redCorpseCorporationAudio;
     private long idRedCorpseCorporationAudio;
 
-    // cámara y viewport para manejar escalado
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    // mouse en coordenadas virtuales
     private float mouseX, mouseY;
 
     private static final float VIRTUAL_WIDTH = 1920;
     private static final float VIRTUAL_HEIGHT = 1080;
     
     private Cuadrado cuadrado;
+
+    // Color Corporation (Rojo oscuro) solicitado
+    Color colorCorporation = new Color(0.36f, 0.09f, 0.09f, 1f);
 
     public MenuPrincipal(Game game) {
         this.game = game;
@@ -85,43 +87,47 @@ public class MenuPrincipal implements Screen {
         botonSalir = new Imagen("salirBoton.png");
 
         startAudio();
-
-		
         
         this.sonidoMenuPrincipalHilo = new SonidoMenuPrincipal();
         this.sonidoMenuPrincipalHilo.start();
 
-        // inicializar cámara
+        // Cámara
         camera = new OrthographicCamera();
         viewport = new FitViewport(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, camera);
         camera.position.set(VIRTUAL_WIDTH / 2f, VIRTUAL_HEIGHT / 2f, 0);
 
-        // posiciones en coords virtuales
         xBoton = (VIRTUAL_WIDTH - anchoBoton) / 2f;
         yBotonJugar = 600f;
         yBotonOpciones = 400f;
         yBotonSalir = 200f;
+        
+        // --- INICIALIZACIÓN CUADRADO ---
         cuadrado = new Cuadrado();
+        
+        // Inyectamos el estilo visual (Texto Dorado y grande)
+        cuadrado.fuenteColor.setColor(Color.GOLD);
+        cuadrado.fuenteColor.getData().setScale(1.6f);
     }
 
     @Override
     public void render(float delta) {
         Render.limpiarPantalla();
 
-        // actualizar cámara
         camera.update();
         batch.setProjectionMatrix(camera.combined);
 
-        // actualizar mouse a coords virtuales
+        // Coordenadas del mouse correctas (Proyección virtual)
         Vector3 mouse = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
         viewport.unproject(mouse);
         mouseX = mouse.x;
         mouseY = mouse.y;
 
-        cuadrado.update(delta);
-        cuadrado.renderShape();
+        // --- ACTUALIZAR CUADRADO ---
+        // Pasamos las coordenadas mouseX/Y calculadas arriba para que el click funcione bien
+        cuadrado.update(delta, mouseX, mouseY);
         
         batch.begin();
+        
         fondo.dibujar(batch, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
         
         boolean hoverJugar = Animaciones.animarHover(batch, botonJugar, xBoton, yBotonJugar, anchoBoton, altoBoton, mouseX, mouseY, 1.1f, 10f, delta);
@@ -131,12 +137,20 @@ public class MenuPrincipal implements Screen {
         if(conectado) {
             bitmapFont.draw(batch, "Estas conectado al server", 20f, camera.viewportHeight - 20f);
         }
-        batch.end();
-
+        
+        // Dibujar el texto procedural (Dorado)
         cuadrado.renderTexto(batch);
         
-        //Manejo de clic
+        batch.end();
+
+        // Dibujar la forma negra del cuadrado (ShapeRenderer aparte)
+        cuadrado.shape.setProjectionMatrix(camera.combined); 
+        cuadrado.renderShape();
+        
+        // Clics del menú principal
         if (Gdx.input.justTouched() && Gdx.input.isButtonPressed(Buttons.LEFT)) {
+            // (El clic del cuadrado se maneja dentro de cuadrado.update ahora)
+            
             if (hoverJugar) {
                 if (pausa && pantallaAnterior != null) {
                     game.setScreen(pantallaAnterior);
@@ -151,7 +165,6 @@ public class MenuPrincipal implements Screen {
             }
         }
     }
-
 
     public void startAudio() {
         if (redCorpseCorporationAudio == null) {
@@ -178,7 +191,7 @@ public class MenuPrincipal implements Screen {
     @Override public void dispose() { 
     	sonidoMenuPrincipalHilo.stop(); 
     	if (cuadrado != null) cuadrado.dispose();
-}
+    }
     
     public static void pasarAConectado() {
     	conectado=true;

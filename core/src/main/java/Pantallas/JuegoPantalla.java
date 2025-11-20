@@ -347,7 +347,9 @@ public class JuegoPantalla implements Screen {
 
     private void dibujarPuntos(Entidad jugador) {
         if (jugador == null) return;
-        float posX = camera.viewportWidth - 260f;
+        Color colorCorporation = new Color(0.36f, 0.09f, 0.09f, 1f);
+        PersonalizarTexto.configurarFuente(bitmapFont, 2.0f, colorCorporation, Color.BLACK);
+        float posX = camera.viewportWidth - 300f;
         float posY = camera.viewportHeight - 250f;
         bitmapFont.draw(Render.batch, jugador.getNombre() + ": " + jugador.getPuntos(), posX, posY);
     }
@@ -364,117 +366,125 @@ public class JuegoPantalla implements Screen {
     public void dibujarMano(SpriteBatch batch, Entidad jugador, float delta) {
         ArrayList<Carta> mano = jugador.getMano();
         if(mano.size()>=1) {
-        	
-        float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
-        float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;
-        float inicioX = (camera.viewportWidth - total) / 2f;
+            
+            float anchoCarta = 150f, alturaCarta = 250f, esp = 10f;
+            float total = mano.size() * anchoCarta + (mano.size() - 1) * esp;
+            float inicioX = (camera.viewportWidth - total) / 2f;
 
-        boolean clicProcesado = false;
+            boolean clicProcesado = false;
 
-        int indice = 0;
-        if (juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.SONAMBULO, jugador)
-        		&& TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
-        		&& !clicProcesado) {
-        	
-        	Carta carta = jugador.getMano().get((int)(Math.random() * mano.size()));
-        	
-        	 float destinoX = this.CENTRODEMESAX;
-             float destinoY = this.CENTRODEMESAY;
-
-             float x = inicioX + indice * (anchoCarta + esp);
-             float y = 150f;
-             
-             jugador.removerCarta(carta);
-             Animaciones.iniciarMovimiento(
-                 carta.getImagenCarta(),
-                 x, y,
-                 destinoX, destinoY,
-                 anchoCarta, alturaCarta,
-                 0.25f,
-                 new Runnable() {
-                     @Override
-                     public void run() {
-                         sonidoCartaTirada();
-                         if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
-                             juego.activarBloqueoActivo(jugador);
-                         } else {
-                             juego.jugarCartaConDelay(carta, jugador);
-                         }
-                         juego.agregarCartaMesa(carta);
-                         juego.sumarRonda();
-                     }
-                 });
-
-
-             ultimoClickTime = TimeUtils.millis();
-             clicProcesado = true;
-
-         indice++;
-        }
-        else 
-        {
-        	 for (Carta carta : mano) {
+            int indice = 0;
+            if (juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.SONAMBULO, jugador)
+                    && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
+                    && !clicProcesado) {
+                
+                Carta carta = jugador.getMano().get((int)(Math.random() * mano.size()));
+                
+                 float destinoX = this.CENTRODEMESAX;
+                 float destinoY = this.CENTRODEMESAY;
 
                  float x = inicioX + indice * (anchoCarta + esp);
                  float y = 150f;
-
-                 boolean hovered = Animaciones.animarHover(
-                         batch, carta.getImagenCarta(),
-                         x, y,
-                         anchoCarta, alturaCarta,
-                         mouseX, mouseY,
-                         1.2f,
-                         8f,
-                         delta);
-
-                 if (hovered) {
-                     bitmapFont.draw(batch, carta.getDescripcion(), 20f, camera.viewportHeight - 20f);
-                 }
                  
-                 if (!clicProcesado
-                         && hovered
-                         && Gdx.input.justTouched()
-                         && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
-                         && !juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.COLERA, jugador)) {
+                 jugador.removerCarta(carta);
+                 Animaciones.iniciarMovimiento(
+                     carta.getImagenCarta(),
+                     x, y,
+                     destinoX, destinoY,
+                     anchoCarta, alturaCarta,
+                     0.25f,
+                     new Runnable() {
+                         @Override
+                         public void run() {
+                             sonidoCartaTirada();
+                             if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
+                                 juego.activarBloqueoActivo(jugador);
+                             } else {
+                                 juego.jugarCartaConDelay(carta, jugador);
+                             }
+                             juego.agregarCartaMesa(carta);
+                             juego.sumarRonda();
+                         }
+                     });
 
-                     float destinoX = this.CENTRODEMESAX;
-                     float destinoY = this.CENTRODEMESAY;
 
-                     Animaciones.iniciarMovimiento(
-                             carta.getImagenCarta(),
+                 ultimoClickTime = TimeUtils.millis();
+                 clicProcesado = true;
+
+             indice++;
+            }
+            else 
+            {
+                 for (Carta carta : mano) {
+
+                     float x = inicioX + indice * (anchoCarta + esp);
+                     float y = 150f;
+
+                     boolean hovered = Animaciones.animarHover(
+                             batch, carta.getImagenCarta(),
                              x, y,
-                             destinoX, destinoY,
                              anchoCarta, alturaCarta,
-                             0.25f,
-                             new Runnable() {
-                                 @Override
-                                 public void run() {
-                                     sonidoCartaTirada();
-                                     if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
-                                    	    // Bloqueo debe ser inmediato (sin delay) si hay carta esperando resolución
-                                    	    juego.activarBloqueoActivo(jugador);
-                                    	    juego.agregarCartaMesa(carta);
-                                    	    juego.sumarRonda();
-                                    	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
-                                    	} else {
-                                    	    // el resto de las cartas usan delay
-                                    	    juego.jugarCartaConDelay(carta, jugador);
-                                    	    juego.agregarCartaMesa(carta);
-                                    	    juego.sumarRonda();
-                                    	    // (mantener tu removerCarta si lo hacías acá)
-                                    	}
-                                 }
-                             });
+                             mouseX, mouseY,
+                             1.2f,
+                             8f,
+                             delta);
 
-                     ultimoClickTime = TimeUtils.millis();
-                     clicProcesado = true;
-                 	}
+                     if (hovered) {
+                         // --- INICIO MODIFICACIÓN ---
+                         // Definimos el color rojo corporation
+                         Color colorCorporation = new Color(0.36f, 0.09f, 0.09f, 1f);
+                         
+                         // Configuramos la fuente para que sea GRANDE (ej: 2.0f) y ROJA antes de dibujar
+                         PersonalizarTexto.configurarFuente(bitmapFont, 2.0f, colorCorporation, Color.BLACK);
+                         
+                         bitmapFont.draw(batch, carta.getDescripcion(), 20f, camera.viewportHeight - 20f);
+                         // --- FIN MODIFICACIÓN ---
+                     }
+                     
+                     if (!clicProcesado
+                             && hovered
+                             && Gdx.input.justTouched()
+                             && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
+                             && !juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.COLERA, jugador)) {
 
-                 indice++;
-        	 	}
-        	}
+                         float destinoX = this.CENTRODEMESAX;
+                         float destinoY = this.CENTRODEMESAY;
+
+                         Animaciones.iniciarMovimiento(
+                                 carta.getImagenCarta(),
+                                 x, y,
+                                 destinoX, destinoY,
+                                 anchoCarta, alturaCarta,
+                                 0.25f,
+                                 new Runnable() {
+                                     @Override
+                                     public void run() {
+                                         sonidoCartaTirada();
+                                         if (carta.getHabilidad() == cartas.Habilidad.BLOQUEO && juego.hayCartaPendiente()) {
+                                                // Bloqueo debe ser inmediato (sin delay) si hay carta esperando resolución
+                                                juego.activarBloqueoActivo(jugador);
+                                                juego.agregarCartaMesa(carta);
+                                                juego.sumarRonda();
+                                                jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
+                                            } else {
+                                                // el resto de las cartas usan delay
+                                                juego.jugarCartaConDelay(carta, jugador);
+                                                juego.agregarCartaMesa(carta);
+                                                juego.sumarRonda();
+                                                // (mantener tu removerCarta si lo hacías acá)
+                                            }
+                                     }
+                                 });
+
+                         ultimoClickTime = TimeUtils.millis();
+                         clicProcesado = true;
+                        }
+
+                     indice++;
+                    }
+                }
+            }
         }
-    }
     
     private void dibujarCartasSiguientes(SpriteBatch batch) {
     	

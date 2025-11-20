@@ -74,4 +74,8 @@ public abstract class Entidad {
 	public void setPuntos(int puntosModificados) {
 		this.puntos += puntosModificados;
 	}
+
+	public void setCuerpoAnimado(CuerpoAnimado cuerpo) {
+		this.cuerpo = cuerpo;
+	}
 }

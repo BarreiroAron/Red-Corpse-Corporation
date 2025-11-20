@@ -7,6 +7,9 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
+import Entidades.CuerpoAnimado;
+import Entidades.Jugador;
+import Utiles.Util;
 import menues.MenuPrincipal;
 import menues.SalaDeEspera;
 
@@ -86,6 +89,18 @@ public class HiloCliente extends Thread{
 	                ", entidad=" + nombreEntidad +
 	                ", mano=" + cartasStr);
 
+	    	}else if (msg.startsWith("JUGADORES;")) {
+	    		String[] partes = msg.split(";");
+	    		
+	    		String cantJugadores = (partes[1]);
+	    		for(int i=2; i< (Integer.parseInt(cantJugadores)*3)+2;i+=3) {
+	    			String nombreEntidad = (partes[i]);
+			        String puntos = partes[i+1];
+			        String Idpersonaje = partes[i+2];
+			        System.out.println("id personaje: " + Idpersonaje);     
+			        Cliente.setIdPersonajesJugadores(Idpersonaje);
+			        Cliente.agregarJugador(new Jugador(nombreEntidad, Integer.parseInt(puntos), null));
+	    		}
 	    	}
 	    }
 	

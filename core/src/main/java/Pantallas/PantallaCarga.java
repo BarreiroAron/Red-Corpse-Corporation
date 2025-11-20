@@ -16,6 +16,7 @@ import Entidades.Rival;
 import Utiles.Imagen;
 import Utiles.Recursos;
 import Utiles.Render;
+import Utiles.Util;
 import cartas.Carta;
 import cartasEspeciales.IMHERE;
 import cartasEspeciales.Inanicion;
@@ -50,9 +51,7 @@ public class PantallaCarga implements Screen {
 	
 	private ArrayList<Entidad> jugadores = new ArrayList<>();
 	private CuerpoAnimado[] personajesAnimados = Utiles.Util.crearListaImagPerRan();
-	private Entidad entidad1 = new Jugador("Entidad 1", 100, personajesAnimados[1]);
-	private Entidad entidad2 = new Rival("Entidad 2", 100, personajesAnimados[2]);
-
+	
 	private Juego juego;
 	
 	// cámara y viewport
@@ -71,9 +70,13 @@ public class PantallaCarga implements Screen {
 		fondo = new Imagen(Recursos.FONDO);
 		i = Render.batch;
 		fondo.setTransparencia(f);
+		for(int i=0 ; i<Cliente.getJugadores().size();i++) {
+			CuerpoAnimado cuerpo= Util.crearImagPerPorNombre(Cliente.getIdPersonajesJugadores().get(i));
+			
+			Cliente.getJugadores().get(i).setCuerpoAnimado(cuerpo);
+		}
 		
-		jugadores.add(entidad1);
-		jugadores.add(entidad2);
+		jugadores.addAll(Cliente.getJugadores());
 
 		// inicializar cámara y viewport
 		camera = new OrthographicCamera();
@@ -224,7 +227,13 @@ public class PantallaCarga implements Screen {
 	            return null;
 	    }
 	}
+	
+	
 
+
+	public ArrayList<Entidad> getJugadores() {
+		return jugadores;
+	}
 
 	@Override
 	public void resize(int width, int height) {

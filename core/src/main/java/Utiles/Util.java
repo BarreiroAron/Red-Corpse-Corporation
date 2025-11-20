@@ -61,4 +61,40 @@ public class Util {
 		mezclarArray(personajes); 
 		return personajes;
 	}
+	
+	public static CuerpoAnimado crearImagPerPorNombre(String nombre) {
+		CuerpoAnimado personaje = null;
+		
+		switch(nombre) {
+		case "PERSONAJE_VIOLETA":
+			personaje = new CuerpoAnimado(
+					new Imagen(Recursos.PERSONAJE_VIOLETA),
+					424,              // ancho de cada frame	
+					613,              // alto  de cada frame
+					0.08f);
+			break;
+		case "PERSONAJE_CELESTE":
+			personaje = new CuerpoAnimado(
+			        new Imagen(Recursos.PERSONAJE_CELESTE),
+			        873,              // ancho de cada frame
+			        1080,              // alto  de cada frame
+			        0.08f);
+			break;
+		case "PERSONAJE_AMARILLO":
+			personaje = new CuerpoAnimado(
+			        new Imagen(Recursos.PERSONAJE_AMARILLO),
+			        820,              // ancho de cada frame
+			        1180,              // alto  de cada frame
+			        0.08f);
+			break;
+		case "PERSONAJE_ROJO":
+			personaje = new CuerpoAnimado(
+			        new Imagen(Recursos.PERSONAJE_ROJO),
+			        820,              // ancho de cada frame
+			        1180,              // alto  de cada frame
+			        0.08f);
+			break;
+			}
+		return personaje;
+	}
 }

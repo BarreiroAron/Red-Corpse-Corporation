@@ -38,6 +38,8 @@ public class MenuOpciones implements Screen {
     private static final float VIRTUAL_WIDTH  = 1920f;
     private static final float VIRTUAL_HEIGHT = 1080f;
     
+    private Texture texFondo;
+    
     public MenuOpciones(Game game, Screen pantallaAnterior) {
         this.game             = game;
         this.pantallaAnterior = pantallaAnterior;
@@ -45,6 +47,7 @@ public class MenuOpciones implements Screen {
 
     @Override
     public void show() {
+    	texFondo = new Texture(Gdx.files.internal("fondoOpciones.png"));
     	texBar = new Texture(Gdx.files.internal("BarraReguladora.png"));
         texKnob = new Texture(Gdx.files.internal("BotonRegulador.png"));
         texBackUp = new Texture(Gdx.files.internal(Recursos.BOTON_VOLVER_MENU));
@@ -114,6 +117,14 @@ public class MenuOpciones implements Screen {
     @Override
     public void render(float delta) {
         ScreenUtils.clear(0, 0, 0, 1);
+        
+        camera.update();
+        Render.batch.setProjectionMatrix(camera.combined);
+        
+        Render.batch.begin();
+        Render.batch.draw(texFondo, 0, 0, VIRTUAL_WIDTH, VIRTUAL_HEIGHT);
+        Render.batch.end();
+
         stage.act(delta);
         stage.draw();
     }

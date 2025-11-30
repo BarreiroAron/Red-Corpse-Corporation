@@ -30,6 +30,7 @@ import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 import juegos.HabilidadActiva.Tipo;
 import red.Cliente;
+import red.HiloCliente;
 import sonidos.SonidoAmbiental;
 import sonidos.SonidoManager;
 
@@ -77,11 +78,13 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	private ArrayList<Carta> cartasMostradas = new ArrayList<>();
 	
     private Sound CartaTirada;
+    
+	private HiloCliente hiloCliente;
 	
-    public Juego(ArrayList<Entidad> jugadores, boolean esServidor) {
+    public Juego(ArrayList<Entidad> jugadores, boolean esServidor, HiloCliente hiloCliente) {
         this.jugadores = jugadores;
         this.esServidor = esServidor;
-
+        this.hiloCliente= hiloCliente;
         if (esServidor) {
             // SOLO en el servidor:
             iniciarMazo();
@@ -260,7 +263,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		jugador.getMano().add(carta);
 	}
 	
-	public void jugarCartaConDelay(Carta carta, Entidad jugador) {
+	public void jugarCartaConDelay(Carta carta, Entidad jugador,HiloCliente hiloCliente) {
 	    if (this.cartaPendiente != null) {
 	        System.out.println("Ya hay una carta en resolución. Esperá a que termine.");
 	        return;
@@ -488,9 +491,9 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 
 
 	public void rebarajearMesa(){
-		mazo.addAll(mesa);
-		mesa.clear();
-		cartasDisponiblesMazo=true;
+		//mazo.addAll(mesa);
+		//mesa.clear();
+		//cartasDisponiblesMazo=true;
 	}
 	
 	public void mezclarMazo() {

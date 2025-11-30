@@ -37,6 +37,7 @@ import cartasNormales.Snake;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
 import red.Cliente;
+import red.HiloCliente;
 
 public class PantallaCarga implements Screen {
 	
@@ -48,6 +49,8 @@ public class PantallaCarga implements Screen {
 	private float f = 0;
 	private float contadorTiempo = 0, tiempoEsperado = 1.5f;
 	private boolean procesoFadeTerminado = false;
+	
+	private HiloCliente hiloCliente ;
 	
 	private ArrayList<Entidad> jugadores = new ArrayList<>();
 	private CuerpoAnimado[] personajesAnimados = Utiles.Util.crearListaImagPerRan();
@@ -61,8 +64,9 @@ public class PantallaCarga implements Screen {
 	private static final float VIRTUAL_WIDTH = 1920;
 	private static final float VIRTUAL_HEIGHT = 1080;
 
-	public PantallaCarga(Game game) {
+	public PantallaCarga(Game game, HiloCliente hiloCliente) {
         this.game = game;
+        this.hiloCliente= hiloCliente;
     }
 	
 	@Override
@@ -115,7 +119,7 @@ public class PantallaCarga implements Screen {
 				    f = 0;
 
 				    // 1) Crear el juego local con tu lista de jugadores
-				    Juego juego = new Juego(jugadores, false);  // ✅ modo cliente, sin mazo/reparto
+				    Juego juego = new Juego(jugadores, false,hiloCliente);  // ✅ modo cliente, sin mazo/reparto
 
 
 				    // 2) Sincronizar ese juego con lo que dijo el servidor (INIT)
@@ -136,7 +140,7 @@ public class PantallaCarga implements Screen {
 				    miEntidad.setMano(mano);
 				    
 				    // 3) Pasar a la pantalla de juego con ese juego sincronizado
-				    game.setScreen(new JuegoPantalla(game, juego));
+				    game.setScreen(new JuegoPantalla(game, juego,hiloCliente));
 				}
 			}
 		}

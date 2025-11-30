@@ -11,13 +11,22 @@ public class Cliente {
     private static String[] cartasIniciales;
     private static ArrayList<Entidad> jugadores = new ArrayList<Entidad>();
     private static ArrayList<String> idPersonajesJugadores = new ArrayList<String>();
-
+    private static int turnoActual = 0;
+    
     public static void setDatosInit(int index, String entidad, String[] cartas) {
         playerIndex = index;
         nombreEntidad = entidad;
         cartasIniciales = cartas;
     }
 
+    public static void setTurnoActual(int turno) {
+        turnoActual = turno;
+    }
+
+    public static int getTurnoActual() {
+        return turnoActual;
+    }
+    
     public static int getPlayerIndex() {
         return playerIndex;
     }

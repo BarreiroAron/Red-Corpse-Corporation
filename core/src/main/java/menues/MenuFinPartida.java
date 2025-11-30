@@ -16,6 +16,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 import Pantallas.PantallaCarga;
 import Utiles.Recursos;
+import red.HiloCliente;
 
 public class MenuFinPartida implements Screen{
 
@@ -27,9 +28,11 @@ public class MenuFinPartida implements Screen{
 	
 	private Texture texMenuUp, texMenuDn;
 	private Texture texJugarOtraVezUp, texJugarOtraVezDn;;
+	private HiloCliente hiloCliente;
 	
-	public MenuFinPartida(Game game) {
+	public MenuFinPartida(Game game,HiloCliente hiloCliente) {
 		this.game =game;
+		this.hiloCliente= hiloCliente;
 	}
 
 	@Override
@@ -63,7 +66,7 @@ public class MenuFinPartida implements Screen{
 	        btnJugarOtraVez = new ImageButton(backStyle2);
 	        btnJugarOtraVez.addListener(new ChangeListener() {
 	            @Override public void changed(ChangeEvent event, Actor actor) {
-	                game.setScreen(new PantallaCarga(game)); // vuelve al menu principal
+	                game.setScreen(new PantallaCarga(game,hiloCliente)); // vuelve al menu principal
 	                dispose();                        // liberamos recursos
 	            }
 	     });

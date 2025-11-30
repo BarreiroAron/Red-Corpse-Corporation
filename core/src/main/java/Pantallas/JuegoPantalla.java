@@ -27,6 +27,8 @@ import juegos.Juego;
 import menues.MenuFinPartida;
 import menues.MenuOpciones;
 import menues.MenuPrincipal;
+import red.Cliente;
+import red.HiloCliente;
 import sonidos.SonidoManager;
 
 public class JuegoPantalla implements Screen {
@@ -70,12 +72,15 @@ public class JuegoPantalla implements Screen {
     final float CENTRODEMESAX;
     final float CENTRODEMESAY;
 
+    private HiloCliente hiloCliente;
+    
     private boolean menuPausaActivo = false;
 
-    public JuegoPantalla(Game game, Juego juego) {
+    public JuegoPantalla(Game game, Juego juego, HiloCliente hiloCliente) {
         this.game = game;
         this.juego = juego;
-
+        this.hiloCliente=hiloCliente;
+        
         // inicializamos la cámara y el viewport con 1920x1080 (virtual)
         camera = new OrthographicCamera();
         viewport = new FitViewport(1920, 1080, camera);
@@ -231,7 +236,7 @@ public class JuegoPantalla implements Screen {
 	        }
 	    }
         if (juego.isPartidaFinalizada()) {
-            game.setScreen(new MenuFinPartida(game));
+            game.setScreen(new MenuFinPartida(game,hiloCliente));
             return;
         }
     }
@@ -363,7 +368,8 @@ public class JuegoPantalla implements Screen {
         int indice = 0;
         if (juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.SONAMBULO, jugador)
         		&& TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
-        		&& !clicProcesado) {
+        		&& !clicProcesado
+        		&& esMiTurno()){
         	
         	Carta carta = jugador.getMano().get((int)(Math.random() * mano.size()));
         	
@@ -391,7 +397,7 @@ public class JuegoPantalla implements Screen {
                          	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
                          	} else {
                          	    // el resto de las cartas usan delay
-                         	    juego.jugarCartaConDelay(carta, jugador);
+                         	    juego.jugarCartaConDelay(carta, jugador, hiloCliente);
                          	    juego.agregarCartaMesa(carta);
                          	    juego.sumarRonda();
                          	   jugador.removerCarta(carta);
@@ -428,7 +434,8 @@ public class JuegoPantalla implements Screen {
                          && hovered
                          && Gdx.input.justTouched()
                          && TimeUtils.timeSinceMillis(ultimoClickTime) >= cooldownMs
-                         && !juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.COLERA, jugador)) {
+                         && !juego.isHabilidadActivaEnJugador(juegos.HabilidadActiva.Tipo.COLERA, jugador)
+                         && esMiTurno()) {
 
                      float destinoX = this.CENTRODEMESAX;
                      float destinoY = this.CENTRODEMESAY;
@@ -451,7 +458,8 @@ public class JuegoPantalla implements Screen {
                                     	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
                                     	} else {
                                     	    // el resto de las cartas usan delay
-                                    	    juego.jugarCartaConDelay(carta, jugador);
+                                    		hiloCliente.enviarJugarCarta(mano.indexOf(carta));
+                                    	    juego.jugarCartaConDelay(carta, jugador, hiloCliente);
                                     	    juego.agregarCartaMesa(carta);
                                     	    juego.sumarRonda();
                                     	    // (mantener tu removerCarta si lo hacías acá)
@@ -475,7 +483,7 @@ public class JuegoPantalla implements Screen {
         if (juego.isHabilidadActiva(juegos.HabilidadActiva.Tipo.MOSTRAR_CARTAS_SIGUIENTES)){
 
         float anchoCarta = 150f, alturaCarta = 250f, esp = 50f;
-        juego.rebarajearMesa();
+        //juego.rebarajearMesa();
         ArrayList<Carta> mazo = juego.getMazo();
         //prevenir quedarse sin cartas
         int camtidadCartas=mazo.size();
@@ -496,8 +504,12 @@ public class JuegoPantalla implements Screen {
         }
     }
 
-
-
+    private boolean esMiTurno(){
+        // soy el jugador local?
+        int miIndice = Cliente.getPlayerIndex();
+        int turnoActual = Cliente.getTurnoActual();
+        return miIndice == turnoActual;
+    }
 
     public void sonidoCartaTirada() {
         SonidoManager.i().playSfx(this.CartaTirada);

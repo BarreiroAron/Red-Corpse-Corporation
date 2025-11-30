@@ -101,9 +101,19 @@ public class HiloCliente extends Thread{
 			        Cliente.setIdPersonajesJugadores(Idpersonaje);
 			        Cliente.agregarJugador(new Jugador(nombreEntidad, Integer.parseInt(puntos), null));
 	    		}
+	    	}else if (msg.startsWith("TURN;")) {
+	    	    String[] partes = msg.split(";");
+	    	    int turno = Integer.parseInt(partes[1]);
+
+	    	    Cliente.setTurnoActual(turno);
+
+	    	    System.out.println("[CLIENTE] Turno actualizado desde servidor: " + turno);
 	    	}
 	    }
 	
+	public void enviarJugarCarta(int indiceCarta) {
+	    enviarMensaje("PLAY;" + indiceCarta);
+	}
 	
 	public void cerrarConexion() {
 	    if (conexion != null && !conexion.isClosed()) {

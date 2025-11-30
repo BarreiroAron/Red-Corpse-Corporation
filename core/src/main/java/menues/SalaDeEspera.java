@@ -149,7 +149,7 @@ public class SalaDeEspera implements Screen {
 
         // --- Si el server manda "Empieza" ---
         if (MenuPrincipal.isConectado()) {
-            game.setScreen(new PantallaCarga(game));
+            game.setScreen(new PantallaCarga(game,hiloCliente));
         }
     }
 

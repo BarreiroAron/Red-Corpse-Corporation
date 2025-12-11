@@ -7,13 +7,15 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-import Entidades.CuerpoAnimado;
+import com.badlogic.gdx.Gdx;
+
 import Entidades.Jugador;
-import Utiles.Util;
+import Pantallas.JuegoPantalla;
+import juegos.Juego;
 import menues.MenuPrincipal;
 import menues.SalaDeEspera;
 
-public class HiloCliente extends Thread{
+public class HiloCliente extends Thread implements ClienteAPI{
 	
 	private DatagramSocket conexion;
 	private InetAddress ipServer;
@@ -30,7 +32,10 @@ public class HiloCliente extends Thread{
 	    }
 	}
 	
-	
+	private ClienteListener listener;
+
+    
+
 	public void enviarMensaje(String msg) {
 		System.out.println("Enviando mensaje a server");
 		byte[] data=  msg.getBytes();
@@ -108,6 +113,15 @@ public class HiloCliente extends Thread{
 	    	    Cliente.setTurnoActual(turno);
 
 	    	    System.out.println("[CLIENTE] Turno actualizado desde servidor: " + turno);
+	    	}else if (msg.startsWith("CARTA_GLOBAL;")) {
+	    	    String[] p = msg.split(";");
+	    	    final String cartaId = p[1];
+	    	    System.out.println("[CLIENTE] CARTA_GLOBAL recibida :" + cartaId);
+	    	    Gdx.app.postRunnable(() -> {
+	    	        if (listener != null) {
+	    	            listener.onCartaGlobalRecibida(cartaId);
+	    	        }
+	    	    });
 	    	}
 	    }
 	
@@ -125,5 +139,22 @@ public class HiloCliente extends Thread{
 	public void enviarListo() {
 	    enviarMensaje("Listo");
 	}
+
+
+	@Override
+	public void solicitarCartaMazo() {
+		
+	}
+
+	@Override
+	public void enviarFinDeTurno() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setListener(ClienteListener listener) {
+        this.listener = listener;
+    }
 }
 

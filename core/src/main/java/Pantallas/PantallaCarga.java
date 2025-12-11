@@ -120,7 +120,7 @@ public class PantallaCarga implements Screen {
 
 				    // 1) Crear el juego local con tu lista de jugadores
 				    Juego juego = new Juego(jugadores, false,hiloCliente);  // ✅ modo cliente, sin mazo/reparto
-
+				    
 
 				    // 2) Sincronizar ese juego con lo que dijo el servidor (INIT)
 				    aplicarDatosDeServidorAlJuego(juego);

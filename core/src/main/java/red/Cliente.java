@@ -1,4 +1,4 @@
-package red;
+ package red;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,8 @@ public class Cliente {
 
     public static void setTurnoActual(int turno) {
         turnoActual = turno;
+        System.out.println("El turno actual cambio aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + turno);
+        System.out.println("El turno del jugador es aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa " + playerIndex);
     }
 
     public static int getTurnoActual() {

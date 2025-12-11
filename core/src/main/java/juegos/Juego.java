@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 
 import Entidades.Entidad;
 import Entidades.Jugador;
+import Utiles.Util;
 import cartas.Carta;
 import cartas.Habilidad;
 import cartas.TipoDeCarta;
@@ -145,6 +146,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		actualizarCartasDisponiblesMazo();
 		comprobarCondicionParaInanicion();
 		
+		
+		
 		tick();
 	}
 	
@@ -162,6 +165,7 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 		// si bloque_activo no essta se ejecuta
 	    if (habilidadesActivas.stream().noneMatch(h -> h.getTipo() == HabilidadActiva.Tipo.BLOQUEO_ACTIVO)) {
 	    	jugarCarta(cartaPendiente,jugadorQueLaJugoPendiente);
+	    	System.out.println("Se jugo la carta :"+ cartaPendiente.getId() );
 	    } else {
 	        System.out.println("Carta bloqueada por efecto de Bloqueo.");
 	    }
@@ -269,6 +273,8 @@ public class Juego implements ControladorDeJuego, TiempoListener {
 	        return;
 	    }
 	    jugador.getMano().remove(carta);
+	    
+	    System.out.println("El jugador jugo una carta y se puso en pendiente");
 	    
 	    this.cartaPendiente = carta;
 	    this.jugadorQueLaJugoPendiente = jugador;

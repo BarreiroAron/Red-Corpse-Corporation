@@ -22,16 +22,19 @@ import Utiles.Animaciones;
 import Utiles.Imagen;
 import Utiles.Recursos;
 import Utiles.Render;
+import Utiles.Util;
 import cartasNormales.ThanksForPlaying;
 import juegos.Juego;
 import menues.MenuFinPartida;
 import menues.MenuOpciones;
 import menues.MenuPrincipal;
 import red.Cliente;
+import red.ClienteAPI;
+import red.ClienteListener;
 import red.HiloCliente;
 import sonidos.SonidoManager;
 
-public class JuegoPantalla implements Screen {
+public class JuegoPantalla implements Screen, ClienteListener {
 
     private BitmapFont bitmapFont;
 
@@ -75,11 +78,13 @@ public class JuegoPantalla implements Screen {
     private HiloCliente hiloCliente;
     
     private boolean menuPausaActivo = false;
+    
+    private final ClienteAPI clienteAPI;
 
-    public JuegoPantalla(Game game, Juego juego, HiloCliente hiloCliente) {
+    public JuegoPantalla(Game game, Juego juego, ClienteAPI clienteAPI) {
         this.game = game;
         this.juego = juego;
-        this.hiloCliente=hiloCliente;
+        this.clienteAPI = clienteAPI;
         
         // inicializamos la cámara y el viewport con 1920x1080 (virtual)
         camera = new OrthographicCamera();
@@ -89,6 +94,8 @@ public class JuegoPantalla implements Screen {
         // centro de la mesa según la resolución virtual
         CENTRODEMESAX = (1920 / 2f) - ANCHOCARTA / 2;
         CENTRODEMESAY = 1080 / 2f;
+        
+         clienteAPI.setListener(this);
     }
 
     @Override
@@ -458,7 +465,7 @@ public class JuegoPantalla implements Screen {
                                     	    jugador.removerCarta(carta); // si en ese bloque ya removías, mantenelo
                                     	} else {
                                     	    // el resto de las cartas usan delay
-                                    		hiloCliente.enviarJugarCarta(mano.indexOf(carta));
+                                    		clienteAPI.enviarJugarCarta(mano.indexOf(carta));
                                     	    juego.jugarCartaConDelay(carta, jugador, hiloCliente);
                                     	    juego.agregarCartaMesa(carta);
                                     	    juego.sumarRonda();
@@ -514,6 +521,22 @@ public class JuegoPantalla implements Screen {
     public void sonidoCartaTirada() {
         SonidoManager.i().playSfx(this.CartaTirada);
     }
+    
+    @Override
+    public void onCartaGlobalRecibida(String cartaId) {
+	    Carta carta = Util.crearCartaDesdeId(cartaId);
+
+	    if (carta != null) {
+	        // ejemplo:
+	        try {
+				juego.getMesa().add(carta);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	        System.out.println("[CLIENTE] Carta global agregada: " + cartaId);
+	    }
+	}
 
     @Override
     public void resize(int width, int height) {
@@ -524,4 +547,30 @@ public class JuegoPantalla implements Screen {
     @Override public void resume() {}
     @Override public void hide() {}
     @Override public void dispose() {}
+
+	@Override
+	public void onMesaRecibida(int jugadorIndex, String cartaId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCartaRobadaLocal(String cartaId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onRivalRoboCarta() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onTurnoActualizado(int turno) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }
